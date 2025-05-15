@@ -1,0 +1,10 @@
+Flask
+requests
+python-dotenv
+keyring
+google-auth
+google-auth-oauthlib
+google-auth-httplib2
+keyring
+dotenv
+google-api-python-client

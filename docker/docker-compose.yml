@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  python-google-photos:
+    build:
+      context: ../
+      dockerfile: Dockerfile
+    container_name: google-photos
+    volumes:
+      - ../:/app
+    working_dir: /app
+    command: ["tail", "-F", "/dev/null"]
+    ports:
+      - "5050:5050"
