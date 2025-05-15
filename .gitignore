@@ -1,4 +1,4 @@
 .env
 __pycache__
-venvclient_secret.json
+client_secret.json
 token.pickle
