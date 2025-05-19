@@ -83,7 +83,6 @@ def list_photos(auth, album_id, offset=0, limit=91):
         "additional": '["thumbnail","resolution","orientation","video_convert","video_meta","provider_user_id"]',
         "offset": offset,
         "limit": limit,
-        "sort_by": "takentime",
         "sort_direction": "asc",
         "album_id": album_id,
     }
@@ -122,7 +121,7 @@ def download_photo(auth, item, save_path=None):
     with open(save_path, 'wb') as f:
         f.write(resp.content)
 
-def save_photo_to_db(item_id, filename, album_id=None, takentime=None, saved_path=None):
+def save_photo_to_db(item_id, filename, album_id=None, shooting_time=None, saved_path=None):
     db = SessionLocal()
     try:
         if db.query(Photo).filter_by(item_id=item_id).first():
@@ -131,7 +130,7 @@ def save_photo_to_db(item_id, filename, album_id=None, takentime=None, saved_pat
             item_id=item_id,
             filename=filename,
             album_id=album_id,
-            takentime=takentime,
+            shooting_time=shooting_time,
             saved_path=saved_path
         ))
         db.commit()

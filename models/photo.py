@@ -9,5 +9,5 @@ class Photo(Base):
     item_id = Column(Integer)
     filename = Column(String, nullable=False)
     album_id = Column(Integer)
-    takentime = Column(DateTime)
+    shooting_time = Column(DateTime)
     saved_path = Column(Text)
