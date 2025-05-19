@@ -8,3 +8,5 @@ google-auth-httplib2
 keyring
 dotenv
 google-api-python-client
+sqlalchemy
+psycopg2-binary
