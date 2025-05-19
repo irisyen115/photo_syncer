@@ -8,7 +8,22 @@ services:
     container_name: google-photos
     volumes:
       - ../:/app
+      - ../downloaded_albums:/app/download_albums
     working_dir: /app
     command: ["tail", "-F", "/dev/null"]
     ports:
       - "5050:5050"
+  pgsql:
+    image: postgres
+    container_name: pgsql_photos
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: photodatabase
+    ports:
+      - "5433:5432"
+    volumes:
+      - ../pg_data:/var/lib/postgresql/data
+
+volumes:
+  pg_data:
