@@ -89,7 +89,7 @@ def list_photos(auth, album_id, offset=0, limit=91):
 
     resp = session.post(url, headers=headers, data=payload, verify=False)
     resp.raise_for_status()
-    return resp.json()
+    return resp.json()['data']['list']
 
 
 def download_photo(auth, item, save_path=None):
