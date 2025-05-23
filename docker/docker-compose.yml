@@ -5,8 +5,8 @@ services:
     image: docker-python-google-photos
     container_name: google-photos
     volumes:
-      - ../:/app
-      - ../downloaded_albums:/app/download_albums
+      - ../src:/app
+      - ../downloaded_albums:/app/downloaded_albums
     working_dir: /app
     command: ["tail", "-F", "/dev/null"]
     ports:

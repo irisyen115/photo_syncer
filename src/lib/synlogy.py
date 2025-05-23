@@ -1,4 +1,3 @@
-# service.py
 import os
 import requests
 import urllib3
@@ -32,8 +31,6 @@ HEADERS = {
 
 def login(account, password, fid, timezone):
     url = f"{BASE_URL}/webapi/entry.cgi?api=SYNO.API.Auth"
-    print(BASE_URL)
-    print(f"url: {url}")
     payload = {
         'api': 'SYNO.API.Auth',
         'version': '7',
@@ -218,7 +215,7 @@ def save_photos_to_db_with_album(photo_list, album_id):
                 saved_path=DOWNLOAD_DIR + p['filename'],
             )
             new_photos.append(photo)
-        existing_pair = db.query(Person).filter_by(
+        existing_pair = db.query(Album).filter_by(
             album_id=album_id,
             photo_id=p['id']
         ).first()
@@ -234,12 +231,10 @@ def save_photos_to_db_with_album(photo_list, album_id):
     if new_album:
         db.bulk_save_objects(new_album)
         db.commit()
-        print(f"✅ 共儲存 {len(new_album)} 張與人臉關聯的照片")
 
     if new_photos:
         db.bulk_save_objects(new_photos)
         db.commit()
-        print(f"✅ 共儲存 {len(new_photos)} 張與相簿關聯的照片")
     else:
         print("⚠️ 沒有新照片需要儲存")
 
@@ -309,8 +304,8 @@ def randam_pick_from_album_database(album_id=None, limit=30):
     if album_id:
         photos = (
             db.query(Photo)
-            .join(Person, Person.photo_id == Photo.item_id)
-            .filter(Person.person_id == album_id)
+            .join(Album, Album.photo_id == Photo.item_id)
+            .filter(Album.album_id == album_id)
             .order_by(func.random())
             .limit(limit)
             .all()

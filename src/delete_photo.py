@@ -1,4 +1,4 @@
-from google.service import authenticate, get_service, get_or_create_album, get_media_items_in_album, remove_all_items_from_album
+from lib.google import authenticate, get_service, get_or_create_album, get_media_items_in_album, remove_all_items_from_album
 import os
 from dotenv import load_dotenv
 

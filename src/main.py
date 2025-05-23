@@ -1,10 +1,9 @@
-from synology.service import (
-    login, download_photo, randam_pick_from_person_database, list_all_photos_by_person,
-    save_photos_to_db_with_person
+from lib.synlogy import (
+    login, download_photo
 )
-from google.service import (
+from lib.google import (
     authenticate, get_service, get_or_create_album,
-    upload_photo_bytes, add_photos_to_album
+    upload_photo_bytes, add_photos_to_album, get_photos_upload_to_album
 )
 from delete_photo import delete_all_photos_from_album
 from models.database import SessionLocal
@@ -13,33 +12,35 @@ import os
 import time
 import queue
 import threading
-import getpass
 import argparse
 
 load_dotenv()
 print("開始解析參數...")
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--account', type=str)
-parser.add_argument('--password', type=str)
-parser.add_argument('--personID', type=str)
+parser.add_argument('--personID', help='指定要查詢的 Person ID')
+parser.add_argument('--albumID', help='指定要查詢的 Album ID')
+parser.add_argument('--albumName', type=str, help='指定要命名的 Album name')
 args = parser.parse_args()
 
 BASE_URL = os.getenv('SYNO_URL')
-ACCOUNT = args.account
-PASSWORD = args.password
+ACCOUNT = os.getenv('SYNO_ACCOUNT')
+PASSWORD = os.getenv('SYNO_PASSWORD')
 FID = os.getenv('SYNO_FID')
 TIMEZONE = os.getenv('SYNO_TIMEZONE')
 DOWNLOAD_DIR = os.getenv('SYNO_DOWNLOAD_DIR', '/app/downloaded_albums/')
-ALBUM_NAME = '天穗'
+
+ALBUM_NAME = args.albumName
 PERSON_ID = args.personID
+ALBUM_ID = args.albumID
+
 NUM_DOWNLOAD_THREADS = 16
 NUM_UPLOAD_THREADS = 16
 UPLOAD_PHOTO_NUM = 10
+
 download_queue = queue.Queue()
 photo_queue = queue.Queue()
 token_map = {}
-print(ACCOUNT, PASSWORD)
 
 def download_worker(auth,):
     db = SessionLocal()
@@ -87,23 +88,16 @@ def upload_worker(creds,):
         finally:
             photo_queue.task_done()
 
-def initialize_services_and_photos():
+def initialize_services():
     auth = login(ACCOUNT, PASSWORD, FID, TIMEZONE)
+    creds = authenticate()
+    return auth, creds
 
-    random_photos = randam_pick_from_person_database(person_id=PERSON_ID, limit=UPLOAD_PHOTO_NUM)
-    if len(random_photos) == 0:
-        person_photo_list = list_all_photos_by_person(auth, PERSON_ID)
-        save_photos_to_db_with_person(person_photo_list, PERSON_ID)
-        random_photos = randam_pick_from_person_database(person_id=PERSON_ID, limit=UPLOAD_PHOTO_NUM)
+def sync_all(auth):
+    random_photos = get_photos_upload_to_album(auth, PERSON_ID, ALBUM_ID, UPLOAD_PHOTO_NUM)
     for photo in random_photos:
         download_queue.put(photo)
 
-    creds = authenticate()
-    service = get_service(creds)
-    google_album_id = get_or_create_album(service, album_name=ALBUM_NAME)
-    return auth, creds, google_album_id
-
-def sync_all():
     downloaders = []
     for i in range(NUM_DOWNLOAD_THREADS):
         t = threading.Thread(target=download_worker, args=(auth,), name=f"Downloader-{i}")
@@ -119,8 +113,6 @@ def sync_all():
     for t in downloaders:
         t.join()
 
-    # .....
-
     photo_queue.join()
     for t in uploaders:
         t.join()
@@ -129,16 +121,25 @@ def sync_all():
 
 if __name__ == "__main__":
     try:
-        print("🔽 登入 Synology...")
-        auth, creds, google_album_id = initialize_services_and_photos()
+        auth, creds = initialize_services()
+        service = get_service(creds)
+
         start_time = time.time()
-        photo_list = list_all_photos_by_person(auth, person_id=PERSON_ID)
-        for photo in photo_list:
-            print(photo['filename'])
+        google_album_id = get_or_create_album(service, album_name=ALBUM_NAME)
+
         delete_all_photos_from_album(google_album_id)
+        sync_all(auth)
+
         print("🔄 開始同步：從 Synology 下載並上傳至 Google Photos")
-        sync_all()
+        if PERSON_ID:
+            print(f"🔍 根據 Person ID = {PERSON_ID} 執行操作...")
+        elif ALBUM_ID:
+            print(f"📸 查詢 Album ID = {ALBUM_ID} 的相片列表...")
+        else:
+            print("⚠️ 請至少提供一個參數：--personID 或 --albumID")
+
         print("✅ 同步完成")
         print(f"⏱️ 總耗時: {time.time() - start_time:.2f} 秒")
+
     except Exception as e:
         print("發生例外錯誤:", e)
