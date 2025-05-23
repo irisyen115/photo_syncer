@@ -5,6 +5,7 @@ import requests
 from googleapiclient.discovery import build
 from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
+import json
 
 SCOPES = [
     "https://www.googleapis.com/auth/photoslibrary",
@@ -12,16 +13,15 @@ SCOPES = [
     "https://www.googleapis.com/auth/photoslibrary.appendonly",
     "https://www.googleapis.com/auth/photoslibrary.sharing",
     "https://www.googleapis.com/auth/photoslibrary.readonly.appcreateddata",
+    "https://www.googleapis.com/auth/photoslibrary.edit.appcreateddata",
 ]
 
 API_BASE_URL = 'https://photoslibrary.googleapis.com/v1/'
 UPLOAD_PHOTO_BYTES_ENDPOINT = f'{API_BASE_URL}uploads'
 ADD_MEDIA_ITEMS_TO_ALBUM_ENDPOINT = f'{API_BASE_URL}mediaItems:batchCreate'
 
-
 def get_mime(file_path):
     return str(mimetypes.guess_type(file_path)[0])
-
 
 def authenticate():
     creds = None
@@ -33,15 +33,13 @@ def authenticate():
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file("client_secret.json", SCOPES)
-            creds = flow.run_local_server()
+            creds = flow.run_local_server(open_browser=False)
         with open("token.pickle", "wb") as tokenFile:
             pickle.dump(creds, tokenFile)
     return creds
 
-
 def get_service(creds):
     return build('photoslibrary', 'v1', credentials=creds, static_discovery=False)
-
 
 def get_or_create_album(service, album_name="My New Album"):
     results = service.albums().list(pageSize=50, fields="albums(id,title)").execute()
@@ -54,6 +52,53 @@ def get_or_create_album(service, album_name="My New Album"):
     created_album = service.albums().create(body=new_album).execute()
     return created_album['id']
 
+def get_media_items_in_album(service, album_id):
+    media_item_ids = []
+    next_page_token = None
+
+    while True:
+        body = {"albumId": album_id}
+        if next_page_token:
+            body["pageToken"] = next_page_token
+
+        response = service.mediaItems().search(body=body).execute()
+
+        if "mediaItems" in response:
+            for item in response["mediaItems"]:
+                media_item_ids.append(item["id"])
+
+        next_page_token = response.get("nextPageToken")
+        if not next_page_token:
+            break
+
+    return media_item_ids
+
+def remove_all_items_from_album(service, album_id, media_item_ids):
+    url = f"{API_BASE_URL}albums/{album_id}:batchRemoveMediaItems"
+
+    headers = {
+        "Content-Type": "application/json"
+    }
+
+    batch_size = 49
+    for i in range(0, len(media_item_ids), batch_size):
+        batch = media_item_ids[i:i + batch_size]
+        body = json.dumps({
+            "mediaItemIds": batch
+        })
+
+        response, content = service._http.request(
+            uri=url,
+            method="POST",
+            body=body,
+            headers=headers
+        )
+
+        if response.status == 200:
+            print(f"成功移除第 {i // batch_size + 1} 批媒體項目")
+        else:
+            print(f"失敗（第 {i // batch_size + 1} 批）：", response.status, content.decode())
+            break
 
 def list_photos(service):
     photos = []
@@ -66,7 +111,6 @@ def list_photos(service):
         if not nextPageToken:
             break
     return photos
-
 
 def upload_photo_bytes(creds, photo_path):
     mime_type = get_mime(photo_path)
@@ -84,7 +128,6 @@ def upload_photo_bytes(creds, photo_path):
         return response.text
     else:
         raise Exception(f"Upload failed: {response.status_code} - {response.text}")
-
 
 def add_photos_to_album(creds, album_id, filename_token_mapping):
     batch_size = 45

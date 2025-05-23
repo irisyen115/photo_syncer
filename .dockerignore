@@ -1,0 +1,7 @@
+__pycache__/
+.env
+.vscode/
+downloaded_albums/
+client_secret.json
+token.pickle
+pg_data/

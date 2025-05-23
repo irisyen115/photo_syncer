@@ -2,9 +2,7 @@ version: "3.9"
 
 services:
   python-google-photos:
-    build:
-      context: ../
-      dockerfile: Dockerfile
+    image: docker-python-google-photos
     container_name: google-photos
     volumes:
       - ../:/app

@@ -1,76 +1,144 @@
-from concurrent.futures import ThreadPoolExecutor
-from synology.service import login, list_albums, list_photos, download_photo, save_photo_to_db
-from google.service import authenticate, get_service, get_or_create_album, upload_photo_bytes, add_photos_to_album
+from synology.service import (
+    login, download_photo, randam_pick_from_person_database, list_all_photos_by_person,
+    save_photos_to_db_with_person
+)
+from google.service import (
+    authenticate, get_service, get_or_create_album,
+    upload_photo_bytes, add_photos_to_album
+)
+from delete_photo import delete_all_photos_from_album
 from models.database import SessionLocal
-from models.photo import Photo
-import os
 from dotenv import load_dotenv
-from threading import Lock
-from datetime import datetime
+import os
 import time
+import queue
+import threading
+import getpass
+import argparse
 
 load_dotenv()
-upload_lock = Lock()
+print("開始解析參數...")
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--account', type=str)
+parser.add_argument('--password', type=str)
+parser.add_argument('--personID', type=str)
+args = parser.parse_args()
 
 BASE_URL = os.getenv('SYNO_URL')
-ACCOUNT = os.getenv('SYNO_ACCOUNT')
-PASSWORD = os.getenv('SYNO_PASSWORD')
+ACCOUNT = args.account
+PASSWORD = args.password
 FID = os.getenv('SYNO_FID')
 TIMEZONE = os.getenv('SYNO_TIMEZONE')
 DOWNLOAD_DIR = os.getenv('SYNO_DOWNLOAD_DIR', '/app/downloaded_albums/')
-ALBUM_NAME = os.getenv('ALBUM_NAME', '天澯')
+ALBUM_NAME = '天穗'
+PERSON_ID = args.personID
+NUM_DOWNLOAD_THREADS = 16
+NUM_UPLOAD_THREADS = 16
+UPLOAD_PHOTO_NUM = 10
+download_queue = queue.Queue()
+photo_queue = queue.Queue()
+token_map = {}
+print(ACCOUNT, PASSWORD)
 
-def sync_all():
-    print("🔽 登入 Synology...")
+def download_worker(auth,):
+    db = SessionLocal()
+    while True:
+        try:
+            p = download_queue.get(timeout=2)
+        except queue.Empty:
+            break
+        try:
+            saved_path = os.path.join(DOWNLOAD_DIR, p['filename'])
+            if not photo_queue or not saved_path:
+                print(f"⚠️ 略過 {p['filename']}（無儲存路徑）")
+                continue
+            print(f"🔽 下載中: {p['filename']}")
+            download_photo(auth, p, save_path=saved_path)
+            photo_queue.put((p['filename']))
+        except Exception as e:
+            print(f"❌ 下載錯誤: {p['filename']} - {e}")
+    db.close()
+
+i = [1]
+def upload_worker(creds,):
+    while True:
+        try:
+            filename = photo_queue.get(timeout=2)
+        except queue.Empty:
+            if all(not t.is_alive() for t in threading.enumerate() if t.name.startswith("Downloader")):
+                break
+            else:
+                continue
+        try:
+            x = i[0]
+            i[0] += 1
+            print(f"====== 上傳中 =====, 第 {x} 張照片 ======")
+            saved_path = os.path.join(DOWNLOAD_DIR, filename)
+            begin = time.time()
+            print(f"🔼第 {x} 張， 上傳開始時間: {begin:.2f}")
+            upload_token = upload_photo_bytes(creds, saved_path)
+
+            token_map[filename] = upload_token
+            end= time.time()
+            print(f"🔼第 {x} 張， 上傳結束時間: {end:.2f}, 共耗時: {end-begin:.2f}")
+        except Exception as e:
+            print(f"❌ 上傳錯誤: {filename} - {e}")
+        finally:
+            photo_queue.task_done()
+
+def initialize_services_and_photos():
     auth = login(ACCOUNT, PASSWORD, FID, TIMEZONE)
-    albums = list_albums(auth)
-    for album in albums['data']['list']:
-        print(f"📁 相簿名稱: {album['name']}, ID: {album['id']}")
-    target_album = next((a for a in albums['data']['list'] if a['name'] == '天澯收涎'), None)
-    album_id = target_album['id'] if target_album else None
-    if not album_id:
-        return
 
-    photos = list_photos(auth, album_id, limit=20)
-    photo_list = photos['data']['list']
-    for p in photo_list:
-        save_photo_to_db(p['id'], p['filename'], album_id, datetime.fromtimestamp(p['time']), DOWNLOAD_DIR + p['filename'])
-    print(f"📸 總共 {len(photo_list)} 張照片")
+    random_photos = randam_pick_from_person_database(person_id=PERSON_ID, limit=UPLOAD_PHOTO_NUM)
+    if len(random_photos) == 0:
+        person_photo_list = list_all_photos_by_person(auth, PERSON_ID)
+        save_photos_to_db_with_person(person_photo_list, PERSON_ID)
+        random_photos = randam_pick_from_person_database(person_id=PERSON_ID, limit=UPLOAD_PHOTO_NUM)
+    for photo in random_photos:
+        download_queue.put(photo)
 
-    print("☁️ 登入 Google Photos...")
     creds = authenticate()
     service = get_service(creds)
     google_album_id = get_or_create_album(service, album_name=ALBUM_NAME)
-    print(f"☁️ Google 相簿 ID: {google_album_id}")
+    return auth, creds, google_album_id
 
-    def download_and_upload(p):
-        db = SessionLocal()
-        try:
-            record = db.query(Photo).filter_by(item_id=p['id']).first()
-            if not record or not record.saved_path:
-                print(f"⚠️ 略過 {p['filename']}（無儲存路徑）")
-                return
+def sync_all():
+    downloaders = []
+    for i in range(NUM_DOWNLOAD_THREADS):
+        t = threading.Thread(target=download_worker, args=(auth,), name=f"Downloader-{i}")
+        t.start()
+        downloaders.append(t)
 
-            download_photo(auth, p, save_path=record.saved_path)
-            print(f"✅ 下載完成: {p['filename']}, 拍攝於: {record.shooting_time}")
+    uploaders = []
+    for i in range(NUM_UPLOAD_THREADS):
+        t = threading.Thread(target=upload_worker, args=(creds,), name=f"Uploader-{i}")
+        t.start()
+        uploaders.append(t)
 
-            with upload_lock:
-                upload_token = upload_photo_bytes(creds, record.saved_path)
-                add_photos_to_album(creds, google_album_id, {record.filename: upload_token})
-                print(f"☁️ 上傳完成: {p['filename']}, 拍攝於: {record.shooting_time}")
+    for t in downloaders:
+        t.join()
 
-        except Exception as e:
-            print(f"❌ 發生錯誤: {p['filename']} - {e}")
-        finally:
-            db.close()
+    # .....
 
-    with ThreadPoolExecutor(max_workers=1) as executor:
-        executor.map(download_and_upload, photo_list)
+    photo_queue.join()
+    for t in uploaders:
+        t.join()
 
+    add_photos_to_album(creds, google_album_id, token_map)
 
 if __name__ == "__main__":
-    print("🔄 開始同步：從 Synology 下載並立即上傳至 Google Photos")
-    t = time.time()
-    sync_all()
-    print("✅ 同步完成")
-    print(f"⏱️ 總耗時: {time.time() - t:.2f} 秒")
+    try:
+        print("🔽 登入 Synology...")
+        auth, creds, google_album_id = initialize_services_and_photos()
+        start_time = time.time()
+        photo_list = list_all_photos_by_person(auth, person_id=PERSON_ID)
+        for photo in photo_list:
+            print(photo['filename'])
+        delete_all_photos_from_album(google_album_id)
+        print("🔄 開始同步：從 Synology 下載並上傳至 Google Photos")
+        sync_all()
+        print("✅ 同步完成")
+        print(f"⏱️ 總耗時: {time.time() - start_time:.2f} 秒")
+    except Exception as e:
+        print("發生例外錯誤:", e)
