@@ -1,0 +1,741 @@
+2025-06-12 01:38:58,217 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.8:5001
+2025-06-12 01:38:58,217 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 01:39:06,884 - INFO - 172.18.0.11 - - [12/Jun/2025 01:39:06] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 01:39:11,236 - INFO - 172.18.0.11 - - [12/Jun/2025 01:39:11] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 01:40:11,182 - ERROR - ❌ Upload failed: 'Session' object is not iterable
+2025-06-12 01:41:24,175 - INFO - 172.18.0.11 - - [12/Jun/2025 01:41:24] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 01:41:26,072 - INFO - 172.18.0.11 - - [12/Jun/2025 01:41:26] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 01:41:52,488 - ERROR - ❌ Upload failed: 'Session' object is not iterable
+2025-06-12 01:42:54,466 - INFO - 172.18.0.11 - - [12/Jun/2025 01:42:54] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 01:42:57,077 - INFO - 172.18.0.11 - - [12/Jun/2025 01:42:57] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 01:43:01,858 - INFO - 172.18.0.11 - - [12/Jun/2025 01:43:01] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 01:43:05,026 - INFO - 172.18.0.11 - - [12/Jun/2025 01:43:05] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 01:43:31,060 - ERROR - ❌ Upload failed: 'Session' object is not iterable
+2025-06-12 02:32:25,241 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.10:5001
+2025-06-12 02:32:25,242 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 02:33:44,118 - INFO - 172.18.0.11 - - [12/Jun/2025 02:33:44] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 02:34:05,093 - ERROR - ❌ Upload failed: 'Session' object is not iterable
+2025-06-12 02:34:05,217 - INFO - 172.18.0.11 - - [12/Jun/2025 02:34:05] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 02:34:45,641 - INFO - 172.18.0.11 - - [12/Jun/2025 02:34:45] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 02:34:47,943 - ERROR - ❌ Upload failed: 'Session' object is not iterable
+2025-06-12 02:34:48,159 - INFO - 172.18.0.11 - - [12/Jun/2025 02:34:48] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 02:35:42,908 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.10:5001
+2025-06-12 02:35:42,908 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 02:37:03,370 - INFO - 172.18.0.11 - - [12/Jun/2025 02:37:03] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 02:37:06,796 - ERROR - ❌ Upload failed: 'Session' object is not iterable
+2025-06-12 02:37:06,921 - INFO - 172.18.0.11 - - [12/Jun/2025 02:37:06] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 02:38:38,723 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.10:5001
+2025-06-12 02:38:38,723 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 02:40:35,997 - INFO - 172.18.0.11 - - [12/Jun/2025 02:40:35] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 02:40:37,750 - ERROR - ❌ Upload failed: 'Session' object is not iterable
+2025-06-12 02:40:37,905 - INFO - 172.18.0.11 - - [12/Jun/2025 02:40:37] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 02:41:20,717 - INFO - 172.18.0.11 - - [12/Jun/2025 02:41:20] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 02:41:24,725 - ERROR - ❌ Upload failed: 'Session' object is not iterable
+2025-06-12 02:41:24,964 - INFO - 172.18.0.11 - - [12/Jun/2025 02:41:24] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 02:56:40,094 - INFO - 172.18.0.11 - - [12/Jun/2025 02:56:40] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 02:56:42,145 - INFO - 172.18.0.11 - - [12/Jun/2025 02:56:42] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 02:57:02,168 - ERROR - ❌ Upload failed: 'Session' object is not iterable
+2025-06-12 02:59:23,379 - INFO - 172.18.0.11 - - [12/Jun/2025 02:59:23] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 02:59:26,575 - INFO - 172.18.0.11 - - [12/Jun/2025 02:59:26] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 02:59:49,413 - ERROR - ❌ Upload failed: 'Session' object is not iterable
+2025-06-12 03:05:38,731 - INFO - 172.18.0.11 - - [12/Jun/2025 03:05:38] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 03:05:50,206 - INFO - 172.18.0.11 - - [12/Jun/2025 03:05:50] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 03:06:13,550 - ERROR - ❌ Upload failed: 'Session' object is not iterable
+2025-06-12 06:22:30,407 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.8:5001
+2025-06-12 06:22:30,409 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 06:24:21,552 - ERROR - Error in /api/webhook: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+[SQL: SELECT line_binding_user.line_id AS line_binding_user_line_id 
+FROM line_binding_user]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-06-12 06:24:21,571 - INFO - 172.18.0.11 - - [12/Jun/2025 06:24:21] "[35m[1mPOST /api/webhook HTTP/1.0[0m" 500 -
+2025-06-12 06:25:09,063 - ERROR - Error in /api/webhook: list index out of range
+2025-06-12 06:25:09,064 - INFO - 172.18.0.11 - - [12/Jun/2025 06:25:09] "[35m[1mPOST /api/webhook HTTP/1.0[0m" 500 -
+2025-06-12 06:29:45,719 - ERROR - Error in /api/webhook: list index out of range
+2025-06-12 06:29:45,720 - INFO - 172.18.0.11 - - [12/Jun/2025 06:29:45] "[35m[1mPOST /api/webhook HTTP/1.0[0m" 500 -
+2025-06-12 06:31:52,547 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.8:5001
+2025-06-12 06:31:52,548 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 06:32:36,661 - INFO - 172.18.0.11 - - [12/Jun/2025 06:32:36] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 06:33:35,198 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.8:5001
+2025-06-12 06:33:35,198 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 06:33:52,876 - ERROR - ❌ 無法找到人員列表檔案：/app/people_list/people_list.json
+2025-06-12 06:33:53,107 - INFO - 172.18.0.11 - - [12/Jun/2025 06:33:53] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 06:57:12,064 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.8:5001
+2025-06-12 06:57:12,065 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 06:57:25,497 - INFO - 172.18.0.11 - - [12/Jun/2025 06:57:25] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 06:57:50,788 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.8:5001
+2025-06-12 06:57:50,788 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 06:58:13,841 - INFO - 172.18.0.11 - - [12/Jun/2025 06:58:13] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 07:00:32,741 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.8:5001
+2025-06-12 07:00:32,742 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 07:02:48,470 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.8:5001
+2025-06-12 07:02:48,470 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 07:03:26,859 - ERROR - string indices must be integers
+2025-06-12 07:03:27,140 - INFO - 172.18.0.11 - - [12/Jun/2025 07:03:27] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 07:04:52,977 - ERROR - string indices must be integers
+2025-06-12 07:04:53,234 - INFO - 172.18.0.11 - - [12/Jun/2025 07:04:53] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 07:06:51,377 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.8:5001
+2025-06-12 07:06:51,377 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 07:07:18,431 - ERROR - string indices must be integers
+2025-06-12 07:07:18,680 - INFO - 172.18.0.11 - - [12/Jun/2025 07:07:18] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 07:07:25,749 - ERROR - string indices must be integers
+2025-06-12 07:07:25,981 - INFO - 172.18.0.11 - - [12/Jun/2025 07:07:25] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 07:09:07,375 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.8:5001
+2025-06-12 07:09:07,376 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 07:09:28,323 - ERROR - string indices must be integers
+2025-06-12 07:09:28,598 - INFO - 172.18.0.11 - - [12/Jun/2025 07:09:28] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 07:28:14,067 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.8:5001
+2025-06-12 07:28:14,067 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 07:28:40,546 - ERROR - string indices must be integers
+2025-06-12 07:28:40,822 - INFO - 172.18.0.11 - - [12/Jun/2025 07:28:40] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 07:35:26,784 - ERROR - string indices must be integers
+2025-06-12 07:35:27,065 - INFO - 172.18.0.11 - - [12/Jun/2025 07:35:27] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 07:36:04,893 - ERROR - string indices must be integers
+2025-06-12 07:36:05,138 - INFO - 172.18.0.11 - - [12/Jun/2025 07:36:05] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 07:38:49,008 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.8:5001
+2025-06-12 07:38:49,008 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 07:39:05,957 - ERROR - string indices must be integers
+2025-06-12 07:39:06,180 - INFO - 172.18.0.11 - - [12/Jun/2025 07:39:06] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 07:40:09,454 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.8:5001
+2025-06-12 07:40:09,454 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 07:40:22,802 - ERROR - string indices must be integers
+2025-06-12 07:40:23,040 - INFO - 172.18.0.11 - - [12/Jun/2025 07:40:23] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 07:45:41,143 - INFO - 172.18.0.11 - - [12/Jun/2025 07:45:41] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 07:47:46,389 - ERROR - string indices must be integers
+2025-06-12 07:47:46,673 - INFO - 172.18.0.11 - - [12/Jun/2025 07:47:46] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 07:49:16,050 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.8:5001
+2025-06-12 07:49:16,050 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 07:49:26,626 - ERROR - {'user_id': 'U627d1e440f23a15363f9720fc7c79b3e', 'message_text': '我要上傳照片', 'session': <requests.sessions.Session object at 0x7fcb5b547430>, 'session_data': {'last_action': 'asked_album_change'}, 'state': {}, 'people_list_path': '/app/people_list/people_list.json', 'faces': {'message': '人員列表已更新'}}
+2025-06-12 07:49:26,626 - ERROR - string indices must be integers
+2025-06-12 07:49:26,923 - INFO - 172.18.0.11 - - [12/Jun/2025 07:49:26] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 07:51:06,072 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.8:5001
+2025-06-12 07:51:06,072 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 07:51:09,833 - ERROR - {'user_id': 'U627d1e440f23a15363f9720fc7c79b3e', 'message_text': '我要上傳照片', 'session': <requests.sessions.Session object at 0x7fd9cfd2f430>, 'session_data': {'last_action': 'asked_album_change'}, 'state': {}, 'people_list_path': '/app/people_list/people_list.json', 'faces': {'message': '人員列表已更新'}}
+2025-06-12 07:51:09,834 - ERROR - 1
+2025-06-12 07:51:09,834 - ERROR - string indices must be integers
+2025-06-12 07:51:10,098 - INFO - 172.18.0.11 - - [12/Jun/2025 07:51:10] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 07:52:22,731 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.8:5001
+2025-06-12 07:52:22,731 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 07:52:29,681 - ERROR - {'user_id': 'U627d1e440f23a15363f9720fc7c79b3e', 'message_text': '我要上傳照片', 'session': <requests.sessions.Session object at 0x7ff814037430>, 'session_data': {'last_action': 'asked_album_change'}, 'state': {}, 'people_list_path': '/app/people_list/people_list.json', 'faces': {'message': '人員列表已更新'}}
+2025-06-12 07:52:29,682 - ERROR - 1
+2025-06-12 07:52:29,682 - ERROR - string indices must be integers
+2025-06-12 07:52:29,906 - INFO - 172.18.0.11 - - [12/Jun/2025 07:52:29] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 07:53:46,035 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.8:5001
+2025-06-12 07:53:46,035 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 07:53:52,066 - ERROR - {'user_id': 'U627d1e440f23a15363f9720fc7c79b3e', 'message_text': '我要上傳照片', 'session': <requests.sessions.Session object at 0x7f5b777f7430>, 'session_data': {'last_action': 'asked_album_change'}, 'state': {}, 'people_list_path': '/app/people_list/people_list.json', 'faces': {'message': '人員列表已更新'}}
+2025-06-12 07:53:52,067 - ERROR - 1
+2025-06-12 07:53:52,067 - ERROR - Building face bubbles for 1 faces
+2025-06-12 07:53:52,067 - ERROR - Building face bubbles for message faces
+2025-06-12 07:53:52,067 - ERROR - string indices must be integers
+2025-06-12 07:53:52,311 - INFO - 172.18.0.11 - - [12/Jun/2025 07:53:52] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 07:56:20,082 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.8:5001
+2025-06-12 07:56:20,083 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 07:56:27,541 - ERROR - {'user_id': 'U627d1e440f23a15363f9720fc7c79b3e', 'message_text': '我要上傳照片', 'session': <requests.sessions.Session object at 0x7fec5ad9f430>, 'session_data': {'last_action': 'asked_album_change'}, 'state': {}, 'people_list_path': '/app/people_list/people_list.json', 'faces': {'message': '人員列表已更新'}}
+2025-06-12 07:56:27,541 - ERROR - 1
+2025-06-12 07:56:27,541 - ERROR - Building face bubbles for 1 faces
+2025-06-12 07:56:27,541 - ERROR - Building face bubbles for message faces
+2025-06-12 07:56:27,541 - ERROR - string indices must be integers
+2025-06-12 07:56:27,782 - INFO - 172.18.0.11 - - [12/Jun/2025 07:56:27] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 07:56:57,735 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.8:5001
+2025-06-12 07:56:57,735 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 07:57:06,539 - ERROR - {'user_id': 'U627d1e440f23a15363f9720fc7c79b3e', 'message_text': '我要上傳照片', 'session': <requests.sessions.Session object at 0x7f17b93ab430>, 'session_data': {'last_action': 'asked_album_change'}, 'state': {}, 'people_list_path': '/app/people_list/people_list.json', 'faces': {'message': '人員列表已更新'}}
+2025-06-12 07:57:06,540 - ERROR - 1
+2025-06-12 07:57:06,540 - ERROR - Building face bubbles for 1 faces
+2025-06-12 07:57:06,540 - ERROR - Building face bubbles for message faces
+2025-06-12 07:57:06,540 - ERROR - string indices must be integers
+2025-06-12 07:57:06,770 - INFO - 172.18.0.11 - - [12/Jun/2025 07:57:06] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 07:59:18,847 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.8:5001
+2025-06-12 07:59:18,848 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 07:59:33,562 - ERROR - {'user_id': 'U627d1e440f23a15363f9720fc7c79b3e', 'message_text': '我要上傳照片', 'session': <requests.sessions.Session object at 0x7f64e6a8b430>, 'session_data': {'last_action': 'asked_album_change'}, 'state': {}, 'people_list_path': '/app/people_list/people_list.json', 'faces': {'message': '人員列表已更新'}}
+2025-06-12 07:59:33,563 - ERROR - 1
+2025-06-12 07:59:33,563 - ERROR - Building face bubbles for 1 faces
+2025-06-12 07:59:33,563 - ERROR - Building face bubbles for message faces
+2025-06-12 07:59:33,563 - ERROR - string indices must be integers
+2025-06-12 07:59:33,771 - INFO - 172.18.0.11 - - [12/Jun/2025 07:59:33] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 08:13:20,625 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.8:5001
+2025-06-12 08:13:20,625 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 08:13:29,046 - ERROR - {'user_id': 'U627d1e440f23a15363f9720fc7c79b3e', 'message_text': '我要上傳照片', 'session': <requests.sessions.Session object at 0x7fad5a6ab430>, 'session_data': {'last_action': 'asked_album_change'}, 'state': {}, 'people_list_path': '/app/people_list/people_list.json', 'faces': {'message': '人員列表已更新'}}
+2025-06-12 08:13:29,046 - ERROR - 1
+2025-06-12 08:13:29,046 - ERROR - Building face bubbles for 1 faces
+2025-06-12 08:13:29,046 - ERROR - Building face bubbles for message faces
+2025-06-12 08:13:29,046 - ERROR - string indices must be integers
+2025-06-12 08:13:29,325 - INFO - 172.18.0.11 - - [12/Jun/2025 08:13:29] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 08:14:34,670 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.8:5001
+2025-06-12 08:14:34,671 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 08:14:39,784 - ERROR - {'user_id': 'U627d1e440f23a15363f9720fc7c79b3e', 'message_text': '我要上傳照片', 'session': <requests.sessions.Session object at 0x7fadfc17b430>, 'session_data': {'last_action': 'asked_album_change'}, 'state': {}, 'people_list_path': '/app/people_list/people_list.json', 'faces': {'message': '人員列表已更新'}}
+2025-06-12 08:14:39,784 - ERROR - 1
+2025-06-12 08:14:39,785 - ERROR - ⚠️ faces is None or not a list
+2025-06-12 08:14:40,037 - INFO - 172.18.0.11 - - [12/Jun/2025 08:14:40] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 08:19:39,466 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.8:5001
+2025-06-12 08:19:39,467 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 08:19:45,095 - ERROR - {'user_id': 'U627d1e440f23a15363f9720fc7c79b3e', 'message_text': '我要上傳照片', 'session': <requests.sessions.Session object at 0x7fa20c1a3430>, 'session_data': {'last_action': 'asked_album_change'}, 'state': {}, 'people_list_path': '/app/people_list/people_list.json', 'faces': {'message': '人員列表已更新'}}
+2025-06-12 08:19:45,096 - ERROR - 1
+2025-06-12 08:19:45,096 - ERROR - ⚠️ faces is None or not a list
+2025-06-12 08:19:45,343 - INFO - 172.18.0.11 - - [12/Jun/2025 08:19:45] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 08:20:59,528 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.8:5001
+2025-06-12 08:20:59,528 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 08:21:18,371 - ERROR - {'user_id': 'U627d1e440f23a15363f9720fc7c79b3e', 'message_text': '我要上傳照片', 'session': <requests.sessions.Session object at 0x7f950c8c7430>, 'session_data': {'last_action': 'asked_album_change'}, 'state': {}, 'people_list_path': '/app/people_list/people_list.json', 'faces': {'message': '人員列表已更新'}}
+2025-06-12 08:21:18,372 - ERROR - 1
+2025-06-12 08:21:18,372 - ERROR - ⚠️ faces is None or not a list
+2025-06-12 08:21:18,666 - INFO - 172.18.0.11 - - [12/Jun/2025 08:21:18] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 08:23:11,829 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.8:5001
+2025-06-12 08:23:11,829 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 08:23:21,552 - ERROR - {'user_id': 'U627d1e440f23a15363f9720fc7c79b3e', 'message_text': '我要上傳照片', 'session': <requests.sessions.Session object at 0x7fa58bbbb430>, 'session_data': {'last_action': 'asked_album_change'}, 'state': {}, 'people_list_path': '/app/people_list/people_list.json', 'faces': {'message': '人員列表已更新'}}
+2025-06-12 08:23:21,552 - ERROR - 1
+2025-06-12 08:23:21,552 - ERROR - ⚠️ faces is None or not a list
+2025-06-12 08:23:21,874 - INFO - 172.18.0.11 - - [12/Jun/2025 08:23:21] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 08:24:13,279 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.8:5001
+2025-06-12 08:24:13,279 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 08:24:41,934 - ERROR - {'user_id': 'U627d1e440f23a15363f9720fc7c79b3e', 'message_text': '我要上傳照片', 'session': <requests.sessions.Session object at 0x7f9edc397430>, 'session_data': {'last_action': 'asked_album_change'}, 'state': {}, 'people_list_path': '/app/people_list/people_list.json', 'faces': {'message': '人員列表已更新'}}
+2025-06-12 08:24:41,935 - ERROR - 1
+2025-06-12 08:24:41,935 - ERROR - ⚠️ faces is None or not a list
+2025-06-12 08:24:42,185 - INFO - 172.18.0.11 - - [12/Jun/2025 08:24:42] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 08:27:08,712 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.8:5001
+2025-06-12 08:27:08,712 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 08:27:16,658 - ERROR - faces type: <class 'dict'>, value: {'message': '人員列表已更新'}
+2025-06-12 08:27:16,658 - ERROR - 1
+2025-06-12 08:27:16,658 - ERROR - ⚠️ faces is None or not a list
+2025-06-12 08:27:16,907 - INFO - 172.18.0.11 - - [12/Jun/2025 08:27:16] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 08:28:10,017 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.10:5001
+2025-06-12 08:28:10,018 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 08:28:37,176 - ERROR - faces type: <class 'dict'>, value: {'message': '人員列表已更新'}
+2025-06-12 08:28:37,176 - ERROR - 1
+2025-06-12 08:28:37,176 - ERROR - ⚠️ faces is None or not a list
+2025-06-12 08:28:37,402 - INFO - 172.18.0.11 - - [12/Jun/2025 08:28:37] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 08:33:21,760 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.10:5001
+2025-06-12 08:33:21,760 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 08:33:27,498 - ERROR - faces type: <class 'dict'>, value: {'message': '人員列表已更新'}
+2025-06-12 08:33:27,498 - ERROR - 1
+2025-06-12 08:33:27,498 - ERROR - ⚠️ faces is None or not a list
+2025-06-12 08:33:27,725 - INFO - 172.18.0.11 - - [12/Jun/2025 08:33:27] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 08:36:24,198 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.9:5001
+2025-06-12 08:36:24,199 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 08:39:11,247 - ERROR - faces type: <class 'dict'>, value: {'message': '人員列表已更新'}
+2025-06-12 08:39:11,247 - ERROR - 1
+2025-06-12 08:39:11,247 - ERROR - ⚠️ faces is None or not a list
+2025-06-12 08:39:11,496 - INFO - 172.18.0.11 - - [12/Jun/2025 08:39:11] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 08:42:05,398 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.9:5001
+2025-06-12 08:42:05,398 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 08:42:10,089 - ERROR - faces type: <class 'dict'>, value: {'message': '人員列表已更新'}
+2025-06-12 08:42:10,089 - ERROR - faces length: 1
+2025-06-12 08:42:10,089 - ERROR - ⚠️ faces is not a list, type: <class 'dict'>
+2025-06-12 08:42:10,373 - INFO - 172.18.0.11 - - [12/Jun/2025 08:42:10] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 08:49:29,938 - ERROR - people_list.json 不存在，嘗試從遠端服務獲取
+2025-06-12 08:49:29,946 - ERROR - 連接遠端服務時發生錯誤: Invalid URL 'None/api/upload/update_people': No scheme supplied. Perhaps you meant https://None/api/upload/update_people?
+2025-06-12 08:49:30,095 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.9:5001
+2025-06-12 08:49:30,096 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 08:49:37,409 - ERROR - people_list.json 不存在，嘗試從遠端服務獲取
+2025-06-12 08:49:37,412 - ERROR - 連接遠端服務時發生錯誤: Invalid URL 'None/api/upload/update_people': No scheme supplied. Perhaps you meant https://None/api/upload/update_people?
+2025-06-12 08:49:37,807 - INFO - 172.18.0.11 - - [12/Jun/2025 08:49:37] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 08:50:07,470 - ERROR - people_list.json 不存在，嘗試從遠端服務獲取
+2025-06-12 08:50:07,472 - ERROR - 連接遠端服務時發生錯誤: Invalid URL 'None/api/upload/update_people': No scheme supplied. Perhaps you meant https://None/api/upload/update_people?
+2025-06-12 08:50:07,729 - INFO - 172.18.0.11 - - [12/Jun/2025 08:50:07] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 08:51:31,621 - ERROR - people_list.json 不存在，嘗試從遠端服務獲取
+2025-06-12 08:51:31,786 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.9:5001
+2025-06-12 08:51:31,787 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 08:51:36,871 - ERROR - faces type: <class 'list'>, value: [{'ID': 22492, 'img': 'https://irisyen115.synology.me/face_image/22492.jpg', 'name': '辰霖'}, {'ID': 22080, 'img': 'https://irisyen115.synology.me/face_image/22080.jpg', 'name': '惠玲'}, {'ID': 23985, 'img': 'https://irisyen115.synology.me/face_image/23985.jpg', 'name': '天穗'}, {'ID': 22467, 'img': 'https://irisyen115.synology.me/face_image/22467.jpg', 'name': '卿玄'}, {'ID': 22500, 'img': 'https://irisyen115.synology.me/face_image/22500.jpg', 'name': '明東'}, {'ID': 22271, 'img': 'https://irisyen115.synology.me/face_image/22271.jpg', 'name': '傳哲'}, {'ID': 22520, 'img': 'https://irisyen115.synology.me/face_image/22520.jpg', 'name': '楚訓'}, {'ID': 24736, 'img': 'https://irisyen115.synology.me/face_image/24736.jpg', 'name': '天澯'}]
+2025-06-12 08:51:36,871 - ERROR - faces length: 8
+2025-06-12 08:51:36,872 - ERROR - faces: [{'ID': 22492, 'img': 'https://irisyen115.synology.me/face_image/22492.jpg', 'name': '辰霖'}, {'ID': 22080, 'img': 'https://irisyen115.synology.me/face_image/22080.jpg', 'name': '惠玲'}, {'ID': 23985, 'img': 'https://irisyen115.synology.me/face_image/23985.jpg', 'name': '天穗'}, {'ID': 22467, 'img': 'https://irisyen115.synology.me/face_image/22467.jpg', 'name': '卿玄'}, {'ID': 22500, 'img': 'https://irisyen115.synology.me/face_image/22500.jpg', 'name': '明東'}, {'ID': 22271, 'img': 'https://irisyen115.synology.me/face_image/22271.jpg', 'name': '傳哲'}, {'ID': 22520, 'img': 'https://irisyen115.synology.me/face_image/22520.jpg', 'name': '楚訓'}, {'ID': 24736, 'img': 'https://irisyen115.synology.me/face_image/24736.jpg', 'name': '天澯'}]
+2025-06-12 08:51:36,872 - ERROR - 1
+2025-06-12 08:51:36,872 - ERROR - Building face bubbles for 8 faces
+2025-06-12 08:51:36,872 - ERROR - Building face bubbles for {'ID': 22492, 'img': 'https://irisyen115.synology.me/face_image/22492.jpg', 'name': '辰霖'} faces
+2025-06-12 08:51:36,872 - ERROR - Building face bubbles for {'ID': 22080, 'img': 'https://irisyen115.synology.me/face_image/22080.jpg', 'name': '惠玲'} faces
+2025-06-12 08:51:36,873 - ERROR - Building face bubbles for {'ID': 23985, 'img': 'https://irisyen115.synology.me/face_image/23985.jpg', 'name': '天穗'} faces
+2025-06-12 08:51:36,873 - ERROR - Building face bubbles for {'ID': 22467, 'img': 'https://irisyen115.synology.me/face_image/22467.jpg', 'name': '卿玄'} faces
+2025-06-12 08:51:36,873 - ERROR - Building face bubbles for {'ID': 22500, 'img': 'https://irisyen115.synology.me/face_image/22500.jpg', 'name': '明東'} faces
+2025-06-12 08:51:36,873 - ERROR - Building face bubbles for {'ID': 22271, 'img': 'https://irisyen115.synology.me/face_image/22271.jpg', 'name': '傳哲'} faces
+2025-06-12 08:51:36,873 - ERROR - Building face bubbles for {'ID': 22520, 'img': 'https://irisyen115.synology.me/face_image/22520.jpg', 'name': '楚訓'} faces
+2025-06-12 08:51:36,873 - ERROR - Building face bubbles for {'ID': 24736, 'img': 'https://irisyen115.synology.me/face_image/24736.jpg', 'name': '天澯'} faces
+2025-06-12 08:51:36,873 - ERROR - 12
+2025-06-12 08:51:36,873 - ERROR - 0
+2025-06-12 08:51:36,874 - ERROR - 0
+2025-06-12 08:51:36,874 - ERROR - 1
+2025-06-12 08:51:36,874 - ERROR - 2
+2025-06-12 08:51:36,874 - ERROR - 1
+2025-06-12 08:51:36,874 - ERROR - 0
+2025-06-12 08:51:36,874 - ERROR - 1
+2025-06-12 08:51:36,874 - ERROR - 2
+2025-06-12 08:51:36,874 - ERROR - 2
+2025-06-12 08:51:36,874 - ERROR - 0
+2025-06-12 08:51:36,874 - ERROR - 1
+2025-06-12 08:51:36,874 - ERROR - 2
+2025-06-12 08:51:36,875 - ERROR - 3
+2025-06-12 08:51:36,875 - ERROR - 0
+2025-06-12 08:51:36,875 - ERROR - 1
+2025-06-12 08:51:36,875 - ERROR - 2
+2025-06-12 08:51:36,875 - ERROR - 4
+2025-06-12 08:51:36,875 - ERROR - 0
+2025-06-12 08:51:36,875 - ERROR - 1
+2025-06-12 08:51:36,875 - ERROR - 2
+2025-06-12 08:51:36,875 - ERROR - 5
+2025-06-12 08:51:36,875 - ERROR - 0
+2025-06-12 08:51:36,875 - ERROR - 1
+2025-06-12 08:51:36,876 - ERROR - 2
+2025-06-12 08:51:36,876 - ERROR - 6
+2025-06-12 08:51:36,876 - ERROR - 0
+2025-06-12 08:51:36,876 - ERROR - 1
+2025-06-12 08:51:36,876 - ERROR - 2
+2025-06-12 08:51:36,876 - ERROR - 7
+2025-06-12 08:51:36,876 - ERROR - 0
+2025-06-12 08:51:36,876 - ERROR - 1
+2025-06-12 08:51:36,876 - ERROR - 2
+2025-06-12 08:51:37,151 - INFO - 172.18.0.11 - - [12/Jun/2025 08:51:37] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 09:03:43,193 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.9:5001
+2025-06-12 09:03:43,194 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 09:03:45,490 - ERROR - faces type: <class 'list'>, value: [{'name': '辰霖', 'ID': 22492, 'img': 'https://irisyen115.synology.me/face_image/22492.jpg'}, {'name': '惠玲', 'ID': 22080, 'img': 'https://irisyen115.synology.me/face_image/22080.jpg'}, {'name': '天穗', 'ID': 23985, 'img': 'https://irisyen115.synology.me/face_image/23985.jpg'}, {'name': '卿玄', 'ID': 22467, 'img': 'https://irisyen115.synology.me/face_image/22467.jpg'}, {'name': '明東', 'ID': 22500, 'img': 'https://irisyen115.synology.me/face_image/22500.jpg'}, {'name': '傳哲', 'ID': 22271, 'img': 'https://irisyen115.synology.me/face_image/22271.jpg'}, {'name': '楚訓', 'ID': 22520, 'img': 'https://irisyen115.synology.me/face_image/22520.jpg'}, {'name': '天澯', 'ID': 24736, 'img': 'https://irisyen115.synology.me/face_image/24736.jpg'}]
+2025-06-12 09:03:45,490 - ERROR - faces length: 8
+2025-06-12 09:03:45,490 - ERROR - faces: [{'name': '辰霖', 'ID': 22492, 'img': 'https://irisyen115.synology.me/face_image/22492.jpg'}, {'name': '惠玲', 'ID': 22080, 'img': 'https://irisyen115.synology.me/face_image/22080.jpg'}, {'name': '天穗', 'ID': 23985, 'img': 'https://irisyen115.synology.me/face_image/23985.jpg'}, {'name': '卿玄', 'ID': 22467, 'img': 'https://irisyen115.synology.me/face_image/22467.jpg'}, {'name': '明東', 'ID': 22500, 'img': 'https://irisyen115.synology.me/face_image/22500.jpg'}, {'name': '傳哲', 'ID': 22271, 'img': 'https://irisyen115.synology.me/face_image/22271.jpg'}, {'name': '楚訓', 'ID': 22520, 'img': 'https://irisyen115.synology.me/face_image/22520.jpg'}, {'name': '天澯', 'ID': 24736, 'img': 'https://irisyen115.synology.me/face_image/24736.jpg'}]
+2025-06-12 09:03:45,490 - ERROR - 1
+2025-06-12 09:03:45,490 - ERROR - Building face bubbles for 8 faces
+2025-06-12 09:03:45,490 - ERROR - Building face bubbles for {'name': '辰霖', 'ID': 22492, 'img': 'https://irisyen115.synology.me/face_image/22492.jpg'} faces
+2025-06-12 09:03:45,491 - ERROR - Building face bubbles for {'name': '惠玲', 'ID': 22080, 'img': 'https://irisyen115.synology.me/face_image/22080.jpg'} faces
+2025-06-12 09:03:45,491 - ERROR - Building face bubbles for {'name': '天穗', 'ID': 23985, 'img': 'https://irisyen115.synology.me/face_image/23985.jpg'} faces
+2025-06-12 09:03:45,491 - ERROR - Building face bubbles for {'name': '卿玄', 'ID': 22467, 'img': 'https://irisyen115.synology.me/face_image/22467.jpg'} faces
+2025-06-12 09:03:45,491 - ERROR - Building face bubbles for {'name': '明東', 'ID': 22500, 'img': 'https://irisyen115.synology.me/face_image/22500.jpg'} faces
+2025-06-12 09:03:45,492 - ERROR - Building face bubbles for {'name': '傳哲', 'ID': 22271, 'img': 'https://irisyen115.synology.me/face_image/22271.jpg'} faces
+2025-06-12 09:03:45,492 - ERROR - Building face bubbles for {'name': '楚訓', 'ID': 22520, 'img': 'https://irisyen115.synology.me/face_image/22520.jpg'} faces
+2025-06-12 09:03:45,492 - ERROR - Building face bubbles for {'name': '天澯', 'ID': 24736, 'img': 'https://irisyen115.synology.me/face_image/24736.jpg'} faces
+2025-06-12 09:03:45,492 - ERROR - 12
+2025-06-12 09:03:45,492 - ERROR - 0
+2025-06-12 09:03:45,492 - ERROR - 0
+2025-06-12 09:03:45,492 - ERROR - 1
+2025-06-12 09:03:45,492 - ERROR - 2
+2025-06-12 09:03:45,492 - ERROR - 1
+2025-06-12 09:03:45,492 - ERROR - 0
+2025-06-12 09:03:45,492 - ERROR - 1
+2025-06-12 09:03:45,493 - ERROR - 2
+2025-06-12 09:03:45,493 - ERROR - 2
+2025-06-12 09:03:45,493 - ERROR - 0
+2025-06-12 09:03:45,493 - ERROR - 1
+2025-06-12 09:03:45,493 - ERROR - 2
+2025-06-12 09:03:45,493 - ERROR - 3
+2025-06-12 09:03:45,493 - ERROR - 0
+2025-06-12 09:03:45,493 - ERROR - 1
+2025-06-12 09:03:45,493 - ERROR - 2
+2025-06-12 09:03:45,493 - ERROR - 4
+2025-06-12 09:03:45,493 - ERROR - 0
+2025-06-12 09:03:45,493 - ERROR - 1
+2025-06-12 09:03:45,494 - ERROR - 2
+2025-06-12 09:03:45,494 - ERROR - 5
+2025-06-12 09:03:45,494 - ERROR - 0
+2025-06-12 09:03:45,494 - ERROR - 1
+2025-06-12 09:03:45,494 - ERROR - 2
+2025-06-12 09:03:45,494 - ERROR - 6
+2025-06-12 09:03:45,494 - ERROR - 0
+2025-06-12 09:03:45,494 - ERROR - 1
+2025-06-12 09:03:45,494 - ERROR - 2
+2025-06-12 09:03:45,494 - ERROR - 7
+2025-06-12 09:03:45,494 - ERROR - 0
+2025-06-12 09:03:45,494 - ERROR - 1
+2025-06-12 09:03:45,495 - ERROR - 2
+2025-06-12 09:03:45,780 - INFO - 172.18.0.11 - - [12/Jun/2025 09:03:45] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 09:05:36,473 - ERROR - faces type: <class 'list'>, value: [{'name': '辰霖', 'ID': 22492, 'img': 'https://irisyen115.synology.me/face_image/22492.jpg'}, {'name': '惠玲', 'ID': 22080, 'img': 'https://irisyen115.synology.me/face_image/22080.jpg'}, {'name': '天穗', 'ID': 23985, 'img': 'https://irisyen115.synology.me/face_image/23985.jpg'}, {'name': '卿玄', 'ID': 22467, 'img': 'https://irisyen115.synology.me/face_image/22467.jpg'}, {'name': '明東', 'ID': 22500, 'img': 'https://irisyen115.synology.me/face_image/22500.jpg'}, {'name': '傳哲', 'ID': 22271, 'img': 'https://irisyen115.synology.me/face_image/22271.jpg'}, {'name': '楚訓', 'ID': 22520, 'img': 'https://irisyen115.synology.me/face_image/22520.jpg'}, {'name': '天澯', 'ID': 24736, 'img': 'https://irisyen115.synology.me/face_image/24736.jpg'}]
+2025-06-12 09:05:36,473 - ERROR - faces length: 8
+2025-06-12 09:05:36,474 - ERROR - faces: [{'name': '辰霖', 'ID': 22492, 'img': 'https://irisyen115.synology.me/face_image/22492.jpg'}, {'name': '惠玲', 'ID': 22080, 'img': 'https://irisyen115.synology.me/face_image/22080.jpg'}, {'name': '天穗', 'ID': 23985, 'img': 'https://irisyen115.synology.me/face_image/23985.jpg'}, {'name': '卿玄', 'ID': 22467, 'img': 'https://irisyen115.synology.me/face_image/22467.jpg'}, {'name': '明東', 'ID': 22500, 'img': 'https://irisyen115.synology.me/face_image/22500.jpg'}, {'name': '傳哲', 'ID': 22271, 'img': 'https://irisyen115.synology.me/face_image/22271.jpg'}, {'name': '楚訓', 'ID': 22520, 'img': 'https://irisyen115.synology.me/face_image/22520.jpg'}, {'name': '天澯', 'ID': 24736, 'img': 'https://irisyen115.synology.me/face_image/24736.jpg'}]
+2025-06-12 09:05:36,474 - ERROR - 1
+2025-06-12 09:05:36,474 - ERROR - Building face bubbles for 8 faces
+2025-06-12 09:05:36,474 - ERROR - Building face bubbles for {'name': '辰霖', 'ID': 22492, 'img': 'https://irisyen115.synology.me/face_image/22492.jpg'} faces
+2025-06-12 09:05:36,474 - ERROR - Building face bubbles for {'name': '惠玲', 'ID': 22080, 'img': 'https://irisyen115.synology.me/face_image/22080.jpg'} faces
+2025-06-12 09:05:36,474 - ERROR - Building face bubbles for {'name': '天穗', 'ID': 23985, 'img': 'https://irisyen115.synology.me/face_image/23985.jpg'} faces
+2025-06-12 09:05:36,474 - ERROR - Building face bubbles for {'name': '卿玄', 'ID': 22467, 'img': 'https://irisyen115.synology.me/face_image/22467.jpg'} faces
+2025-06-12 09:05:36,474 - ERROR - Building face bubbles for {'name': '明東', 'ID': 22500, 'img': 'https://irisyen115.synology.me/face_image/22500.jpg'} faces
+2025-06-12 09:05:36,475 - ERROR - Building face bubbles for {'name': '傳哲', 'ID': 22271, 'img': 'https://irisyen115.synology.me/face_image/22271.jpg'} faces
+2025-06-12 09:05:36,475 - ERROR - Building face bubbles for {'name': '楚訓', 'ID': 22520, 'img': 'https://irisyen115.synology.me/face_image/22520.jpg'} faces
+2025-06-12 09:05:36,475 - ERROR - Building face bubbles for {'name': '天澯', 'ID': 24736, 'img': 'https://irisyen115.synology.me/face_image/24736.jpg'} faces
+2025-06-12 09:05:36,475 - ERROR - 12
+2025-06-12 09:05:36,475 - ERROR - 0
+2025-06-12 09:05:36,475 - ERROR - 0
+2025-06-12 09:05:36,475 - ERROR - 1
+2025-06-12 09:05:36,475 - ERROR - 2
+2025-06-12 09:05:36,475 - ERROR - 1
+2025-06-12 09:05:36,476 - ERROR - 0
+2025-06-12 09:05:36,476 - ERROR - 1
+2025-06-12 09:05:36,476 - ERROR - 2
+2025-06-12 09:05:36,476 - ERROR - 2
+2025-06-12 09:05:36,476 - ERROR - 0
+2025-06-12 09:05:36,476 - ERROR - 1
+2025-06-12 09:05:36,476 - ERROR - 2
+2025-06-12 09:05:36,476 - ERROR - 3
+2025-06-12 09:05:36,476 - ERROR - 0
+2025-06-12 09:05:36,476 - ERROR - 1
+2025-06-12 09:05:36,476 - ERROR - 2
+2025-06-12 09:05:36,476 - ERROR - 4
+2025-06-12 09:05:36,477 - ERROR - 0
+2025-06-12 09:05:36,477 - ERROR - 1
+2025-06-12 09:05:36,477 - ERROR - 2
+2025-06-12 09:05:36,477 - ERROR - 5
+2025-06-12 09:05:36,477 - ERROR - 0
+2025-06-12 09:05:36,477 - ERROR - 1
+2025-06-12 09:05:36,477 - ERROR - 2
+2025-06-12 09:05:36,477 - ERROR - 6
+2025-06-12 09:05:36,477 - ERROR - 0
+2025-06-12 09:05:36,477 - ERROR - 1
+2025-06-12 09:05:36,477 - ERROR - 2
+2025-06-12 09:05:36,477 - ERROR - 7
+2025-06-12 09:05:36,478 - ERROR - 0
+2025-06-12 09:05:36,478 - ERROR - 1
+2025-06-12 09:05:36,478 - ERROR - 2
+2025-06-12 09:05:36,757 - INFO - 172.18.0.11 - - [12/Jun/2025 09:05:36] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 09:07:41,006 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.9:5001
+2025-06-12 09:07:41,006 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 09:07:42,100 - ERROR - faces type: <class 'list'>, value: [{'name': '辰霖', 'ID': 22492, 'img': 'https://irisyen115.synology.me/face_image/22492.jpg'}, {'name': '惠玲', 'ID': 22080, 'img': 'https://irisyen115.synology.me/face_image/22080.jpg'}, {'name': '天穗', 'ID': 23985, 'img': 'https://irisyen115.synology.me/face_image/23985.jpg'}, {'name': '卿玄', 'ID': 22467, 'img': 'https://irisyen115.synology.me/face_image/22467.jpg'}, {'name': '明東', 'ID': 22500, 'img': 'https://irisyen115.synology.me/face_image/22500.jpg'}, {'name': '傳哲', 'ID': 22271, 'img': 'https://irisyen115.synology.me/face_image/22271.jpg'}, {'name': '楚訓', 'ID': 22520, 'img': 'https://irisyen115.synology.me/face_image/22520.jpg'}, {'name': '天澯', 'ID': 24736, 'img': 'https://irisyen115.synology.me/face_image/24736.jpg'}]
+2025-06-12 09:07:42,100 - ERROR - faces length: 8
+2025-06-12 09:07:42,100 - ERROR - faces: [{'name': '辰霖', 'ID': 22492, 'img': 'https://irisyen115.synology.me/face_image/22492.jpg'}, {'name': '惠玲', 'ID': 22080, 'img': 'https://irisyen115.synology.me/face_image/22080.jpg'}, {'name': '天穗', 'ID': 23985, 'img': 'https://irisyen115.synology.me/face_image/23985.jpg'}, {'name': '卿玄', 'ID': 22467, 'img': 'https://irisyen115.synology.me/face_image/22467.jpg'}, {'name': '明東', 'ID': 22500, 'img': 'https://irisyen115.synology.me/face_image/22500.jpg'}, {'name': '傳哲', 'ID': 22271, 'img': 'https://irisyen115.synology.me/face_image/22271.jpg'}, {'name': '楚訓', 'ID': 22520, 'img': 'https://irisyen115.synology.me/face_image/22520.jpg'}, {'name': '天澯', 'ID': 24736, 'img': 'https://irisyen115.synology.me/face_image/24736.jpg'}]
+2025-06-12 09:07:42,100 - ERROR - 1
+2025-06-12 09:07:42,100 - ERROR - Building face bubbles for 8 faces
+2025-06-12 09:07:42,100 - ERROR - Building face bubbles for {'name': '辰霖', 'ID': 22492, 'img': 'https://irisyen115.synology.me/face_image/22492.jpg'} faces
+2025-06-12 09:07:42,101 - ERROR - Building face bubbles for {'name': '惠玲', 'ID': 22080, 'img': 'https://irisyen115.synology.me/face_image/22080.jpg'} faces
+2025-06-12 09:07:42,101 - ERROR - Building face bubbles for {'name': '天穗', 'ID': 23985, 'img': 'https://irisyen115.synology.me/face_image/23985.jpg'} faces
+2025-06-12 09:07:42,101 - ERROR - Building face bubbles for {'name': '卿玄', 'ID': 22467, 'img': 'https://irisyen115.synology.me/face_image/22467.jpg'} faces
+2025-06-12 09:07:42,101 - ERROR - Building face bubbles for {'name': '明東', 'ID': 22500, 'img': 'https://irisyen115.synology.me/face_image/22500.jpg'} faces
+2025-06-12 09:07:42,101 - ERROR - Building face bubbles for {'name': '傳哲', 'ID': 22271, 'img': 'https://irisyen115.synology.me/face_image/22271.jpg'} faces
+2025-06-12 09:07:42,101 - ERROR - Building face bubbles for {'name': '楚訓', 'ID': 22520, 'img': 'https://irisyen115.synology.me/face_image/22520.jpg'} faces
+2025-06-12 09:07:42,101 - ERROR - Building face bubbles for {'name': '天澯', 'ID': 24736, 'img': 'https://irisyen115.synology.me/face_image/24736.jpg'} faces
+2025-06-12 09:07:42,101 - ERROR - 12
+2025-06-12 09:07:42,102 - ERROR - 0
+2025-06-12 09:07:42,102 - ERROR - 0
+2025-06-12 09:07:42,102 - ERROR - 1
+2025-06-12 09:07:42,102 - ERROR - 2
+2025-06-12 09:07:42,102 - ERROR - 1
+2025-06-12 09:07:42,102 - ERROR - 0
+2025-06-12 09:07:42,102 - ERROR - 1
+2025-06-12 09:07:42,102 - ERROR - 2
+2025-06-12 09:07:42,102 - ERROR - 2
+2025-06-12 09:07:42,102 - ERROR - 0
+2025-06-12 09:07:42,102 - ERROR - 1
+2025-06-12 09:07:42,103 - ERROR - 2
+2025-06-12 09:07:42,103 - ERROR - 3
+2025-06-12 09:07:42,103 - ERROR - 0
+2025-06-12 09:07:42,103 - ERROR - 1
+2025-06-12 09:07:42,103 - ERROR - 2
+2025-06-12 09:07:42,103 - ERROR - 4
+2025-06-12 09:07:42,103 - ERROR - 0
+2025-06-12 09:07:42,103 - ERROR - 1
+2025-06-12 09:07:42,103 - ERROR - 2
+2025-06-12 09:07:42,103 - ERROR - 5
+2025-06-12 09:07:42,103 - ERROR - 0
+2025-06-12 09:07:42,103 - ERROR - 1
+2025-06-12 09:07:42,104 - ERROR - 2
+2025-06-12 09:07:42,104 - ERROR - 6
+2025-06-12 09:07:42,104 - ERROR - 0
+2025-06-12 09:07:42,104 - ERROR - 1
+2025-06-12 09:07:42,104 - ERROR - 2
+2025-06-12 09:07:42,104 - ERROR - 7
+2025-06-12 09:07:42,104 - ERROR - 0
+2025-06-12 09:07:42,104 - ERROR - 1
+2025-06-12 09:07:42,104 - ERROR - 2
+2025-06-12 09:07:42,393 - INFO - 172.18.0.11 - - [12/Jun/2025 09:07:42] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 09:14:14,314 - ERROR - Error in /api/webhook: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+[SQL: SELECT line_binding_user.line_id AS line_binding_user_line_id 
+FROM line_binding_user]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-06-12 09:14:14,339 - INFO - 172.18.0.11 - - [12/Jun/2025 09:14:14] "[35m[1mPOST /api/webhook HTTP/1.0[0m" 500 -
+2025-06-12 09:14:23,642 - ERROR - faces type: <class 'list'>, value: [{'name': '辰霖', 'ID': 22492, 'img': 'https://irisyen115.synology.me/face_image/22492.jpg'}, {'name': '惠玲', 'ID': 22080, 'img': 'https://irisyen115.synology.me/face_image/22080.jpg'}, {'name': '天穗', 'ID': 23985, 'img': 'https://irisyen115.synology.me/face_image/23985.jpg'}, {'name': '卿玄', 'ID': 22467, 'img': 'https://irisyen115.synology.me/face_image/22467.jpg'}, {'name': '明東', 'ID': 22500, 'img': 'https://irisyen115.synology.me/face_image/22500.jpg'}, {'name': '傳哲', 'ID': 22271, 'img': 'https://irisyen115.synology.me/face_image/22271.jpg'}, {'name': '楚訓', 'ID': 22520, 'img': 'https://irisyen115.synology.me/face_image/22520.jpg'}, {'name': '天澯', 'ID': 24736, 'img': 'https://irisyen115.synology.me/face_image/24736.jpg'}]
+2025-06-12 09:14:23,642 - ERROR - faces length: 8
+2025-06-12 09:14:23,642 - ERROR - faces: [{'name': '辰霖', 'ID': 22492, 'img': 'https://irisyen115.synology.me/face_image/22492.jpg'}, {'name': '惠玲', 'ID': 22080, 'img': 'https://irisyen115.synology.me/face_image/22080.jpg'}, {'name': '天穗', 'ID': 23985, 'img': 'https://irisyen115.synology.me/face_image/23985.jpg'}, {'name': '卿玄', 'ID': 22467, 'img': 'https://irisyen115.synology.me/face_image/22467.jpg'}, {'name': '明東', 'ID': 22500, 'img': 'https://irisyen115.synology.me/face_image/22500.jpg'}, {'name': '傳哲', 'ID': 22271, 'img': 'https://irisyen115.synology.me/face_image/22271.jpg'}, {'name': '楚訓', 'ID': 22520, 'img': 'https://irisyen115.synology.me/face_image/22520.jpg'}, {'name': '天澯', 'ID': 24736, 'img': 'https://irisyen115.synology.me/face_image/24736.jpg'}]
+2025-06-12 09:14:23,642 - ERROR - 1
+2025-06-12 09:14:23,642 - ERROR - Building face bubbles for 8 faces
+2025-06-12 09:14:23,643 - ERROR - Building face bubbles for {'name': '辰霖', 'ID': 22492, 'img': 'https://irisyen115.synology.me/face_image/22492.jpg'} faces
+2025-06-12 09:14:23,643 - ERROR - Building face bubbles for {'name': '惠玲', 'ID': 22080, 'img': 'https://irisyen115.synology.me/face_image/22080.jpg'} faces
+2025-06-12 09:14:23,643 - ERROR - Building face bubbles for {'name': '天穗', 'ID': 23985, 'img': 'https://irisyen115.synology.me/face_image/23985.jpg'} faces
+2025-06-12 09:14:23,643 - ERROR - Building face bubbles for {'name': '卿玄', 'ID': 22467, 'img': 'https://irisyen115.synology.me/face_image/22467.jpg'} faces
+2025-06-12 09:14:23,643 - ERROR - Building face bubbles for {'name': '明東', 'ID': 22500, 'img': 'https://irisyen115.synology.me/face_image/22500.jpg'} faces
+2025-06-12 09:14:23,643 - ERROR - Building face bubbles for {'name': '傳哲', 'ID': 22271, 'img': 'https://irisyen115.synology.me/face_image/22271.jpg'} faces
+2025-06-12 09:14:23,643 - ERROR - Building face bubbles for {'name': '楚訓', 'ID': 22520, 'img': 'https://irisyen115.synology.me/face_image/22520.jpg'} faces
+2025-06-12 09:14:23,643 - ERROR - Building face bubbles for {'name': '天澯', 'ID': 24736, 'img': 'https://irisyen115.synology.me/face_image/24736.jpg'} faces
+2025-06-12 09:14:23,644 - ERROR - 12
+2025-06-12 09:14:23,644 - ERROR - 0
+2025-06-12 09:14:23,644 - ERROR - 0
+2025-06-12 09:14:23,644 - ERROR - 1
+2025-06-12 09:14:23,644 - ERROR - 2
+2025-06-12 09:14:23,644 - ERROR - 1
+2025-06-12 09:14:23,644 - ERROR - 0
+2025-06-12 09:14:23,644 - ERROR - 1
+2025-06-12 09:14:23,644 - ERROR - 2
+2025-06-12 09:14:23,644 - ERROR - 2
+2025-06-12 09:14:23,644 - ERROR - 0
+2025-06-12 09:14:23,645 - ERROR - 1
+2025-06-12 09:14:23,645 - ERROR - 2
+2025-06-12 09:14:23,645 - ERROR - 3
+2025-06-12 09:14:23,645 - ERROR - 0
+2025-06-12 09:14:23,645 - ERROR - 1
+2025-06-12 09:14:23,645 - ERROR - 2
+2025-06-12 09:14:23,645 - ERROR - 4
+2025-06-12 09:14:23,645 - ERROR - 0
+2025-06-12 09:14:23,645 - ERROR - 1
+2025-06-12 09:14:23,645 - ERROR - 2
+2025-06-12 09:14:23,645 - ERROR - 5
+2025-06-12 09:14:23,645 - ERROR - 0
+2025-06-12 09:14:23,646 - ERROR - 1
+2025-06-12 09:14:23,646 - ERROR - 2
+2025-06-12 09:14:23,646 - ERROR - 6
+2025-06-12 09:14:23,646 - ERROR - 0
+2025-06-12 09:14:23,646 - ERROR - 1
+2025-06-12 09:14:23,646 - ERROR - 2
+2025-06-12 09:14:23,646 - ERROR - 7
+2025-06-12 09:14:23,646 - ERROR - 0
+2025-06-12 09:14:23,646 - ERROR - 1
+2025-06-12 09:14:23,646 - ERROR - 2
+2025-06-12 09:14:23,939 - INFO - 172.18.0.11 - - [12/Jun/2025 09:14:23] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 09:16:21,747 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.9:5001
+2025-06-12 09:16:21,749 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 09:16:51,414 - ERROR - faces type: <class 'list'>, value: [{'name': '辰霖', 'ID': 22492, 'img': 'https://irisyen115.synology.me/images/22492.jpg'}, {'name': '惠玲', 'ID': 22080, 'img': 'https://irisyen115.synology.me/images/22080.jpg'}, {'name': '天穗', 'ID': 23985, 'img': 'https://irisyen115.synology.me/images/23985.jpg'}, {'name': '卿玄', 'ID': 22467, 'img': 'https://irisyen115.synology.me/images/22467.jpg'}, {'name': '明東', 'ID': 22500, 'img': 'https://irisyen115.synology.me/images/22500.jpg'}, {'name': '傳哲', 'ID': 22271, 'img': 'https://irisyen115.synology.me/images/22271.jpg'}, {'name': '楚訓', 'ID': 22520, 'img': 'https://irisyen115.synology.me/images/22520.jpg'}, {'name': '天澯', 'ID': 24736, 'img': 'https://irisyen115.synology.me/images/24736.jpg'}]
+2025-06-12 09:16:51,414 - ERROR - faces length: 8
+2025-06-12 09:16:51,414 - ERROR - faces: [{'name': '辰霖', 'ID': 22492, 'img': 'https://irisyen115.synology.me/images/22492.jpg'}, {'name': '惠玲', 'ID': 22080, 'img': 'https://irisyen115.synology.me/images/22080.jpg'}, {'name': '天穗', 'ID': 23985, 'img': 'https://irisyen115.synology.me/images/23985.jpg'}, {'name': '卿玄', 'ID': 22467, 'img': 'https://irisyen115.synology.me/images/22467.jpg'}, {'name': '明東', 'ID': 22500, 'img': 'https://irisyen115.synology.me/images/22500.jpg'}, {'name': '傳哲', 'ID': 22271, 'img': 'https://irisyen115.synology.me/images/22271.jpg'}, {'name': '楚訓', 'ID': 22520, 'img': 'https://irisyen115.synology.me/images/22520.jpg'}, {'name': '天澯', 'ID': 24736, 'img': 'https://irisyen115.synology.me/images/24736.jpg'}]
+2025-06-12 09:16:51,414 - ERROR - 1
+2025-06-12 09:16:51,415 - ERROR - Building face bubbles for 8 faces
+2025-06-12 09:16:51,415 - ERROR - Building face bubbles for {'name': '辰霖', 'ID': 22492, 'img': 'https://irisyen115.synology.me/images/22492.jpg'} faces
+2025-06-12 09:16:51,415 - ERROR - Building face bubbles for {'name': '惠玲', 'ID': 22080, 'img': 'https://irisyen115.synology.me/images/22080.jpg'} faces
+2025-06-12 09:16:51,415 - ERROR - Building face bubbles for {'name': '天穗', 'ID': 23985, 'img': 'https://irisyen115.synology.me/images/23985.jpg'} faces
+2025-06-12 09:16:51,415 - ERROR - Building face bubbles for {'name': '卿玄', 'ID': 22467, 'img': 'https://irisyen115.synology.me/images/22467.jpg'} faces
+2025-06-12 09:16:51,415 - ERROR - Building face bubbles for {'name': '明東', 'ID': 22500, 'img': 'https://irisyen115.synology.me/images/22500.jpg'} faces
+2025-06-12 09:16:51,416 - ERROR - Building face bubbles for {'name': '傳哲', 'ID': 22271, 'img': 'https://irisyen115.synology.me/images/22271.jpg'} faces
+2025-06-12 09:16:51,416 - ERROR - Building face bubbles for {'name': '楚訓', 'ID': 22520, 'img': 'https://irisyen115.synology.me/images/22520.jpg'} faces
+2025-06-12 09:16:51,416 - ERROR - Building face bubbles for {'name': '天澯', 'ID': 24736, 'img': 'https://irisyen115.synology.me/images/24736.jpg'} faces
+2025-06-12 09:16:51,416 - ERROR - 12
+2025-06-12 09:16:51,416 - ERROR - 0
+2025-06-12 09:16:51,416 - ERROR - 0
+2025-06-12 09:16:51,416 - ERROR - 1
+2025-06-12 09:16:51,416 - ERROR - 2
+2025-06-12 09:16:51,416 - ERROR - 1
+2025-06-12 09:16:51,416 - ERROR - 0
+2025-06-12 09:16:51,417 - ERROR - 1
+2025-06-12 09:16:51,417 - ERROR - 2
+2025-06-12 09:16:51,417 - ERROR - 2
+2025-06-12 09:16:51,417 - ERROR - 0
+2025-06-12 09:16:51,417 - ERROR - 1
+2025-06-12 09:16:51,417 - ERROR - 2
+2025-06-12 09:16:51,417 - ERROR - 3
+2025-06-12 09:16:51,417 - ERROR - 0
+2025-06-12 09:16:51,417 - ERROR - 1
+2025-06-12 09:16:51,417 - ERROR - 2
+2025-06-12 09:16:51,417 - ERROR - 4
+2025-06-12 09:16:51,418 - ERROR - 0
+2025-06-12 09:16:51,418 - ERROR - 1
+2025-06-12 09:16:51,418 - ERROR - 2
+2025-06-12 09:16:51,418 - ERROR - 5
+2025-06-12 09:16:51,418 - ERROR - 0
+2025-06-12 09:16:51,418 - ERROR - 1
+2025-06-12 09:16:51,418 - ERROR - 2
+2025-06-12 09:16:51,418 - ERROR - 6
+2025-06-12 09:16:51,418 - ERROR - 0
+2025-06-12 09:16:51,418 - ERROR - 1
+2025-06-12 09:16:51,418 - ERROR - 2
+2025-06-12 09:16:51,419 - ERROR - 7
+2025-06-12 09:16:51,419 - ERROR - 0
+2025-06-12 09:16:51,419 - ERROR - 1
+2025-06-12 09:16:51,419 - ERROR - 2
+2025-06-12 09:16:51,734 - INFO - 172.18.0.11 - - [12/Jun/2025 09:16:51] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 09:18:38,560 - ERROR - people_list.json 不存在，嘗試從遠端服務獲取
+2025-06-12 09:18:38,807 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.9:5001
+2025-06-12 09:18:38,808 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 09:18:55,951 - ERROR - people_list.json 不存在，嘗試從遠端服務獲取
+2025-06-12 09:18:56,244 - INFO - 172.18.0.11 - - [12/Jun/2025 09:18:56] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 09:46:06,078 - ERROR - people_list.json 不存在，嘗試從遠端服務獲取
+2025-06-12 09:46:06,315 - INFO - 172.18.0.11 - - [12/Jun/2025 09:46:06] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 09:48:28,914 - ERROR - people_list.json 不存在，嘗試從遠端服務獲取
+2025-06-12 09:48:29,195 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.9:5001
+2025-06-12 09:48:29,195 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 09:49:27,536 - ERROR - people_list.json 不存在，嘗試從遠端服務獲取
+2025-06-12 09:49:27,804 - INFO - 172.18.0.11 - - [12/Jun/2025 09:49:27] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 09:49:36,537 - ERROR - people_list.json 不存在，嘗試從遠端服務獲取
+2025-06-12 09:49:36,762 - INFO - 172.18.0.11 - - [12/Jun/2025 09:49:36] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 09:50:07,059 - ERROR - people_list.json 不存在，嘗試從遠端服務獲取
+2025-06-12 09:50:07,322 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.9:5001
+2025-06-12 09:50:07,322 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 09:50:13,050 - ERROR - people_list.json 不存在，嘗試從遠端服務獲取
+2025-06-12 09:50:13,390 - INFO - 172.18.0.11 - - [12/Jun/2025 09:50:13] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 09:50:18,943 - ERROR - people_list.json 不存在，嘗試從遠端服務獲取
+2025-06-12 09:50:19,180 - INFO - 172.18.0.11 - - [12/Jun/2025 09:50:19] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 09:50:46,714 - ERROR - people_list.json 不存在，嘗試從遠端服務獲取
+2025-06-12 09:50:46,961 - INFO - 172.18.0.11 - - [12/Jun/2025 09:50:46] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 09:51:13,808 - ERROR - people_list.json 不存在，嘗試從遠端服務獲取
+2025-06-12 09:51:14,214 - INFO - 172.18.0.11 - - [12/Jun/2025 09:51:14] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 09:51:22,390 - ERROR - people_list.json 不存在，嘗試從遠端服務獲取
+2025-06-12 09:51:22,623 - INFO - 172.18.0.11 - - [12/Jun/2025 09:51:22] "POST /api/webhook HTTP/1.0" 200 -
+2025-06-12 09:54:52,592 - ERROR - people_list_path: /app/people_list/people_list.json
+2025-06-12 09:54:52,592 - ERROR - people_list.json 不存在，嘗試從遠端服務獲取
+2025-06-12 09:54:52,593 - ERROR - people_list.json 不存在，嘗試從遠端服務獲取
+2025-06-12 09:54:52,764 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.18.0.9:5001
+2025-06-12 09:54:52,764 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 09:55:06,213 - ERROR - faces type: <class 'list'>, value: [{'ID': 22492, 'img': 'https://irisyen115.synology.me/images/22492.jpg', 'name': '辰霖'}, {'ID': 22080, 'img': 'https://irisyen115.synology.me/images/22080.jpg', 'name': '惠玲'}, {'ID': 23985, 'img': 'https://irisyen115.synology.me/images/23985.jpg', 'name': '天穗'}, {'ID': 22467, 'img': 'https://irisyen115.synology.me/images/22467.jpg', 'name': '卿玄'}, {'ID': 22500, 'img': 'https://irisyen115.synology.me/images/22500.jpg', 'name': '明東'}, {'ID': 22271, 'img': 'https://irisyen115.synology.me/images/22271.jpg', 'name': '傳哲'}, {'ID': 22520, 'img': 'https://irisyen115.synology.me/images/22520.jpg', 'name': '楚訓'}, {'ID': 24736, 'img': 'https://irisyen115.synology.me/images/24736.jpg', 'name': '天澯'}]
+2025-06-12 09:55:06,214 - ERROR - faces length: 8
+2025-06-12 09:55:06,214 - ERROR - faces: [{'ID': 22492, 'img': 'https://irisyen115.synology.me/images/22492.jpg', 'name': '辰霖'}, {'ID': 22080, 'img': 'https://irisyen115.synology.me/images/22080.jpg', 'name': '惠玲'}, {'ID': 23985, 'img': 'https://irisyen115.synology.me/images/23985.jpg', 'name': '天穗'}, {'ID': 22467, 'img': 'https://irisyen115.synology.me/images/22467.jpg', 'name': '卿玄'}, {'ID': 22500, 'img': 'https://irisyen115.synology.me/images/22500.jpg', 'name': '明東'}, {'ID': 22271, 'img': 'https://irisyen115.synology.me/images/22271.jpg', 'name': '傳哲'}, {'ID': 22520, 'img': 'https://irisyen115.synology.me/images/22520.jpg', 'name': '楚訓'}, {'ID': 24736, 'img': 'https://irisyen115.synology.me/images/24736.jpg', 'name': '天澯'}]
+2025-06-12 09:55:06,214 - ERROR - 1
+2025-06-12 09:55:06,214 - ERROR - Building face bubbles for 8 faces
+2025-06-12 09:55:06,214 - ERROR - Building face bubbles for {'ID': 22492, 'img': 'https://irisyen115.synology.me/images/22492.jpg', 'name': '辰霖'} faces
+2025-06-12 09:55:06,214 - ERROR - Building face bubbles for {'ID': 22080, 'img': 'https://irisyen115.synology.me/images/22080.jpg', 'name': '惠玲'} faces
+2025-06-12 09:55:06,214 - ERROR - Building face bubbles for {'ID': 23985, 'img': 'https://irisyen115.synology.me/images/23985.jpg', 'name': '天穗'} faces
+2025-06-12 09:55:06,214 - ERROR - Building face bubbles for {'ID': 22467, 'img': 'https://irisyen115.synology.me/images/22467.jpg', 'name': '卿玄'} faces
+2025-06-12 09:55:06,215 - ERROR - Building face bubbles for {'ID': 22500, 'img': 'https://irisyen115.synology.me/images/22500.jpg', 'name': '明東'} faces
+2025-06-12 09:55:06,215 - ERROR - Building face bubbles for {'ID': 22271, 'img': 'https://irisyen115.synology.me/images/22271.jpg', 'name': '傳哲'} faces
+2025-06-12 09:55:06,215 - ERROR - Building face bubbles for {'ID': 22520, 'img': 'https://irisyen115.synology.me/images/22520.jpg', 'name': '楚訓'} faces
+2025-06-12 09:55:06,215 - ERROR - Building face bubbles for {'ID': 24736, 'img': 'https://irisyen115.synology.me/images/24736.jpg', 'name': '天澯'} faces
+2025-06-12 09:55:06,215 - ERROR - 12
+2025-06-12 09:55:06,215 - ERROR - 0
+2025-06-12 09:55:06,215 - ERROR - 0
+2025-06-12 09:55:06,215 - ERROR - 1
+2025-06-12 09:55:06,215 - ERROR - 2
+2025-06-12 09:55:06,215 - ERROR - 1
+2025-06-12 09:55:06,215 - ERROR - 0
+2025-06-12 09:55:06,216 - ERROR - 1
+2025-06-12 09:55:06,216 - ERROR - 2
+2025-06-12 09:55:06,216 - ERROR - 2
+2025-06-12 09:55:06,216 - ERROR - 0
+2025-06-12 09:55:06,216 - ERROR - 1
+2025-06-12 09:55:06,216 - ERROR - 2
+2025-06-12 09:55:06,216 - ERROR - 3
+2025-06-12 09:55:06,216 - ERROR - 0
+2025-06-12 09:55:06,216 - ERROR - 1
+2025-06-12 09:55:06,216 - ERROR - 2
+2025-06-12 09:55:06,216 - ERROR - 4
+2025-06-12 09:55:06,216 - ERROR - 0
+2025-06-12 09:55:06,217 - ERROR - 1
+2025-06-12 09:55:06,217 - ERROR - 2
+2025-06-12 09:55:06,217 - ERROR - 5
+2025-06-12 09:55:06,217 - ERROR - 0
+2025-06-12 09:55:06,217 - ERROR - 1
+2025-06-12 09:55:06,217 - ERROR - 2
+2025-06-12 09:55:06,217 - ERROR - 6
+2025-06-12 09:55:06,217 - ERROR - 0
+2025-06-12 09:55:06,217 - ERROR - 1
+2025-06-12 09:55:06,217 - ERROR - 2
+2025-06-12 09:55:06,217 - ERROR - 7
+2025-06-12 09:55:06,217 - ERROR - 0
+2025-06-12 09:55:06,218 - ERROR - 1
+2025-06-12 09:55:06,218 - ERROR - 2
+2025-06-12 09:55:06,479 - INFO - 172.18.0.11 - - [12/Jun/2025 09:55:06] "POST /api/webhook HTTP/1.0" 200 -

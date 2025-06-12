@@ -4,16 +4,21 @@ import mimetypes
 import requests
 from googleapiclient.discovery import build
 from google.auth.transport.requests import Request
-from google_auth_oauthlib.flow import InstalledAppFlow
 import json
+from google_auth_oauthlib.flow import Flow
+from google_auth_oauthlib.flow import InstalledAppFlow
 
 SCOPES = [
-    "https://www.googleapis.com/auth/photoslibrary",
-    "https://www.googleapis.com/auth/photoslibrary.readonly",
-    "https://www.googleapis.com/auth/photoslibrary.appendonly",
     "https://www.googleapis.com/auth/photoslibrary.sharing",
-    "https://www.googleapis.com/auth/photoslibrary.readonly.appcreateddata",
     "https://www.googleapis.com/auth/photoslibrary.edit.appcreateddata",
+    "https://www.googleapis.com/auth/photoslibrary.appendonly",
+    "https://www.googleapis.com/auth/photoslibrary.readonly",
+    "https://www.googleapis.com/auth/photoslibrary",
+    "https://www.googleapis.com/auth/photoslibrary.readonly.appcreateddata",
+    "openid",
+    "https://www.googleapis.com/auth/userinfo.profile",
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/drive.metadata.readonly",
 ]
 
 API_BASE_URL = 'https://photoslibrary.googleapis.com/v1/'
@@ -21,8 +26,70 @@ UPLOAD_PHOTO_BYTES_ENDPOINT = f'{API_BASE_URL}uploads'
 ADD_MEDIA_ITEMS_TO_ALBUM_ENDPOINT = f'{API_BASE_URL}mediaItems:batchCreate'
 UPLOAD_PHOTO_NUM = 10
 
+# CLIENT_SECRETS_FILE = '/app/client_secret.json'
+# with open(CLIENT_SECRETS_FILE, "r") as f:
+#     client_data = json.load(f)
+
+# web_config = client_data["web"]
+# CLIENT_ID = web_config["client_id"]
+# CLIENT_SECRET = web_config["client_secret"]
+# REDIRECT_URI = web_config["redirect_uris"][0]  # 取第一個 URI
+# AUTH_URI = web_config["auth_uri"]
+# TOKEN_URI = web_config["token_uri"]
+
 def get_mime(file_path):
     return str(mimetypes.guess_type(file_path)[0])
+
+# def get_auth_url():
+#     flow = Flow.from_client_secrets_file(
+#         CLIENT_SECRETS_FILE,
+#         scopes=SCOPES,
+#         redirect_uri=REDIRECT_URI,
+#     )
+
+#     auth_url, state = flow.authorization_url(
+#         access_type='offline',
+#         include_granted_scopes='true',
+#         prompt='consent'
+#     )
+
+#     print(f"[DEBUG] Generated state: {state}")
+#     # 儲存 state，後續 callback 需使用
+#     with open("oauth_state.json", "w") as f:
+#         json.dump({"state": state}, f)
+
+#     return auth_url
+
+# def handle_oauth_callback(request_url):
+#     try:
+#         with open("oauth_state.json", "r") as f:
+#             state = json.load(f).get("state")
+
+#         flow = Flow.from_client_config(
+#             client_data,
+#             scopes=SCOPES,
+#             redirect_uri=REDIRECT_URI,
+#             state=state,
+#         )
+
+#         flow.fetch_token(authorization_response=request_url)
+#         creds = flow.credentials
+
+#         with open("token.pickle", "wb") as token_file:
+#             pickle.dump(creds, token_file)
+
+#         return creds
+
+#     except Exception as e:
+#         print(f"[ERROR] OAuth callback error: {e}")
+#         raise
+
+# def load_credentials():
+#     if os.path.exists("token.pickle"):
+#         with open("token.pickle", "rb") as token_file:
+#             creds = pickle.load(token_file)
+#         return creds
+#     return None
 
 def authenticate():
     creds = None
@@ -34,12 +101,14 @@ def authenticate():
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file("client_secret.json", SCOPES)
-            creds = flow.run_local_server(open_browser=False)
+            creds = flow.run_local_server(port=0, open_browser=False)
         with open("token.pickle", "wb") as tokenFile:
             pickle.dump(creds, tokenFile)
     return creds
 
 def get_service(creds):
+    if creds and creds.expired and creds.refresh_token:
+        creds.refresh(Request())
     return build('photoslibrary', 'v1', credentials=creds, static_discovery=False)
 
 def get_or_create_album(service, album_name="My New Album"):
@@ -75,6 +144,38 @@ def get_media_items_in_album(service, album_id):
 
     return media_item_ids
 
+def list_media_items_in_album(service, album_id):
+    media_items = []
+    next_page_token = None
+
+    while True:
+        body = {"albumId": album_id}
+        if next_page_token:
+            body["pageToken"] = next_page_token
+
+        response = service.mediaItems().search(body=body).execute()
+
+        items = response.get("mediaItems", [])
+        media_items.extend(items)
+
+        next_page_token = response.get("nextPageToken")
+        if not next_page_token:
+            break
+
+    return media_items
+
+def find_media_item_ids_by_filenames(media_items, filenames):
+    filename_set = set(filenames)
+    found_ids = []
+
+    for item in media_items:
+        # 取 filename（有些在 mediaMetadata 裡，有些在外層）
+        fname = item.get("mediaMetadata", {}).get("filename") or item.get("filename")
+        if fname in filename_set:
+            found_ids.append(item["id"])
+
+    return found_ids
+
 def remove_all_items_from_album(service, album_id, media_item_ids):
     url = f"{API_BASE_URL}albums/{album_id}:batchRemoveMediaItems"
 
@@ -97,9 +198,9 @@ def remove_all_items_from_album(service, album_id, media_item_ids):
         )
 
         if response.status == 200:
-            print(f"成功移除第 {i // batch_size + 1} 批媒體項目")
+            print(f"成功移除媒體項目")
         else:
-            print(f"失敗（第 {i // batch_size + 1} 批）：", response.status, content.decode())
+            print(f"失敗：", response.status, content.decode())
             break
 
 def list_photos(service):

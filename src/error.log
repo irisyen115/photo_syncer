@@ -1,0 +1,360 @@
+2025-06-12 03:02:13,165 - WARNING -  * Debugger is active!
+2025-06-12 03:02:13,167 - INFO -  * Debugger PIN: 139-595-561
+2025-06-12 03:02:35,327 - INFO -  * Detected change in '/app/controllers/photo_controller.py', reloading
+2025-06-12 03:02:37,455 - WARNING -  * Debugger is active!
+2025-06-12 03:02:37,457 - INFO -  * Debugger PIN: 139-595-561
+2025-06-12 03:02:45,527 - INFO -  * Detected change in '/app/lib/synlogy.py', reloading
+2025-06-12 03:02:47,522 - WARNING -  * Debugger is active!
+2025-06-12 03:02:47,524 - INFO -  * Debugger PIN: 139-595-561
+2025-06-12 03:03:08,671 - INFO -  * Detected change in '/app/lib/synlogy.py', reloading
+2025-06-12 03:03:10,622 - WARNING -  * Debugger is active!
+2025-06-12 03:03:10,623 - INFO -  * Debugger PIN: 139-595-561
+2025-06-12 03:03:13,661 - INFO -  * Detected change in '/app/service/batch_service.py', reloading
+2025-06-12 03:03:15,674 - WARNING -  * Debugger is active!
+2025-06-12 03:03:15,675 - INFO -  * Debugger PIN: 139-595-561
+2025-06-12 03:03:51,935 - INFO -  * Detected change in '/app/service/batch_service.py', reloading
+2025-06-12 03:03:54,191 - WARNING -  * Debugger is active!
+2025-06-12 03:03:54,193 - INFO -  * Debugger PIN: 139-595-561
+2025-06-12 03:03:57,232 - INFO -  * Detected change in '/app/service/batch_service.py', reloading
+2025-06-12 03:03:59,304 - WARNING -  * Debugger is active!
+2025-06-12 03:03:59,305 - INFO -  * Debugger PIN: 139-595-561
+2025-06-12 03:04:04,355 - INFO -  * Detected change in '/app/service/google_service.py', reloading
+2025-06-12 03:04:06,257 - WARNING -  * Debugger is active!
+2025-06-12 03:04:06,258 - INFO -  * Debugger PIN: 139-595-561
+2025-06-12 03:04:28,422 - INFO -  * Detected change in '/app/service/sync_service.py', reloading
+2025-06-12 03:04:30,719 - WARNING -  * Debugger is active!
+2025-06-12 03:04:30,720 - INFO -  * Debugger PIN: 139-595-561
+2025-06-12 03:04:42,814 - INFO -  * Detected change in '/app/service/sync_service.py', reloading
+2025-06-12 03:04:44,727 - WARNING -  * Debugger is active!
+2025-06-12 03:04:44,728 - INFO -  * Debugger PIN: 139-595-561
+2025-06-12 03:04:57,833 - INFO -  * Detected change in '/app/service/sync_service.py', reloading
+2025-06-12 03:05:00,107 - WARNING -  * Debugger is active!
+2025-06-12 03:05:00,108 - INFO -  * Debugger PIN: 139-595-561
+2025-06-12 03:05:16,483 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5050
+ * Running on http://172.18.0.8:5050
+2025-06-12 03:05:16,483 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 03:05:16,484 - INFO -  * Restarting with stat
+2025-06-12 03:05:18,035 - WARNING -  * Debugger is active!
+2025-06-12 03:05:18,036 - INFO -  * Debugger PIN: 139-595-561
+2025-06-12 03:05:50,202 - ERROR - Person ID in session: 22492
+2025-06-12 03:06:13,546 - INFO - 172.18.0.1 - - [12/Jun/2025 03:06:13] "POST /sync_photos?22492 HTTP/1.0" 200 -
+2025-06-12 06:22:30,945 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5050
+ * Running on http://172.18.0.10:5050
+2025-06-12 06:22:30,946 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 06:22:30,948 - INFO -  * Restarting with stat
+2025-06-12 06:22:32,707 - WARNING -  * Debugger is active!
+2025-06-12 06:22:32,709 - INFO -  * Debugger PIN: 112-118-732
+2025-06-12 06:33:26,791 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5050
+ * Running on http://172.18.0.10:5050
+2025-06-12 06:33:26,791 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 06:33:26,793 - INFO -  * Restarting with stat
+2025-06-12 06:33:28,359 - WARNING -  * Debugger is active!
+2025-06-12 06:33:28,360 - INFO -  * Debugger PIN: 112-118-732
+2025-06-12 06:46:43,143 - INFO -  * Detected change in '/app/service/sync_service.py', reloading
+2025-06-12 06:46:43,598 - INFO -  * Restarting with stat
+2025-06-12 06:46:45,349 - WARNING -  * Debugger is active!
+2025-06-12 06:46:45,350 - INFO -  * Debugger PIN: 112-118-732
+2025-06-12 06:47:21,584 - INFO -  * Detected change in '/app/service/sync_service.py', reloading
+2025-06-12 06:47:21,953 - INFO -  * Restarting with stat
+2025-06-12 06:47:23,602 - WARNING -  * Debugger is active!
+2025-06-12 06:47:23,604 - INFO -  * Debugger PIN: 112-118-732
+2025-06-12 06:51:40,163 - INFO -  * Detected change in '/app/service/sync_service.py', reloading
+2025-06-12 06:51:40,493 - INFO -  * Restarting with stat
+2025-06-12 06:51:42,209 - WARNING -  * Debugger is active!
+2025-06-12 06:51:42,210 - INFO -  * Debugger PIN: 112-118-732
+2025-06-12 06:51:43,235 - INFO -  * Detected change in '/app/service/sync_service.py', reloading
+2025-06-12 06:51:43,560 - INFO -  * Restarting with stat
+2025-06-12 06:51:45,129 - WARNING -  * Debugger is active!
+2025-06-12 06:51:45,130 - INFO -  * Debugger PIN: 112-118-732
+2025-06-12 06:52:19,361 - INFO -  * Detected change in '/app/controllers/sync_controller.py', reloading
+2025-06-12 06:52:19,683 - INFO -  * Restarting with stat
+2025-06-12 06:52:21,256 - WARNING -  * Debugger is active!
+2025-06-12 06:52:21,257 - INFO -  * Debugger PIN: 112-118-732
+2025-06-12 06:52:23,289 - INFO -  * Detected change in '/app/controllers/sync_controller.py', reloading
+2025-06-12 06:52:23,614 - INFO -  * Restarting with stat
+2025-06-12 06:52:25,176 - WARNING -  * Debugger is active!
+2025-06-12 06:52:25,177 - INFO -  * Debugger PIN: 112-118-732
+2025-06-12 06:53:28,572 - INFO -  * Detected change in '/app/controllers/sync_controller.py', reloading
+2025-06-12 06:53:28,896 - INFO -  * Restarting with stat
+2025-06-12 06:53:30,489 - WARNING -  * Debugger is active!
+2025-06-12 06:53:30,491 - INFO -  * Debugger PIN: 112-118-732
+2025-06-12 06:57:25,234 - INFO - 172.18.0.1 - - [12/Jun/2025 06:57:25] "[33mGET /people_list HTTP/1.0[0m" 404 -
+2025-06-12 06:57:41,614 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5050
+ * Running on http://172.18.0.10:5050
+2025-06-12 06:57:41,615 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 06:57:41,616 - INFO -  * Restarting with stat
+2025-06-12 06:57:43,171 - WARNING -  * Debugger is active!
+2025-06-12 06:57:43,172 - INFO -  * Debugger PIN: 112-118-732
+2025-06-12 06:58:13,595 - INFO - 172.18.0.1 - - [12/Jun/2025 06:58:13] "[33mGET /people_list HTTP/1.0[0m" 404 -
+2025-06-12 07:02:10,795 - INFO -  * Detected change in '/app/controllers/sync_controller.py', reloading
+2025-06-12 07:02:11,203 - INFO -  * Restarting with stat
+2025-06-12 07:02:13,127 - WARNING -  * Debugger is active!
+2025-06-12 07:02:13,128 - INFO -  * Debugger PIN: 112-118-732
+2025-06-12 07:03:16,195 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5050
+ * Running on http://172.18.0.10:5050
+2025-06-12 07:03:16,196 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 07:03:16,197 - INFO -  * Restarting with stat
+2025-06-12 07:03:17,748 - WARNING -  * Debugger is active!
+2025-06-12 07:03:17,749 - INFO -  * Debugger PIN: 112-118-732
+2025-06-12 07:03:26,854 - INFO - 172.18.0.1 - - [12/Jun/2025 07:03:26] "GET /update_people HTTP/1.0" 200 -
+2025-06-12 07:08:20,624 - INFO -  * Detected change in '/app/controllers/sync_controller.py', reloading
+2025-06-12 07:08:20,959 - INFO -  * Restarting with stat
+2025-06-12 07:08:22,535 - WARNING -  * Debugger is active!
+2025-06-12 07:08:22,536 - INFO -  * Debugger PIN: 112-118-732
+2025-06-12 07:08:33,624 - INFO -  * Detected change in '/app/controllers/sync_controller.py', reloading
+2025-06-12 07:08:33,947 - INFO -  * Restarting with stat
+2025-06-12 07:08:35,519 - WARNING -  * Debugger is active!
+2025-06-12 07:08:35,520 - INFO -  * Debugger PIN: 112-118-732
+2025-06-12 07:08:58,232 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5050
+ * Running on http://172.18.0.10:5050
+2025-06-12 07:08:58,232 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 07:08:58,234 - INFO -  * Restarting with stat
+2025-06-12 07:08:59,786 - WARNING -  * Debugger is active!
+2025-06-12 07:08:59,787 - INFO -  * Debugger PIN: 112-118-732
+2025-06-12 07:13:07,436 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5050
+ * Running on http://172.18.0.10:5050
+2025-06-12 07:13:07,437 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 07:13:07,438 - INFO -  * Restarting with stat
+2025-06-12 07:13:08,995 - WARNING -  * Debugger is active!
+2025-06-12 07:13:08,996 - INFO -  * Debugger PIN: 112-118-732
+2025-06-12 07:13:53,280 - INFO -  * Detected change in '/app/controllers/sync_controller.py', reloading
+2025-06-12 07:13:53,604 - INFO -  * Restarting with stat
+2025-06-12 07:13:55,180 - WARNING -  * Debugger is active!
+2025-06-12 07:13:55,181 - INFO -  * Debugger PIN: 112-118-732
+2025-06-12 07:14:33,434 - INFO -  * Detected change in '/app/service/sync_service.py', reloading
+2025-06-12 07:14:33,780 - INFO -  * Restarting with stat
+2025-06-12 07:14:35,449 - WARNING -  * Debugger is active!
+2025-06-12 07:14:35,450 - INFO -  * Debugger PIN: 112-118-732
+2025-06-12 07:15:05,651 - INFO -  * Detected change in '/app/service/sync_service.py', reloading
+2025-06-12 07:15:05,988 - INFO -  * Restarting with stat
+2025-06-12 07:15:07,672 - WARNING -  * Debugger is active!
+2025-06-12 07:15:07,674 - INFO -  * Debugger PIN: 112-118-732
+2025-06-12 07:15:40,442 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5050
+ * Running on http://172.18.0.10:5050
+2025-06-12 07:15:40,443 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 07:15:40,444 - INFO -  * Restarting with stat
+2025-06-12 07:15:41,992 - WARNING -  * Debugger is active!
+2025-06-12 07:15:41,993 - INFO -  * Debugger PIN: 112-118-732
+2025-06-12 07:20:00,648 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5050
+ * Running on http://172.18.0.10:5050
+2025-06-12 07:20:00,649 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 07:20:00,651 - INFO -  * Restarting with stat
+2025-06-12 07:20:02,208 - WARNING -  * Debugger is active!
+2025-06-12 07:20:02,210 - INFO -  * Debugger PIN: 112-118-732
+2025-06-12 07:23:33,594 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5050
+ * Running on http://172.18.0.10:5050
+2025-06-12 07:23:33,595 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 07:23:33,596 - INFO -  * Restarting with stat
+2025-06-12 07:23:35,141 - WARNING -  * Debugger is active!
+2025-06-12 07:23:35,142 - INFO -  * Debugger PIN: 112-118-732
+2025-06-12 07:26:38,522 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5050
+ * Running on http://172.18.0.10:5050
+2025-06-12 07:26:38,522 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 07:26:38,523 - INFO -  * Restarting with stat
+2025-06-12 07:26:40,102 - WARNING -  * Debugger is active!
+2025-06-12 07:26:40,104 - INFO -  * Debugger PIN: 112-118-732
+2025-06-12 07:28:15,220 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5050
+ * Running on http://172.18.0.10:5050
+2025-06-12 07:28:15,220 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 07:28:15,222 - INFO -  * Restarting with stat
+2025-06-12 07:28:16,776 - WARNING -  * Debugger is active!
+2025-06-12 07:28:16,777 - INFO -  * Debugger PIN: 112-118-732
+2025-06-12 07:36:08,000 - INFO - 172.18.0.1 - - [12/Jun/2025 07:36:08] "[33mGET / HTTP/1.1[0m" 404 -
+2025-06-12 07:38:39,663 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5050
+ * Running on http://172.18.0.10:5050
+2025-06-12 07:38:39,664 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 07:38:39,665 - INFO -  * Restarting with stat
+2025-06-12 07:38:41,222 - WARNING -  * Debugger is active!
+2025-06-12 07:38:41,223 - INFO -  * Debugger PIN: 112-118-732
+2025-06-12 07:58:06,203 - INFO -  * Detected change in '/app/controllers/sync_controller.py', reloading
+2025-06-12 07:58:06,568 - INFO -  * Restarting with stat
+2025-06-12 07:58:08,453 - WARNING -  * Debugger is active!
+2025-06-12 07:58:08,455 - INFO -  * Debugger PIN: 112-118-732
+2025-06-12 07:58:40,985 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5050
+ * Running on http://172.18.0.10:5050
+2025-06-12 07:58:40,985 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 07:58:40,987 - INFO -  * Restarting with stat
+2025-06-12 07:58:42,536 - WARNING -  * Debugger is active!
+2025-06-12 07:58:42,538 - INFO -  * Debugger PIN: 112-118-732
+2025-06-12 08:17:55,262 - INFO - 172.18.0.1 - - [12/Jun/2025 08:17:55] "[35m[1mGET /update_people HTTP/1.0[0m" 500 -
+2025-06-12 08:18:52,714 - INFO -  * Detected change in '/app/service/sync_service.py', reloading
+2025-06-12 08:18:53,085 - INFO -  * Restarting with stat
+2025-06-12 08:18:54,866 - WARNING -  * Debugger is active!
+2025-06-12 08:18:54,868 - INFO -  * Debugger PIN: 112-118-732
+2025-06-12 08:18:59,919 - INFO -  * Detected change in '/app/service/sync_service.py', reloading
+2025-06-12 08:19:00,270 - INFO -  * Restarting with stat
+2025-06-12 08:19:02,013 - WARNING -  * Debugger is active!
+2025-06-12 08:19:02,014 - INFO -  * Debugger PIN: 112-118-732
+2025-06-12 08:19:05,818 - INFO - 172.18.0.1 - - [12/Jun/2025 08:19:05] "GET /update_people HTTP/1.0" 200 -
+2025-06-12 08:22:08,834 - INFO - 172.18.0.1 - - [12/Jun/2025 08:22:08] "GET /update_people HTTP/1.0" 200 -
+2025-06-12 08:23:29,146 - INFO - 172.18.0.1 - - [12/Jun/2025 08:23:29] "GET /update_people HTTP/1.0" 200 -
+2025-06-12 08:24:32,820 - INFO - 172.18.0.1 - - [12/Jun/2025 08:24:32] "GET /update_people HTTP/1.0" 200 -
+2025-06-12 08:28:10,503 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5050
+ * Running on http://172.18.0.9:5050
+2025-06-12 08:28:10,504 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 08:28:10,507 - INFO -  * Restarting with stat
+2025-06-12 08:28:12,066 - WARNING -  * Debugger is active!
+2025-06-12 08:28:12,067 - INFO -  * Debugger PIN: 863-762-107
+2025-06-12 08:31:41,334 - INFO -  * Detected change in '/app/controllers/sync_controller.py', reloading
+2025-06-12 08:31:41,659 - INFO -  * Restarting with stat
+2025-06-12 08:31:43,259 - WARNING -  * Debugger is active!
+2025-06-12 08:31:43,260 - INFO -  * Debugger PIN: 863-762-107
+2025-06-12 08:31:58,383 - INFO -  * Detected change in '/app/controllers/sync_controller.py', reloading
+2025-06-12 08:31:58,707 - INFO -  * Restarting with stat
+2025-06-12 08:32:00,309 - WARNING -  * Debugger is active!
+2025-06-12 08:32:00,311 - INFO -  * Debugger PIN: 863-762-107
+2025-06-12 08:32:20,451 - INFO -  * Detected change in '/app/controllers/sync_controller.py', reloading
+2025-06-12 08:32:20,813 - INFO -  * Restarting with stat
+2025-06-12 08:32:22,407 - WARNING -  * Debugger is active!
+2025-06-12 08:32:22,408 - INFO -  * Debugger PIN: 863-762-107
+2025-06-12 08:32:35,508 - INFO -  * Detected change in '/app/controllers/sync_controller.py', reloading
+2025-06-12 08:32:35,837 - INFO -  * Restarting with stat
+2025-06-12 08:32:37,535 - WARNING -  * Debugger is active!
+2025-06-12 08:32:37,537 - INFO -  * Debugger PIN: 863-762-107
+2025-06-12 08:32:50,635 - INFO -  * Detected change in '/app/service/sync_service.py', reloading
+2025-06-12 08:32:50,968 - INFO -  * Restarting with stat
+2025-06-12 08:32:52,564 - WARNING -  * Debugger is active!
+2025-06-12 08:32:52,565 - INFO -  * Debugger PIN: 863-762-107
+2025-06-12 08:33:12,347 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5050
+ * Running on http://172.18.0.9:5050
+2025-06-12 08:33:12,348 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 08:33:12,349 - INFO -  * Restarting with stat
+2025-06-12 08:33:13,914 - WARNING -  * Debugger is active!
+2025-06-12 08:33:13,915 - INFO -  * Debugger PIN: 863-762-107
+2025-06-12 08:36:24,715 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5050
+ * Running on http://172.18.0.10:5050
+2025-06-12 08:36:24,716 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 08:36:24,718 - INFO -  * Restarting with stat
+2025-06-12 08:36:26,273 - WARNING -  * Debugger is active!
+2025-06-12 08:36:26,274 - INFO -  * Debugger PIN: 122-437-614
+2025-06-12 08:41:56,145 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5050
+ * Running on http://172.18.0.10:5050
+2025-06-12 08:41:56,145 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 08:41:56,147 - INFO -  * Restarting with stat
+2025-06-12 08:41:57,714 - WARNING -  * Debugger is active!
+2025-06-12 08:41:57,715 - INFO -  * Debugger PIN: 122-437-614
+2025-06-12 08:49:30,539 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5050
+ * Running on http://172.18.0.10:5050
+2025-06-12 08:49:30,540 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 08:49:30,541 - INFO -  * Restarting with stat
+2025-06-12 08:49:32,101 - WARNING -  * Debugger is active!
+2025-06-12 08:49:32,102 - INFO -  * Debugger PIN: 122-437-614
+2025-06-12 08:51:22,530 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5050
+ * Running on http://172.18.0.10:5050
+2025-06-12 08:51:22,531 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 08:51:22,532 - INFO -  * Restarting with stat
+2025-06-12 08:51:24,089 - WARNING -  * Debugger is active!
+2025-06-12 08:51:24,090 - INFO -  * Debugger PIN: 122-437-614
+2025-06-12 08:51:32,709 - INFO - 172.18.0.1 - - [12/Jun/2025 08:51:32] "GET /update_people HTTP/1.0" 200 -
+2025-06-12 09:03:33,879 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5050
+ * Running on http://172.18.0.10:5050
+2025-06-12 09:03:33,880 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 09:03:33,882 - INFO -  * Restarting with stat
+2025-06-12 09:03:35,440 - WARNING -  * Debugger is active!
+2025-06-12 09:03:35,442 - INFO -  * Debugger PIN: 122-437-614
+2025-06-12 09:05:00,976 - INFO -  * Detected change in '/app/service/sync_service.py', reloading
+2025-06-12 09:05:01,338 - INFO -  * Restarting with stat
+2025-06-12 09:05:03,197 - WARNING -  * Debugger is active!
+2025-06-12 09:05:03,199 - INFO -  * Debugger PIN: 122-437-614
+2025-06-12 09:07:31,692 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5050
+ * Running on http://172.18.0.10:5050
+2025-06-12 09:07:31,692 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 09:07:31,694 - INFO -  * Restarting with stat
+2025-06-12 09:07:33,253 - WARNING -  * Debugger is active!
+2025-06-12 09:07:33,254 - INFO -  * Debugger PIN: 122-437-614
+2025-06-12 09:11:24,210 - INFO -  * Detected change in '/app/config/config.py', reloading
+2025-06-12 09:11:24,804 - INFO -  * Restarting with stat
+2025-06-12 09:11:26,861 - WARNING -  * Debugger is active!
+2025-06-12 09:11:26,864 - INFO -  * Debugger PIN: 122-437-614
+2025-06-12 09:16:12,906 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5050
+ * Running on http://172.18.0.10:5050
+2025-06-12 09:16:12,907 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 09:16:12,909 - INFO -  * Restarting with stat
+2025-06-12 09:16:14,625 - WARNING -  * Debugger is active!
+2025-06-12 09:16:14,626 - INFO -  * Debugger PIN: 122-437-614
+2025-06-12 09:16:40,817 - INFO -  * Detected change in '/app/config/config.py', reloading
+2025-06-12 09:16:41,187 - INFO -  * Restarting with stat
+2025-06-12 09:16:43,028 - WARNING -  * Debugger is active!
+2025-06-12 09:16:43,029 - INFO -  * Debugger PIN: 122-437-614
+2025-06-12 09:18:39,296 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5050
+ * Running on http://172.18.0.8:5050
+2025-06-12 09:18:39,297 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 09:18:39,299 - INFO -  * Restarting with stat
+2025-06-12 09:18:41,004 - WARNING -  * Debugger is active!
+2025-06-12 09:18:41,006 - INFO -  * Debugger PIN: 781-545-464
+2025-06-12 09:48:20,064 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5050
+ * Running on http://172.18.0.8:5050
+2025-06-12 09:48:20,065 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 09:48:20,067 - INFO -  * Restarting with stat
+2025-06-12 09:48:21,942 - WARNING -  * Debugger is active!
+2025-06-12 09:48:21,944 - INFO -  * Debugger PIN: 781-545-464
+2025-06-12 09:49:51,590 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5050
+ * Running on http://172.18.0.8:5050
+2025-06-12 09:49:51,591 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 09:49:51,593 - INFO -  * Restarting with stat
+2025-06-12 09:49:53,285 - WARNING -  * Debugger is active!
+2025-06-12 09:49:53,286 - INFO -  * Debugger PIN: 781-545-464
+2025-06-12 09:50:48,002 - INFO - 172.18.0.1 - - [12/Jun/2025 09:50:48] "GET /update_people HTTP/1.0" 200 -
+2025-06-12 09:51:15,293 - INFO - 172.18.0.1 - - [12/Jun/2025 09:51:15] "GET /update_people HTTP/1.0" 200 -
+2025-06-12 09:51:23,249 - INFO - 172.18.0.1 - - [12/Jun/2025 09:51:23] "GET /update_people HTTP/1.0" 200 -
+2025-06-12 09:54:43,516 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5050
+ * Running on http://172.18.0.8:5050
+2025-06-12 09:54:43,517 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-12 09:54:43,518 - INFO -  * Restarting with stat
+2025-06-12 09:54:45,064 - WARNING -  * Debugger is active!
+2025-06-12 09:54:45,066 - INFO -  * Debugger PIN: 781-545-464
+2025-06-12 09:54:53,685 - INFO - 172.18.0.1 - - [12/Jun/2025 09:54:53] "GET /update_people HTTP/1.0" 200 -
