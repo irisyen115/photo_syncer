@@ -13,7 +13,7 @@ def get_upload_records():
     db = SessionLocal()
     person_id = request.args.get('personID') or session.get('person_id')
     creds = authenticate()
-    logging.error("Session person_id: %s", person_id)
+    logging.error("person_id: %s", person_id)
 
     try:
         result = get_upload_records_service(db, person_id, creds)

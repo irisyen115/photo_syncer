@@ -24,18 +24,15 @@ NUM_UPLOAD_THREADS = 16
 
 download_queue = queue.Queue()
 photo_queue = queue.Queue()
+notify_queue = queue.Queue()
 token_map = {}
 
-def update_people_list():
-    auth = login(ACCOUNT, PASSWORD, FID, TIMEZONE)
+def update_people_list(auth):
     if not auth:
         logging.error("Synology 登入失敗，請檢查帳號密碼或網路連線")
         return []
 
     try:
-        people_list_path = os.path.join("/app/people_list", "people_list.json")
-        os.makedirs(os.path.dirname(people_list_path), exist_ok=True)
-
         people_list = list_people(auth, 8)
         if not people_list:
             logging.error("無法獲取人員列表，請檢查 Synology 服務是否正常")
@@ -50,9 +47,6 @@ def update_people_list():
                 "img": f"{IMG_URL}/{person['id']}.jpg"
             })
 
-        with open(people_list_path, "w", encoding="utf-8") as f:
-            json.dump(result_list, f, ensure_ascii=False, indent=2)
-
         return result_list
     except Exception as e:
         logging.exception("⚠️ 更新人員資料過程中發生錯誤")
@@ -65,42 +59,67 @@ def handle_sync(request, creds, session):
         logging.error("JSON 解析失敗: %s", str(e))
         return jsonify({"error": "無法解析 JSON，請檢查資料格式"}), 400
 
-    person_id = data.get('personID')
+    person_id = request.args.get('personID') or data.get('personID')
+    if person_id:
+        logging.error(f"同步人員 ID: {person_id}")
+    else:
+        logging.error("請求中未提供 personID")
+        return jsonify({"error": "請提供 personID"}), 400
     album_id = data.get("albumID")
     album_name = data.get("albumName")
     num_photos = data.get("numPhotos")
+    token = request.args.get('token') or data.get('token')
+    if not token:
+        token = data.get("token")
+    else:
+        logging.info(f"使用提供的 token: {token}")
 
     if not person_id and not album_id:
         return jsonify({"error": "請提供 personID 或 albumID"}), 400
 
     start_time = time.time()
-    auth = login(ACCOUNT, PASSWORD, FID, TIMEZONE)
+    auth = session.get('auth')
+    if not auth:
+        logging.error("Synology 登入狀態: False")
+        auth = login(ACCOUNT, PASSWORD, FID, TIMEZONE)
+        session['auth'] = auth
+    logging.error(f"Synology 登入狀態: {auth is not None}")
+
+    if not auth:
+        logging.error("Synology 登入失敗，請檢查帳號密碼或網路連線")
+        return jsonify({"error": "Synology 登入失敗"}), 500
+    logging.info("Synology 登入成功")
     service = get_service(creds)
     google_album_id = get_or_create_album(service, album_name)
 
     update_people_list(auth)
 
     delete_all_photos_from_album(google_album_id)
-    result = run_sync(auth, creds, person_id, album_id, num_photos, google_album_id)
+    result = run_sync(auth, creds, person_id, album_id, num_photos, google_album_id, token)
 
-    new_batch = create_new_batch(auth)
-    if new_batch:
-        logging.info(f"Batch {new_batch.batch_number} created by {new_batch.uploaded_by}")
-    else:
-        logging.warning("Batch creation failed unexpectedly.")
+    # new_batch = create_new_batch(auth)
+    # if new_batch:
+    #     logging.info(f"Batch {new_batch.batch_number} created by {new_batch.uploaded_by}")
+    # else:
+    #     logging.warning("Batch creation failed unexpectedly.")
 
     logging.info(f"同步完成，共上傳 {result['uploaded']} 張照片，耗時 {round(time.time() - start_time, 2)} 秒")
 
     return jsonify({
-        "message": "✅ 同步完成",
         "uploaded_photos": result['uploaded'],
-        "time_spent": round(time.time() - start_time, 2)
+        "time_spent": round(time.time() - start_time, 2),
+        "sync_report": result['messages'],
+        "token": token
     })
 
-def run_sync(auth, creds, person_id, album_id, num_photos, google_album_id):
+def run_sync(auth, creds, person_id, album_id, num_photos, google_album_id, token):
     token_map.clear()
-    random_photos = get_photos_upload_to_album(auth, person_id, album_id, num_photos)
-    for photo in random_photos:
+    report = get_photos_upload_to_album(auth, person_id, album_id, num_photos, token)
+    if not report:
+        logging.error("⚠️ 獲取照片上傳報告失敗，請檢查 Synology 服務是否正常")
+        return {"uploaded": 0, "messages": ["無法獲取照片上傳報告"]}
+    logging.info(f"獲取到 {len(report.get('photos', []))} 張照片，準備下載和上傳到 Google 相簿")
+    for photo in report.get("photos", []):
         download_queue.put(photo)
 
     def download_worker():
@@ -132,5 +151,10 @@ def run_sync(auth, creds, person_id, album_id, num_photos, google_album_id):
     [t.join() for t in uploaders]
 
     add_photos_to_album(creds, google_album_id, token_map)
-    return {"uploaded": len(token_map)}
+    return {
+        "uploaded": len(token_map),
+        "messages": report['messages']
+    }
+
+
 

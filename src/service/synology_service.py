@@ -130,7 +130,7 @@ def save_photos_to_db_with_person(photo_list, person_id):
     else:
         print("⚠️ 沒有新照片需要儲存")
 
-def randam_pick_from_person_database(person_id=None, limit=30):
+def random_pick_from_person_database(person_id=None, limit=30):
     db = SessionLocal()
     if person_id:
         photos = (
@@ -160,7 +160,7 @@ def randam_pick_from_album_database(album_id=None, limit=30):
         photos = db.query(Photo).order_by(func.random()).limit(limit).all()
     return [{"filename": photo.filename, "id": photo.item_id} for photo in photos]
 
-def save_exit_db_with_person(photos, person_id):
+def save_exist_db_with_person(photos, person_id):
     db = SessionLocal()
     blacklisted_ids = set(pid for (pid,) in db.query(PhotoBlacklist.photo_id).all())
 

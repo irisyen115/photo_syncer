@@ -60,6 +60,7 @@ def login(account, password, fid, timezone):
         data['data']['synotoken'] = session.cookies.get('synotoken')
     sid = session.cookies.get("id") or session.cookies.get("_sid")
     data['data']['sid'] = sid
+    logging.error(f"Login successful, session ID: {sid}, SynoToken: {data['data']['synotoken']}")
     return data
 
 def get_album(auth, album_id):
@@ -162,7 +163,6 @@ def list_photos_by_album(auth, album_id, offset=0, limit=100):
     url = f"{BASE_URL}/webapi/entry.cgi/SYNO.Foto.Browse.Item"
     headers = HEADERS.copy()
     headers['x-syno-token'] = token
-
     payload = {
         "api": "SYNO.Foto.Browse.Item",
         "method": "list",
@@ -196,6 +196,7 @@ def list_photos_by_person(auth, person_id, offset=0, limit=100):
     }
 
     resp = session.post(url, headers=headers, data=payload, verify=False)
+    logging.error(f"list_photos_by_person response: {resp.text}")
     resp.raise_for_status()
     return resp.json()['data']['list']
 
