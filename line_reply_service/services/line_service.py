@@ -11,7 +11,8 @@ from config.config import Config
 import logging
 logging.basicConfig(filename="error.log", level=logging.ERROR, format="%(asctime)s - %(levelname)s - %(message)s")
 
-def handle_webhook(data, session):
+def handle_webhook(data, token):
+    session = requests.session()
     session_data = {}
     if "events" not in data or not data["events"]:
         logging.warning("Webhook 事件為空，略過處理")
@@ -45,7 +46,7 @@ def handle_webhook(data, session):
 
         is_bound = LineBindingUser.query.filter_by(line_id=uid).first() is not None
         if is_bound:
-            reply_text = handle_message(uid, message_text, session, session_data)
+            reply_text = handle_message(uid, message_text, session, session_data, token)
             payload = build_payload(reply_token, reply_text)
         else:
             payload = {

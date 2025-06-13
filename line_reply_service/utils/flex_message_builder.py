@@ -30,11 +30,8 @@ def build_payload(reply_token, reply_text):
     }
 
 def build_face_bubbles(faces):
-    logging.error(f"Building face bubbles for {len(faces)} faces")
     bubbles = []
     for face in faces:
-        logging.error(f"Building face bubbles for {face} faces")
-
         bubbles.append({
             "type": "bubble",
             "body": {
@@ -73,7 +70,7 @@ def build_face_bubbles(faces):
     return bubbles
 
 def send_bind_url(reply_token, uid):
-    login_url = f"{Config.IRIS_DS_SERVER_URL}/Line-login?uid={uid}"
+    login_url = f"{Config.SERVER_URL}/Line-login?uid={uid}"
     payload = {
         "replyToken": reply_token,
         "messages": [
@@ -144,7 +141,7 @@ def send_already_bound_msg(reply_token):
     requests.post(Config.LINE_REPLY_URL, json=payload, headers=headers)
 
 def send_bind_button(reply_token, uid):
-    bind_url = f"{Config.IRIS_DS_SERVER_URL}/Line-login?uid={uid}"
+    bind_url = f"{Config.SERVER_URL}/Line-login?uid={uid}"
 
     payload = {
         "replyToken": reply_token,

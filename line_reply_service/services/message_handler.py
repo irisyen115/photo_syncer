@@ -8,6 +8,9 @@ from services.upload_service import do_upload
 from config.config import Config
 import logging
 import requests
+from dotenv import load_dotenv
+
+load_dotenv()
 
 session = requests.Session()
 
@@ -16,45 +19,24 @@ logging.basicConfig(filename="error.log", level=logging.ERROR, format="%(asctime
 user_states = {}
 
 def get_people_list(session):
-    people_list_path = os.path.join("/app/people_list", "people_list.json")
-    faces = []
-    if not os.path.exists("/app/people_list"):
-        try:
-            os.makedirs("/app/people_list")
-        except Exception as e:
-            logging.error(f"建立目錄 /app/people_list 時發生錯誤: {e}")
-            return []
-    logging.error(f"people_list_path: {people_list_path}")
+    try:
+        response = session.get(f"{Config.SERVER_URL}/api/upload/update_people", verify=False, timeout=10)
+        if response.status_code == 200:
+            try:
+                faces = response.json()
+                logging.info(f"成功從遠端服務獲取 {len(faces)} 人物資料")
+            except Exception as e:
+                logging.error(f"解析 JSON 時發生錯誤: {e}")
+                return []
 
-    if os.path.exists(people_list_path):
-        try:
-            with open(people_list_path, "r", encoding="utf-8") as f:
-                faces = json.load(f)
-        except Exception as e:
-            logging.error(f"讀取 people_list.json 時發生錯誤: {e}")
-    else:
-        logging.error("people_list.json 不存在，嘗試從遠端服務獲取")
-        try:
-            logging.error("people_list.json 不存在，嘗試從遠端服務獲取")
-            response = session.get(f"{Config.SERVER_URL}/api/upload/update_people", verify=False, timeout=10)
-            if response.status_code == 200:
-                try:
-                    faces = response.json()
-                    with open(people_list_path, "w", encoding="utf-8") as f:
-                        json.dump(faces, f, ensure_ascii=False, indent=2)
-                    logging.info(f"成功從遠端服務獲取 {len(faces)} 人物資料")
-                except Exception as e:
-                    logging.error(f"解析 JSON 時發生錯誤: {e}")
-                    return []
+            if not isinstance(faces, list):
+                logging.error(f"⚠️ 回傳格式錯誤，預期為 list，但實際為 {type(faces)}，內容為: {faces}")
 
-                if not isinstance(faces, list):
-                    logging.error(f"⚠️ 回傳格式錯誤，預期為 list，但實際為 {type(faces)}，內容為: {faces}")
-
-                    return []
-            else:
-                logging.warning(f"請求 update_people 失敗，HTTP {response.status_code}")
-        except requests.RequestException as e:
-            logging.error(f"連接遠端服務時發生錯誤: {e}")
+                return []
+        else:
+            logging.warning(f"請求 update_people 失敗，HTTP {response.status_code}")
+    except requests.RequestException as e:
+        logging.error(f"連接遠端服務時發生錯誤: {e}")
 
     return faces
 
@@ -81,15 +63,12 @@ def get_cached_faces():
     with cache_lock:
         return people_cache.copy()
 
-def handle_message(user_id, message_text, session, session_data):
+def handle_message(user_id, message_text, session, session_data, token):
     try:
         state = user_states.get(user_id, {})
-        people_list_path = os.path.join("/app/people_list", "people_list.json")
-        if not os.path.exists(people_list_path):
-            threading.Thread(target=preload_faces).start()
-            return "⚠️ 人物列表尚未載入，請稍後再試。"
 
         faces = get_cached_faces()
+        logging.error(f"faces: {faces}")
         if not faces:
             return "⚠️ 無法取得人物列表，請稍後再試。"
 
@@ -99,20 +78,17 @@ def handle_message(user_id, message_text, session, session_data):
             return FlexSendMessage(alt_text="請選擇人物上傳照片", contents=carousel)
 
         elif message_text == "我要上傳照片":
-            logging.error(f"faces type: {type(faces)}, value: {faces}")
             faces = get_cached_faces()
             if not faces:
                 logging.error("⚠️ faces is empty after get_cached_faces")
                 return "⚠️ 無法取得人物列表，請稍後再試。"
-            logging.error(f"faces length: {len(faces)}")
             if not isinstance(faces, list):
                 logging.error(f"⚠️ faces is not a list, type: {type(faces)}")
                 return "⚠️ 無法取得人物列表，請稍後再試。"
-            logging.error(f"faces: {faces}")
 
             user_states[user_id] = {
                 "step": "ask_person",
-                "album_name": "default",
+                "album_name": os.getenv("DEFAULT_ALBUM_NAME", "我的相簿"),
                 "num_photos": 5
             }
             logging.error(1)
@@ -121,15 +97,12 @@ def handle_message(user_id, message_text, session, session_data):
                 logging.error("⚠️ faces is None or not a list")
                 return "⚠️ 無法取得人物列表，請稍後再試。"
             carousel = {"type": "carousel", "contents": build_face_bubbles(faces)}
-            logging.error(12)
 
 
             for i, bubble in enumerate(carousel.get("contents", [])):
-                logging.error(i)
 
                 contents = bubble.get("body", {}).get("contents", [])
                 for j, content in enumerate(contents):
-                    logging.error(j)
 
                     if content is None:
                         logging.error(f"Null element found in contents[{i}].body.contents[{j}]")
@@ -147,7 +120,7 @@ def handle_message(user_id, message_text, session, session_data):
                     user_states[user_id] = state
                     threading.Thread(
                         target=do_upload,
-                        args=(state["person_id"], state["album_name"], state["num_photos"], user_id, session, session_data, user_states)
+                        args=(state["person_id"], state["album_name"], state["num_photos"], user_id, session, session_data, user_states, token)
                     ).start()
                     return f"✅ 收到資訊！正在上傳 {state['num_photos']} 張照片到相簿 '{state['album_name']}'，請稍候..."
                 else:
@@ -184,4 +157,5 @@ def handle_message(user_id, message_text, session, session_data):
     except Exception as e:
         logging.error(e)
         return "⚠️ 發生錯誤，請稍後再試。"
+
 

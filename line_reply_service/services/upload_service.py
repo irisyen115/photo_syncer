@@ -2,23 +2,25 @@ import time
 import json
 from config.config import Config
 import logging
+from linebot import LineBotApi
+from linebot.models import TextSendMessage
+import requests
 
 logging.basicConfig(filename="error.log", level=logging.ERROR, format="%(asctime)s - %(levelname)s - %(message)s")
+line_bot_api = LineBotApi(Config.LINE_CHANNEL_ACCESS_TOKEN)
 
-def do_upload(person_id, album_name, num_photos, user_id, session, session_data, user_states):
+def do_upload(person_id, album_name, num_photos, user_id, session, session_data, user_states, token):
     try:
         payload = {
             "personID": person_id,
             "albumID": None,
             "albumName": album_name,
-            "numPhotos": num_photos
+            "numPhotos": num_photos,
+            "token": token
         }
 
-
         for attempt in range(5):
-            response = session.post(f"{Config.IRIS_DS_SERVER_URL}/api/upload/sync_photos", json=payload)
-
-            logging.error("Session data: %s", dict(session))
+            response = session.post(f"{Config.SERVER_URL}/api/upload/sync_photos", params = {"token":token}, json=payload)
 
             if response.status_code == 429:
                 wait_time = 2 ** attempt
@@ -28,15 +30,22 @@ def do_upload(person_id, album_name, num_photos, user_id, session, session_data,
 
             if response.status_code != 200:
                 logging.error(f"❌ sync_photos 回傳非 200：{response.status_code}, {response.text}")
+                line_bot_api.push_message(user_id, TextSendMessage(text=f"❌ 同步失敗，請稍後再試。錯誤碼: {response.status_code}"))
                 break
 
-            response2 = session.get(f"{Config.IRIS_DS_SERVER_URL}/api/upload/upload_records", verify=False)
+            if response.status_code == 200:
+                data = response.json()
+                logging.error(f"已上傳照片數: {data.get('uploaded_photos')}")
+                logging.error(f"同步花費時間: {data.get('time_spent')} 秒")
+
+                line_bot_api.push_message(user_id, TextSendMessage(text=f"📄 同步報告：{data.get('sync_report')}"))
+
+
+            response2 = session.get(f"{Config.SERVER_URL}/api/upload/upload_records", params={"personID": person_id}, verify=False)
 
             if response2.status_code != 200:
                 logging.error(f"❌ upload_records 失敗！Status: {response2.status_code}, Response: {response2.text}")
                 break
-
-            print("✅ 成功取得上傳紀錄！", response2.json())
             break
 
         try:
@@ -45,6 +54,14 @@ def do_upload(person_id, album_name, num_photos, user_id, session, session_data,
             logging.error("無法解析 POST 回應 JSON")
             return
 
+        # response_photos = resp_json.get("photos", [])
+        # message_text = "上傳完成！"
+
+        # if len(response_photos) > 0:
+        #     logging.error(f"成功上傳 {num_photos} 張照片到 google 相簿。")
+        #     message_text = f"✅ 您的人物 {album_name} 上傳完成！共上傳 {num_photos} 張照片。"
+        # line_bot_api.push_message(user_id, TextSendMessage(text=message_text))
+
         user_states.pop(user_id, None)
         session_data["last_action"] = None
         session_path = f"sessions/{user_id}.json"
@@ -52,6 +69,9 @@ def do_upload(person_id, album_name, num_photos, user_id, session, session_data,
             json.dump(session_data, f)
         logging.error(f"✅ User {user_id} has completed the upload process.")
 
+    except requests.exceptions.RequestException as e:
+        logging.error(f"❌ 請求錯誤: {e}")
+    except json.JSONDecodeError as e:
+        logging.error(f"❌ JSON 解碼失敗: {e}")
     except Exception as e:
-        logging.error(f"❌ Upload failed: {e}")
-
+        logging.error(f"❌ 其他錯誤: {e}")
