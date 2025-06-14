@@ -10,6 +10,8 @@ from flask import jsonify
 from config.config import Config
 from service.batch_service import create_new_batch
 import logging
+from dotenv import load_dotenv
+load_dotenv()
 
 logging.basicConfig(filename="error.log", level=logging.ERROR, format="%(asctime)s - %(levelname)s - %(message)s")
 
@@ -66,7 +68,7 @@ def handle_sync(request, creds, session):
         logging.error("請求中未提供 personID")
         return jsonify({"error": "請提供 personID"}), 400
     album_id = data.get("albumID")
-    album_name = data.get("albumName")
+    album_name = data.get("albumName") or os.getenv("DEFAULT_ALBUM_NAME", "My New Album")
     num_photos = data.get("numPhotos")
     token = request.args.get('token') or data.get('token')
     if not token:

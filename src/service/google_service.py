@@ -50,12 +50,10 @@ def background_sync_and_upload(auth, person_id, upload_photo_num, token):
     exit_person_filename = [photo.filename for photo in save_exist_db_with_person(person_id=person_id, photos=random_photos)]
     logging.error(f"現存於 Google 相簿照片檔名: {exit_person_filename}")
     logging.info(f"✅ person_id={person_id} 同步與上傳完成")
-    requests.post(f"{Config.SERVER_URL}/api/notify", json={
+    requests.post(f"{Config.SERVER_URL}/api/line/notify", json={
         "token": token,
         "message": "✅ 你的人員資料已完成同步！請重新操作。"
     })
-
-
 
 import threading
 

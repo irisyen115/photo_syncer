@@ -19,6 +19,7 @@ logging.basicConfig(filename="error.log", level=logging.ERROR, format="%(asctime
 user_states = {}
 
 def get_people_list(session):
+    faces = []
     try:
         response = session.get(f"{Config.SERVER_URL}/api/upload/update_people", verify=False, timeout=10)
         if response.status_code == 200:
@@ -88,7 +89,7 @@ def handle_message(user_id, message_text, session, session_data, token):
 
             user_states[user_id] = {
                 "step": "ask_person",
-                "album_name": os.getenv("DEFAULT_ALBUM_NAME", "我的相簿"),
+                "album_name": "",
                 "num_photos": 5
             }
             logging.error(1)
@@ -122,7 +123,7 @@ def handle_message(user_id, message_text, session, session_data, token):
                         target=do_upload,
                         args=(state["person_id"], state["album_name"], state["num_photos"], user_id, session, session_data, user_states, token)
                     ).start()
-                    return f"✅ 收到資訊！正在上傳 {state['num_photos']} 張照片到相簿 '{state['album_name']}'，請稍候..."
+                    return f"✅ 收到資訊！正在上傳 {state['num_photos']} 張照片到相簿，請稍候..."
                 else:
                     state["step"] = "ask_name"
                     user_states[user_id] = state
@@ -147,9 +148,9 @@ def handle_message(user_id, message_text, session, session_data, token):
 
             threading.Thread(
                 target=do_upload,
-                args=(state["person_id"], state["album_name"], state["num_photos"], user_id, session, session_data, user_states)
+                args=(state["person_id"], state["album_name"], state["num_photos"], user_id, session, session_data, user_states, token)
             ).start()
-            return f"✅ 收到資訊！正在上傳 {state['num_photos']} 張照片到相簿 '{state['album_name']}'，請稍候..."
+            return f"✅ 收到資訊！正在上傳 {state['num_photos']} 張照片到相簿，請稍候..."
 
         else:
             return "請輸入「我要上傳照片」來開始相簿上傳流程。"

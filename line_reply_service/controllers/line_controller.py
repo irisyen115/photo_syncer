@@ -21,7 +21,7 @@ def generate_token(length=32):
     """產生指定長度的安全隨機 token"""
     return secrets.token_hex(length // 2)
 
-@line_bp.route("/api/webhook", methods=["GET", "POST"])
+@line_bp.route("/webhook", methods=["GET", "POST"])
 def webhook():
     try:
         logging.error("Received webhook request")
@@ -43,7 +43,7 @@ def webhook():
         traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 
-@line_bp.route("/api/notify", methods=["POST"])
+@line_bp.route("/notify", methods=["POST"])
 def notify():
     try:
         logging.error(f"Received notify request: {request.json}")
