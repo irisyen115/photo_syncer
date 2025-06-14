@@ -64,14 +64,28 @@ def get_cached_faces():
     with cache_lock:
         return people_cache.copy()
 
+def get_album_list(token, user_id):
+        requests.post(
+        f"{Config.SERVER_URL}/api/upload/list_albums",
+        params={"token": token},
+        json={"user_id": user_id}
+    )
+
 def handle_message(user_id, message_text, session, session_data, token):
     try:
         state = user_states.get(user_id, {})
 
         faces = get_cached_faces()
-        logging.error(f"faces: {faces}")
         if not faces:
             return "⚠️ 無法取得人物列表，請稍後再試。"
+
+        if message_text == "列出所有相簿":
+            threading.Thread(
+                target=get_album_list,
+                args=(token, user_id)
+            ).start()
+
+            return "📂 正在列出所有相簿，請稍候..."
 
         if message_text == "使用自訂參數":
             user_states[user_id] = {"step": "ask_person"}

@@ -24,20 +24,25 @@ def generate_token(length=32):
 @line_bp.route("/webhook", methods=["GET", "POST"])
 def webhook():
     try:
-        logging.error("Received webhook request")
-        data = request.get_json(force=True)  # 強制解析 json，避免拿到字串
+        caller = request.headers.get("X-Caller")
 
-        if not data:
-            return jsonify({"error": "Invalid JSON"}), 400
-        logging.error(f"Webhook result: {data}")
-        event = data["events"][0]
-        uid = event["source"]["userId"]
-        token = generate_token()
-        if uid:
-            user_sessions[token] = uid
+        if caller == "album":
+            return jsonify({"message": "這是從 /album 呼叫的 webhook"})
+        else:
+            logging.error("Received webhook request")
+            data = request.get_json(force=True)  # 強制解析 json，避免拿到字串
 
-        result = handle_webhook(data, token)
-        return jsonify(result), 200
+            if not data:
+                return jsonify({"error": "Invalid JSON"}), 400
+            logging.error(f"Webhook result: {data}")
+            event = data["events"][0]
+            uid = event["source"]["userId"]
+            token = generate_token()
+            if uid:
+                user_sessions[token] = uid
+
+            result = handle_webhook(data, token)
+            return jsonify(result), 200
     except Exception as e:
         logging.error(f"Error in /api/webhook: {e}")
         traceback.print_exc()
@@ -81,3 +86,31 @@ def notify():
         logging.error(f"Error in /notify: {e}")
         traceback.print_exc()
         return jsonify({"error": str(e)}), 500
+
+@line_bp.route("/album", methods=["POST"])
+def get_albums():
+    data = request.get_json(force=True)
+    if not data or "token" not in data:
+        return jsonify({"error": "Invalid JSON or missing 'token'"}), 400
+
+    token = data["token"]
+    albums = data.get("albums", [])
+    user_id = user_sessions.get(token)
+
+    if not user_id:
+        logging.error("User ID not found in session")
+        return jsonify({"error": "User ID not found in session"}), 400
+
+    logging.error(f"User ID from token {token}: {user_id}")
+    logging.error(f"Retrieved {albums} albums")
+
+    text = f"已取得相簿：\n" + "\n".join(albums)
+    logging.error(f"Sending albums to user {user_id}: {text}")
+
+    try:
+        line_bot_api.push_message(user_id, TextSendMessage(text=text))
+    except Exception as e:
+        logging.exception(f"Failed to send LINE message: {e}")
+        return jsonify({"error": "Failed to send LINE message"}), 500
+
+    return jsonify({"albums": albums})

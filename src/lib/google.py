@@ -26,70 +26,8 @@ UPLOAD_PHOTO_BYTES_ENDPOINT = f'{API_BASE_URL}uploads'
 ADD_MEDIA_ITEMS_TO_ALBUM_ENDPOINT = f'{API_BASE_URL}mediaItems:batchCreate'
 UPLOAD_PHOTO_NUM = 10
 
-# CLIENT_SECRETS_FILE = '/app/client_secret.json'
-# with open(CLIENT_SECRETS_FILE, "r") as f:
-#     client_data = json.load(f)
-
-# web_config = client_data["web"]
-# CLIENT_ID = web_config["client_id"]
-# CLIENT_SECRET = web_config["client_secret"]
-# REDIRECT_URI = web_config["redirect_uris"][0]  # 取第一個 URI
-# AUTH_URI = web_config["auth_uri"]
-# TOKEN_URI = web_config["token_uri"]
-
 def get_mime(file_path):
     return str(mimetypes.guess_type(file_path)[0])
-
-# def get_auth_url():
-#     flow = Flow.from_client_secrets_file(
-#         CLIENT_SECRETS_FILE,
-#         scopes=SCOPES,
-#         redirect_uri=REDIRECT_URI,
-#     )
-
-#     auth_url, state = flow.authorization_url(
-#         access_type='offline',
-#         include_granted_scopes='true',
-#         prompt='consent'
-#     )
-
-#     print(f"[DEBUG] Generated state: {state}")
-#     # 儲存 state，後續 callback 需使用
-#     with open("oauth_state.json", "w") as f:
-#         json.dump({"state": state}, f)
-
-#     return auth_url
-
-# def handle_oauth_callback(request_url):
-#     try:
-#         with open("oauth_state.json", "r") as f:
-#             state = json.load(f).get("state")
-
-#         flow = Flow.from_client_config(
-#             client_data,
-#             scopes=SCOPES,
-#             redirect_uri=REDIRECT_URI,
-#             state=state,
-#         )
-
-#         flow.fetch_token(authorization_response=request_url)
-#         creds = flow.credentials
-
-#         with open("token.pickle", "wb") as token_file:
-#             pickle.dump(creds, token_file)
-
-#         return creds
-
-#     except Exception as e:
-#         print(f"[ERROR] OAuth callback error: {e}")
-#         raise
-
-# def load_credentials():
-#     if os.path.exists("token.pickle"):
-#         with open("token.pickle", "rb") as token_file:
-#             creds = pickle.load(token_file)
-#         return creds
-#     return None
 
 def authenticate():
     creds = None
@@ -122,6 +60,27 @@ def get_or_create_album(service, album_name="My New Album"):
     created_album = service.albums().create(body=new_album).execute()
     return created_album['id']
 
+def get_google_album_list(service, creds):
+    """列出使用者所有 Google Photos 相簿"""
+    service = get_service(creds)
+    albums = []
+    next_page_token = None
+
+    while True:
+        response = service.albums().list(
+            pageSize=50,
+            pageToken=next_page_token,
+            fields="albums(id,title),nextPageToken"
+        ).execute()
+
+        items = response.get("albums", [])
+        albums.extend(items)
+
+        next_page_token = response.get("nextPageToken")
+        if not next_page_token:
+            break
+
+    return albums
 
 def get_media_items_in_album(service, album_id):
     media_item_ids = []

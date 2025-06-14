@@ -4,6 +4,7 @@ from controllers.delete_controller import delete_bp
 from controllers.photo_controller import photo_db
 from controllers.blacklist_controller import black_db
 from controllers.batch_controller import batch_db
+from controllers.album_controller import album_db
 from flask_cors import CORS
 from dotenv import load_dotenv
 from werkzeug.middleware.proxy_fix import ProxyFix
@@ -27,6 +28,7 @@ app.register_blueprint(delete_bp)
 app.register_blueprint(photo_db)
 app.register_blueprint(black_db)
 app.register_blueprint(batch_db)
+app.register_blueprint(album_db)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5050)

@@ -54,14 +54,6 @@ def do_upload(person_id, album_name, num_photos, user_id, session, session_data,
             logging.error("無法解析 POST 回應 JSON")
             return
 
-        # response_photos = resp_json.get("photos", [])
-        # message_text = "上傳完成！"
-
-        # if len(response_photos) > 0:
-        #     logging.error(f"成功上傳 {num_photos} 張照片到 google 相簿。")
-        #     message_text = f"✅ 您的人物 {album_name} 上傳完成！共上傳 {num_photos} 張照片。"
-        # line_bot_api.push_message(user_id, TextSendMessage(text=message_text))
-
         user_states.pop(user_id, None)
         session_data["last_action"] = None
         session_path = f"sessions/{user_id}.json"
