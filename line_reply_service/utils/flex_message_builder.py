@@ -130,6 +130,11 @@ def get_album_name_input_options():
         }
     )
 
+def safe_url(url):
+    if url and isinstance(url, str) and url.startswith("http"):
+        return url
+    return f"{Config.SERVER_URL}https://irisyen115.synology.me/images/grey.jpg"
+
 def send_flex_album(album_titles, covers=None):
     bubbles = []
     logging.error(f"發送相簿列表：{album_titles}")
@@ -153,7 +158,7 @@ def send_flex_album(album_titles, covers=None):
                 },
                 {
                     "type": "image",
-                    "url": covers[i] if covers and i < len(covers) else "https://example.com/default_cover.jpg",
+                    "url": safe_url(covers[i] if covers and i < len(covers) else None),
                     "aspectRatio": "1:1",
                     "size": "full",
                     "aspectMode": "cover",
