@@ -82,41 +82,106 @@ def send_bind_url(reply_token, uid):
     }
     requests.post(Config.LINE_REPLY_URL, json=payload, headers=headers)
 
-def send_flex_login(auth_url):
-    bubbles = []
-    bubbles.append({
-        "type": "bubble",
-        "body": {
-            "type": "box",
-            "layout": "vertical",
-            "spacing": "lg",
-            "contents": [
-            {
-                "type": "text",
-                "text": "🟡 尚未登入 Google",
-                "weight": "bold",
-                "size": "lg"
+def get_album_name_input_options():
+    return FlexSendMessage(
+        alt_text="請選擇相簿名輸入方式",
+        contents={
+            "type": "bubble",
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "spacing": "md",
+                "contents": [
+                    {
+                        "type": "text",
+                        "text": "請選擇相簿名輸入方式：",
+                        "wrap": True,
+                        "weight": "bold",
+                        "size": "md"
+                    }
+                ]
             },
-            {
-                "type": "text",
-                "text": "請點擊以下按鈕登入：",
-                "size": "md"
-            },
-            {
-                "type": "button",
-                "style": "primary",
-                "action": {
-                "type": "uri",
-                "label": "登入 Google",
-                "uri": auth_url
-                }
+            "footer": {
+                "type": "box",
+                "layout": "vertical",
+                "spacing": "sm",
+                "contents": [
+                    {
+                        "type": "button",
+                        "style": "primary",
+                        "color": "#1DB446",
+                        "action": {
+                            "type": "message",
+                            "label": "🔘 從相簿列表選擇",
+                            "text": "列出我的相簿"
+                        }
+                    },
+                    {
+                        "type": "button",
+                        "style": "secondary",
+                        "action": {
+                            "type": "message",
+                            "label": "📝 手動輸入相簿名",
+                            "text": "手動輸入相簿名"
+                        }
+                    }
+                ]
             }
-            ]
         }
-        }
+    )
+
+def send_flex_album(album_titles, covers=None):
+    bubbles = []
+    logging.error(f"發送相簿列表：{album_titles}")
+    album_titles = album_titles[:10]
+    covers = covers[:10] if covers else []
+
+    for i, album in enumerate(album_titles):
+        logging.error(f"處理相簿：{album}")
+        bubbles.append({
+            "type": "bubble",
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "spacing": "lg",
+                "contents": [
+                {
+                    "type": "text",
+                    "text": "🟡 請選擇相簿名稱",
+                    "weight": "bold",
+                    "size": "lg"
+                },
+                {
+                    "type": "image",
+                    "url": covers[i] if covers and i < len(covers) else "https://example.com/default_cover.jpg",
+                    "aspectRatio": "1:1",
+                    "size": "full",
+                    "aspectMode": "cover",
+                    "gravity": "center"
+                },
+                {
+                    "type": "text",
+                    "text": album,
+                    "weight": "bold",
+                    "size": "lg",
+                    "align": "center",
+                    "gravity": "center"
+                },
+                {
+                    "type": "button",
+                    "style": "primary",
+                    "action": {
+                    "type": "message",
+                    "label": "請選擇",
+                    "text": album
+                    }
+                }
+                ]
+            }
+            }
         )
     carousel = {"type": "carousel", "contents": bubbles}
-    return FlexSendMessage(alt_text="請授權 google 帳戶", contents=carousel)
+    return FlexSendMessage(alt_text="請選擇相簿上傳", contents=carousel)
 
 def save_user_id(uid, user_ids_file='user_ids.txt'):
     if os.path.exists(user_ids_file):

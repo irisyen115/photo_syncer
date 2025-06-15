@@ -6,7 +6,8 @@ import logging
 from config.config import Config
 from flask import session
 from linebot import LineBotApi
-from linebot.models import TextSendMessage
+from linebot.models import FlexSendMessage, TextSendMessage
+from utils.flex_message_builder import send_flex_album
 
 # 設定 Line Bot API
 line_bot_api = LineBotApi(Config.LINE_CHANNEL_ACCESS_TOKEN)
@@ -94,7 +95,8 @@ def get_albums():
         return jsonify({"error": "Invalid JSON or missing 'token'"}), 400
 
     token = data["token"]
-    albums = data.get("albums", [])
+    album_titles = data.get("album_titles", [])
+    covers = data.get("covers", [])
     user_id = user_sessions.get(token)
 
     if not user_id:
@@ -102,15 +104,22 @@ def get_albums():
         return jsonify({"error": "User ID not found in session"}), 400
 
     logging.error(f"User ID from token {token}: {user_id}")
-    logging.error(f"Retrieved {albums} albums")
-
-    text = f"已取得相簿：\n" + "\n".join(albums)
-    logging.error(f"Sending albums to user {user_id}: {text}")
-
+    logging.error(f"Retrieved {album_titles} albums")
+    logging.error(f"Retrieved {covers} covers")
     try:
-        line_bot_api.push_message(user_id, TextSendMessage(text=text))
+        if not album_titles:
+            logging.error("No albums found to send")
+            return jsonify({"error": "No albums found"}), 400
+        if not covers:
+            logging.error("No covers found to send")
+            return jsonify({"error": "No covers found"}), 400
+        # 使用 FlexSendMessage 發送相簿列表
+        line_bot_api.push_message(user_id, send_flex_album(album_titles, covers))
+    except requests.RequestException as e:
+        logging.exception(f"Failed to send LINE message: {e}")
+        return jsonify({"error": "Failed to send LINE message"}), 500
     except Exception as e:
         logging.exception(f"Failed to send LINE message: {e}")
         return jsonify({"error": "Failed to send LINE message"}), 500
 
-    return jsonify({"albums": albums})
+    return jsonify({"albums": album_titles}), 200

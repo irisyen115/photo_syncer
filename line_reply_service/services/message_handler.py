@@ -3,7 +3,7 @@ import os
 import json
 import threading
 from linebot.models import FlexSendMessage
-from utils.flex_message_builder import build_face_bubbles, send_flex_login
+from utils.flex_message_builder import build_face_bubbles, get_album_name_input_options
 from services.upload_service import do_upload
 from config.config import Config
 import logging
@@ -65,7 +65,7 @@ def get_cached_faces():
         return people_cache.copy()
 
 def get_album_list(token, user_id):
-        requests.post(
+    requests.post(
         f"{Config.SERVER_URL}/api/upload/list_albums",
         params={"token": token},
         json={"user_id": user_id}
@@ -79,7 +79,7 @@ def handle_message(user_id, message_text, session, session_data, token):
         if not faces:
             return "⚠️ 無法取得人物列表，請稍後再試。"
 
-        if message_text == "列出所有相簿":
+        if message_text == "列出我的相簿":
             threading.Thread(
                 target=get_album_list,
                 args=(token, user_id)
@@ -140,8 +140,9 @@ def handle_message(user_id, message_text, session, session_data, token):
                     return f"✅ 收到資訊！正在上傳 {state['num_photos']} 張照片到相簿，請稍候..."
                 else:
                     state["step"] = "ask_name"
-                    user_states[user_id] = state
-                    return "🔗 請提供 Google Photos 相簿名："
+                    # 改成回傳 Flex Message
+                    flex_msg = get_album_name_input_options()
+                    return flex_msg
             else:
                 return "請點選選單上的「選擇」按鈕選擇人物。"
 

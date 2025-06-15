@@ -7,6 +7,9 @@ from google.auth.transport.requests import Request
 import json
 from google_auth_oauthlib.flow import Flow
 from google_auth_oauthlib.flow import InstalledAppFlow
+import logging
+
+logging.basicConfig(filename="error.log", level=logging.ERROR, format="%(asctime)s - %(levelname)s - %(message)s")
 
 SCOPES = [
     "https://www.googleapis.com/auth/photoslibrary.sharing",
@@ -25,6 +28,7 @@ API_BASE_URL = 'https://photoslibrary.googleapis.com/v1/'
 UPLOAD_PHOTO_BYTES_ENDPOINT = f'{API_BASE_URL}uploads'
 ADD_MEDIA_ITEMS_TO_ALBUM_ENDPOINT = f'{API_BASE_URL}mediaItems:batchCreate'
 UPLOAD_PHOTO_NUM = 10
+
 
 def get_mime(file_path):
     return str(mimetypes.guess_type(file_path)[0])
@@ -60,27 +64,41 @@ def get_or_create_album(service, album_name="My New Album"):
     created_album = service.albums().create(body=new_album).execute()
     return created_album['id']
 
-def get_google_album_list(service, creds):
-    """列出使用者所有 Google Photos 相簿"""
-    service = get_service(creds)
-    albums = []
+def get_albums_with_cover_urls(service):
+    albums_with_covers = []
     next_page_token = None
 
     while True:
         response = service.albums().list(
             pageSize=50,
             pageToken=next_page_token,
-            fields="albums(id,title),nextPageToken"
+            fields="albums(id,title,coverPhotoMediaItemId),nextPageToken"
         ).execute()
 
-        items = response.get("albums", [])
-        albums.extend(items)
+        albums = response.get("albums", [])
+
+        for album in albums:
+            cover_url = ""
+            media_item_id = album.get("coverPhotoMediaItemId")
+            if media_item_id:
+                try:
+                    item = service.mediaItems().get(mediaItemId=media_item_id).execute()
+                    cover_url = item.get("baseUrl", "") + "=w512-h384"
+                except Exception as e:
+                    print(f"⚠️ 無法取得封面圖: {e}")
+
+            albums_with_covers.append({
+                "id": album["id"],
+                "title": album["title"],
+                "cover_url": cover_url
+            })
 
         next_page_token = response.get("nextPageToken")
         if not next_page_token:
             break
 
-    return albums
+    return albums_with_covers
+
 
 def get_media_items_in_album(service, album_id):
     media_item_ids = []
