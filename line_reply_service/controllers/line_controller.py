@@ -113,7 +113,6 @@ def get_albums():
         if not covers:
             logging.error("No covers found to send")
             return jsonify({"error": "No covers found"}), 400
-        # 使用 FlexSendMessage 發送相簿列表
         line_bot_api.push_message(user_id, send_flex_album(album_titles, covers))
     except requests.RequestException as e:
         logging.exception(f"Failed to send LINE message: {e}")
