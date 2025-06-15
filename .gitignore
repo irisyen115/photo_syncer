@@ -8,4 +8,7 @@ face_image
 user_ids.txt
 people_list
 sessions
-app.logsrc/docker-python-google-photos.gz
+app.log
+error.log
+fonts
+*.png

@@ -2,8 +2,13 @@ FROM python:3.10-slim
 
 WORKDIR /app
 
-COPY line_reply_service.py .
+COPY . /app
 
-RUN pip install flask requests python-dotenv flask_sqlalchemy psycopg2-binary flask_bcrypt line-bot-sdk
+# 安裝需要的套件
+RUN pip install flask requests python-dotenv flask_sqlalchemy psycopg2-binary flask_bcrypt line-bot-sdk Pillow
 
-CMD ["python", "line_reply_service.py"]
+# 設定 PYTHONPATH
+ENV PYTHONPATH=/app
+
+# 啟動指令
+CMD ["python", "app.py"]
