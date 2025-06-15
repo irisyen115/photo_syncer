@@ -11,3 +11,4 @@ sessions
 app.log
 error.log
 fonts
+*.png
