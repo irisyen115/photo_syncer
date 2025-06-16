@@ -50,7 +50,6 @@ def preload_faces():
     with cache_lock:
         people_cache = new_faces
 
-# 服務啟動時先非同步預載
 threading.Thread(target=preload_faces).start()
 
 def get_cached_faces():
@@ -74,104 +73,110 @@ def get_album_list(token, user_id):
 def handle_message(user_id, message_text, session, session_data, token):
     try:
         state = user_states.get(user_id, {})
-
         faces = get_cached_faces()
+
         if not faces:
             return "⚠️ 無法取得人物列表，請稍後再試。"
 
-        if message_text == "列出我的相簿":
-            threading.Thread(
-                target=get_album_list,
-                args=(token, user_id)
-            ).start()
-
-            return "📂 正在列出所有相簿，請稍候..."
-
         if message_text == "使用自訂參數":
-            user_states[user_id] = {"step": "ask_person"}
-            carousel = {"type": "carousel", "contents": build_face_bubbles(faces)}
-            return FlexSendMessage(alt_text="請選擇人物上傳照片", contents=carousel)
+            return handle_custom_parameters(user_id, faces)
 
         elif message_text == "我要上傳照片":
-            faces = get_cached_faces()
-            if not faces:
-                logging.error("⚠️ faces is empty after get_cached_faces")
-                return "⚠️ 無法取得人物列表，請稍後再試。"
-            if not isinstance(faces, list):
-                logging.error(f"⚠️ faces is not a list, type: {type(faces)}")
-                return "⚠️ 無法取得人物列表，請稍後再試。"
+            return handle_start_upload(user_id, faces)
 
-            user_states[user_id] = {
-                "step": "ask_person",
-                "album_name": "",
-                "num_photos": 5
-            }
-            logging.error(1)
+        if message_text == "列出我的相簿":
+            return handle_list_albums(user_id, token)
 
-            if faces is None or not isinstance(faces, list):
-                logging.error("⚠️ faces is None or not a list")
-                return "⚠️ 無法取得人物列表，請稍後再試。"
-            carousel = {"type": "carousel", "contents": build_face_bubbles(faces)}
+        elif message_text == "手動輸入相簿名":
+            return "🔤 請輸入相簿名稱："
 
+        if state.get("step") == "ask_person":
+            return handle_person_selection(user_id, message_text, state, session, session_data, token)
 
-            for i, bubble in enumerate(carousel.get("contents", [])):
-
-                contents = bubble.get("body", {}).get("contents", [])
-                for j, content in enumerate(contents):
-
-                    if content is None:
-                        logging.error(f"Null element found in contents[{i}].body.contents[{j}]")
-
-            return FlexSendMessage(alt_text="請選擇人物上傳照片", contents=carousel)
-        elif state.get("step") == "ask_person":
-            if message_text.startswith("上傳 "):
-                person_id = message_text.split("上傳 ")[1].strip()
-                if not person_id.isdigit():
-                    return "❌ 請提供有效的人物 ID，例如：22492"
-
-                state["person_id"] = person_id
-                if "album_name" in state and "num_photos" in state:
-                    state["step"] = "uploading"
-                    user_states[user_id] = state
-                    threading.Thread(
-                        target=do_upload,
-                        args=(state["person_id"], state["album_name"], state["num_photos"], user_id, session, session_data, user_states, token)
-                    ).start()
-                    return f"✅ 收到資訊！正在上傳 {state['num_photos']} 張照片到相簿，請稍候..."
-                else:
-                    state["step"] = "ask_name"
-                    # 改成回傳 Flex Message
-                    flex_msg = get_album_name_input_options()
-                    return flex_msg
-            else:
-                return "請點選選單上的「選擇」按鈕選擇人物。"
-
-        elif state.get("step") == "ask_name":
-            state["album_name"] = message_text
-            state["step"] = "ask_count"
-            user_states[user_id] = state
-            return "🔢 請提供要上傳的照片數量（例如：10）："
+        elif state.get("step") == "ask_google_album_name":
+            return handle_album_name_input(user_id, message_text, state)
 
         elif state.get("step") == "ask_count":
-            if not message_text.isdigit():
-                return "❌ 請輸入正確的數字"
-            num_photos = int(message_text)
+            return handle_photo_count_input(user_id, message_text, state, session, session_data, token)
 
-            state["num_photos"] = num_photos
-            state["step"] = "uploading"
-            user_states[user_id] = state
-
-            threading.Thread(
-                target=do_upload,
-                args=(state["person_id"], state["album_name"], state["num_photos"], user_id, session, session_data, user_states, token)
-            ).start()
-            return f"✅ 收到資訊！正在上傳 {state['num_photos']} 張照片到相簿，請稍候..."
-
-        else:
-            return "請輸入「我要上傳照片」來開始相簿上傳流程。"
+        return "請輸入「我要上傳照片」來開始相簿上傳流程。"
 
     except Exception as e:
         logging.error(e)
         return "⚠️ 發生錯誤，請稍後再試。"
 
+def handle_list_albums(user_id, token):
+    threading.Thread(target=get_album_list, args=(token, user_id)).start()
+    return "📂 正在列出所有相簿，請稍候..."
 
+def handle_custom_parameters(user_id, faces):
+    user_states[user_id] = {"step": "ask_person"}
+    carousel = {"type": "carousel", "contents": build_face_bubbles(faces)}
+    return FlexSendMessage(alt_text="請選擇人物上傳照片", contents=carousel)
+
+
+def handle_start_upload(user_id, faces):
+    if not isinstance(faces, list):
+        logging.error(f"⚠️ faces is not a list, type: {type(faces)}")
+        return "⚠️ 無法取得人物列表，請稍後再試。"
+
+    user_states[user_id] = {
+        "step": "ask_person",
+        "album_name": "",
+        "num_photos": 5
+    }
+
+    carousel = {"type": "carousel", "contents": build_face_bubbles(faces)}
+
+    for i, bubble in enumerate(carousel.get("contents", [])):
+        contents = bubble.get("body", {}).get("contents", [])
+        for j, content in enumerate(contents):
+            if content is None:
+                logging.error(f"Null element found in contents[{i}].body.contents[{j}]")
+
+    return FlexSendMessage(alt_text="請選擇人物上傳照片", contents=carousel)
+
+
+def handle_person_selection(user_id, message_text, state, session, session_data, token):
+    if message_text.startswith("上傳 "):
+        person_id = message_text.split("上傳 ")[1].strip()
+        if not person_id.isdigit():
+            return "❌ 請提供有效的人物 ID，例如：22492"
+
+        state["person_id"] = person_id
+        if "album_name" in state and "num_photos" in state:
+            state["step"] = "uploading"
+            user_states[user_id] = state
+            threading.Thread(
+                target=do_upload,
+                args=(state["person_id"], state["album_name"], state["num_photos"], user_id, session, session_data, user_states, token)
+            ).start()
+            return f"✅ 收到資訊！正在上傳 {state['num_photos']} 張照片到相簿，請稍候..."
+        else:
+            state["step"] = "ask_google_album_name"
+            return get_album_name_input_options()
+    else:
+        return "請點選選單上的「選擇」按鈕選擇人物。"
+
+
+def handle_album_name_input(user_id, message_text, state):
+    state["album_name"] = message_text
+    state["step"] = "ask_count"
+    user_states[user_id] = state
+    return "🔢 請提供要上傳的照片數量（例如：10）："
+
+
+def handle_photo_count_input(user_id, message_text, state, session, session_data, token):
+    if not message_text.isdigit():
+        return "❌ 請輸入正確的數字"
+    num_photos = int(message_text)
+
+    state["num_photos"] = num_photos
+    state["step"] = "uploading"
+    user_states[user_id] = state
+
+    threading.Thread(
+        target=do_upload,
+        args=(state["person_id"], state["album_name"], state["num_photos"], user_id, session, session_data, user_states, token)
+    ).start()
+    return f"✅ 收到資訊！正在上傳 {state['num_photos']} 張照片到相簿，請稍候..."
