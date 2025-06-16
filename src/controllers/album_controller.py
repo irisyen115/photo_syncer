@@ -29,10 +29,8 @@ def get_albums():
         albums = get_albums_with_cover_urls(service)
         if not albums:
             return jsonify({"message": "No albums found"}), 404
-        logging.error(f"Fetched albums: {albums}")
         album_titles = [album['title'] for album in albums if 'title' in album]
         cover_url = [album['cover_url'] for album in albums if 'cover_url' in album]
-        logging.error(f"Album titles: {album_titles}, Cover URLs: {cover_url}")
         if not album_titles:
             return jsonify({"message": "No album titles found"}), 404
         requests.post(f"{Config.SERVER_URL}/api/line/album", json={
@@ -40,7 +38,6 @@ def get_albums():
             "covers": cover_url,
             "token": token
         })
-        logging.error(f"Albums fetched: {album_titles}")
         return jsonify(album_titles), 200
     except Exception as e:
         logging.error(f"Error fetching albums: {e}")

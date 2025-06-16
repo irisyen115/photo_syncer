@@ -60,7 +60,6 @@ def login(account, password, fid, timezone):
         data['data']['synotoken'] = session.cookies.get('synotoken')
     sid = session.cookies.get("id") or session.cookies.get("_sid")
     data['data']['sid'] = sid
-    logging.error(f"Login successful, session ID: {sid}, SynoToken: {data['data']['synotoken']}")
     return data
 
 def get_album(auth, album_id):
@@ -94,16 +93,14 @@ def get_person(auth, person_id):
         "x-syno-token": token
     }
 
-    # 注意 id 和 additional 要用字串形式的陣列格式
     data = {
         "api": "SYNO.Foto.Browse.Person",
         "method": "get",
         "version": "1",
-        "id": f'[{person_id}]',                  # 字串格式的陣列，跟 curl 裡 %5B22492%5D 對應
+        "id": f'[{person_id}]',
         "additional": '["thumbnail"]'
     }
 
-    # 這裡要帶上 cookie，token 可能不在 cookie 內，如果你有 cookie 也放這
     cookies = auth.get('cookies', {})
 
     resp = session.post(url, headers=headers, data=data, cookies=cookies, verify=False)
@@ -196,7 +193,6 @@ def list_photos_by_person(auth, person_id, offset=0, limit=100):
     }
 
     resp = session.post(url, headers=headers, data=payload, verify=False)
-    logging.error(f"list_photos_by_person response: {resp.text}")
     resp.raise_for_status()
     return resp.json()['data']['list']
 

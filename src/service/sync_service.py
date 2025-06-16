@@ -11,8 +11,9 @@ from config.config import Config
 from service.batch_service import create_new_batch
 import logging
 from dotenv import load_dotenv
-load_dotenv()
+import requests
 
+load_dotenv()
 logging.basicConfig(filename="error.log", level=logging.ERROR, format="%(asctime)s - %(levelname)s - %(message)s")
 
 DOWNLOAD_DIR = Config.SYNO_DOWNLOAD_DIR
@@ -26,7 +27,6 @@ NUM_UPLOAD_THREADS = 16
 
 download_queue = queue.Queue()
 photo_queue = queue.Queue()
-notify_queue = queue.Queue()
 token_map = {}
 
 def update_people_list(auth):
@@ -69,49 +69,36 @@ def handle_sync(request, creds, session):
         return jsonify({"error": "請提供 personID"}), 400
     album_id = data.get("albumID")
     album_name = data.get("albumName") or os.getenv("DEFAULT_ALBUM_NAME", "My New Album")
-    num_photos = data.get("numPhotos")
+    num_photos = data.get("numPhotos") or os.getenv("DEFAULT_NUM_PHOTOS", 5)
     token = request.args.get('token') or data.get('token')
-    if not token:
-        token = data.get("token")
-    else:
-        logging.info(f"使用提供的 token: {token}")
-
+    auth = session.get('auth')
+    if not auth:
+        auth = login(ACCOUNT, PASSWORD, FID, TIMEZONE)
     if not person_id and not album_id:
         return jsonify({"error": "請提供 personID 或 albumID"}), 400
 
+    def background_sync():
+        service = get_service(creds)
+        google_album_id = get_or_create_album(service, album_name)
+
+        update_people_list(auth)
+        delete_all_photos_from_album(google_album_id)
+        result = run_sync(auth, creds, person_id, album_id, num_photos, google_album_id, token)
+
+        logging.info(f"同步完成，共上傳 {result['uploaded']} 張照片，耗時 {round(time.time() - start_time, 2)} 秒")
+        requests.post(
+            f"{Config.SERVER_URL}/api/line/notify",
+            json={
+                "message": f"上傳完成，共上傳 {result['uploaded']} 張照片",
+                "token": token
+            }
+        )
+
     start_time = time.time()
-    auth = session.get('auth')
-    if not auth:
-        logging.error("Synology 登入狀態: False")
-        auth = login(ACCOUNT, PASSWORD, FID, TIMEZONE)
-        session['auth'] = auth
-    logging.error(f"Synology 登入狀態: {auth is not None}")
-
-    if not auth:
-        logging.error("Synology 登入失敗，請檢查帳號密碼或網路連線")
-        return jsonify({"error": "Synology 登入失敗"}), 500
-    logging.info("Synology 登入成功")
-    service = get_service(creds)
-    google_album_id = get_or_create_album(service, album_name)
-
-    update_people_list(auth)
-
-    delete_all_photos_from_album(google_album_id)
-    result = run_sync(auth, creds, person_id, album_id, num_photos, google_album_id, token)
-
-    # new_batch = create_new_batch(auth)
-    # if new_batch:
-    #     logging.info(f"Batch {new_batch.batch_number} created by {new_batch.uploaded_by}")
-    # else:
-    #     logging.warning("Batch creation failed unexpectedly.")
-
-    logging.info(f"同步完成，共上傳 {result['uploaded']} 張照片，耗時 {round(time.time() - start_time, 2)} 秒")
+    threading.Thread(target=background_sync).start()
 
     return jsonify({
-        "uploaded_photos": result['uploaded'],
-        "time_spent": round(time.time() - start_time, 2),
-        "sync_report": result['messages'],
-        "token": token
+        "message": f"同步作業已在背景啟動，personID: {person_id}"
     })
 
 def run_sync(auth, creds, person_id, album_id, num_photos, google_album_id, token):

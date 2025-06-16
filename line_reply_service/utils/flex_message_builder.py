@@ -133,7 +133,7 @@ def get_album_name_input_options():
 def safe_url(url):
     if url and isinstance(url, str) and url.startswith("http"):
         return url
-    return f"{Config.SERVER_URL}https://irisyen115.synology.me/images/grey.jpg"
+    return f"{Config.SERVER_URL}/images/grey.jpg"
 
 def send_flex_album(album_titles, covers=None):
     bubbles = []
