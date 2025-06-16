@@ -36,8 +36,6 @@ def create_new_batch(auth):
 
         if latest_photo is None:
             logging.warning("資料庫中無任何 ExistPerson 紀錄，將使用 '所有人' 作為上傳人")
-            person_name = '所有人'
-            upload_time = None
         else:
             if latest_photo.person_id is None:
                 logging.warning("最新照片的 person_id 為 None，將使用 '所有人' 作為上傳人")
@@ -46,7 +44,12 @@ def create_new_batch(auth):
                 logging.info(f"最新照片的 person_id: {latest_photo.person_id}")
                 person_name = get_person_name(auth, latest_photo.person_id)
 
-        upload_time = latest_photo.uploaded_at.isoformat()
+        if not person_name:
+            logging.warning("無法取得 Person 名稱，將使用 '未知' 作為上傳人")
+            person_name = '未知'
+
+        else:
+            upload_time = latest_photo.uploaded_at.isoformat()
 
         next_batch_num = get_next_batch_number(db, user_name)
         new_batch = UploadBatch(uploaded_by=user_name, batch_number=next_batch_num, count=count, upload_person=person_name, upload_time=upload_time)
@@ -59,7 +62,6 @@ def create_new_batch(auth):
     except Exception as e:
         db.rollback()
         logging.error(f"建立 Batch 時發生錯誤: {e}")
-        raise
     finally:
         db.close()
 

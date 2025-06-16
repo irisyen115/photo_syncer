@@ -49,15 +49,11 @@ def webhook():
         traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 
+
 @line_bp.route("/notify", methods=["POST"])
 def notify():
     try:
-        logging.error(f"Received notify request: {request.json}")
-        if not request.is_json:
-            return jsonify({"error": "Request must be JSON"}), 400
         data = request.get_json(force=True)
-        if not data or "message" not in data or "token" not in data:
-            return jsonify({"error": "Invalid JSON or missing 'message' or 'token'"}), 400
         message = data["message"]
         token = data["token"]
         user_id = user_sessions.get(token)

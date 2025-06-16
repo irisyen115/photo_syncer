@@ -22,12 +22,6 @@ def do_upload(person_id, album_name, num_photos, user_id, session, session_data,
         for attempt in range(5):
             response = session.post(f"{Config.SERVER_URL}/api/upload/sync_photos", params = {"token":token}, json=payload)
 
-            if response.status_code == 429:
-                wait_time = 2 ** attempt
-                logging.error(f"⚠️ 遇到 429，等待 {wait_time} 秒再重試...")
-                time.sleep(wait_time)
-                continue
-
             if response.status_code != 200:
                 logging.error(f"❌ sync_photos 回傳非 200：{response.status_code}, {response.text}")
                 line_bot_api.push_message(user_id, TextSendMessage(text=f"❌ 同步失敗，請稍後再試。錯誤碼: {response.status_code}"))
@@ -37,9 +31,7 @@ def do_upload(person_id, album_name, num_photos, user_id, session, session_data,
                 data = response.json()
                 logging.error(f"已上傳照片數: {data.get('uploaded_photos')}")
                 logging.error(f"同步花費時間: {data.get('time_spent')} 秒")
-
-                line_bot_api.push_message(user_id, TextSendMessage(text=f"📄 同步報告：{data.get('sync_report')}"))
-
+                line_bot_api.push_message(user_id, TextSendMessage(text=f"📄 同步報告：{data.get('message')}"))
 
             response2 = session.get(f"{Config.SERVER_URL}/api/upload/upload_records", params={"personID": person_id}, verify=False)
 
@@ -47,12 +39,6 @@ def do_upload(person_id, album_name, num_photos, user_id, session, session_data,
                 logging.error(f"❌ upload_records 失敗！Status: {response2.status_code}, Response: {response2.text}")
                 break
             break
-
-        try:
-            resp_json = response.json()
-        except Exception:
-            logging.error("無法解析 POST 回應 JSON")
-            return
 
         user_states.pop(user_id, None)
         session_data["last_action"] = None
