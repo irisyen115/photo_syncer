@@ -4,10 +4,11 @@ from services.line_service import handle_webhook
 import traceback
 import logging
 from config.config import Config
-from flask import session
 from linebot import LineBotApi
-from linebot.models import FlexSendMessage, TextSendMessage
-from utils.flex_message_builder import send_flex_album
+from utils.flex_message_builder import send_flex_album, build_face_bubbles
+from cachetools import TTLCache
+import secrets
+from services.message_handler import user_states
 
 # 設定 Line Bot API
 line_bot_api = LineBotApi(Config.LINE_CHANNEL_ACCESS_TOKEN)
@@ -15,8 +16,8 @@ line_bot_api = LineBotApi(Config.LINE_CHANNEL_ACCESS_TOKEN)
 logging.basicConfig(filename="error.log", level=logging.ERROR, format="%(asctime)s - %(levelname)s - %(message)s")
 
 line_bp = Blueprint("line_bp", __name__)
-user_sessions = {}
-import secrets
+user_sessions = TTLCache(maxsize=1000, ttl=1800)
+
 
 def generate_token(length=32):
     """產生指定長度的安全隨機 token"""
@@ -25,25 +26,20 @@ def generate_token(length=32):
 @line_bp.route("/webhook", methods=["GET", "POST"])
 def webhook():
     try:
-        caller = request.headers.get("X-Caller")
+        logging.error("Received webhook request")
+        data = request.get_json(force=True)
 
-        if caller == "album":
-            return jsonify({"message": "這是從 /album 呼叫的 webhook"})
-        else:
-            logging.error("Received webhook request")
-            data = request.get_json(force=True)  # 強制解析 json，避免拿到字串
+        if not data:
+            return jsonify({"error": "Invalid JSON"}), 400
+        logging.error(f"Webhook result: {data}")
+        event = data["events"][0]
+        uid = event["source"]["userId"]
+        token = generate_token()
+        if uid:
+            user_sessions[token] = uid
 
-            if not data:
-                return jsonify({"error": "Invalid JSON"}), 400
-            logging.error(f"Webhook result: {data}")
-            event = data["events"][0]
-            uid = event["source"]["userId"]
-            token = generate_token()
-            if uid:
-                user_sessions[token] = uid
-
-            result = handle_webhook(data, token)
-            return jsonify(result), 200
+        result = handle_webhook(data, token)
+        return jsonify(result), 200
     except Exception as e:
         logging.error(f"Error in /api/webhook: {e}")
         traceback.print_exc()
@@ -70,13 +66,12 @@ def notify():
             "Authorization": f"Bearer {Config.LINE_CHANNEL_ACCESS_TOKEN}",
             "Content-Type": "application/json"
         }
-        # 這裡改成 push URL
+
         response = requests.post("https://api.line.me/v2/bot/message/push", json=payload, headers=headers)
         logging.error(f"Notify response: {response.status_code}, {response.text}")
         if response.status_code != 200:
             logging.error(f"Failed to send message: {response.status_code}, {response.text}")
             return jsonify({"error": "Failed to send message"}), 500
-        # 如果有上傳照片的需求，這裡可以處理
         response.raise_for_status()
         return jsonify({"status": "success"}), 200
     except Exception as e:
@@ -94,14 +89,12 @@ def get_albums():
     album_titles = data.get("album_titles", [])
     covers = data.get("covers", [])
     user_id = user_sessions.get(token)
+    logging.error(f"album_titles: {album_titles}, covers: {covers}, user_id: {user_id}")
 
     if not user_id:
         logging.error("User ID not found in session")
         return jsonify({"error": "User ID not found in session"}), 400
 
-    logging.error(f"User ID from token {token}: {user_id}")
-    logging.error(f"Retrieved {album_titles} albums")
-    logging.error(f"Retrieved {covers} covers")
     try:
         if not album_titles:
             logging.error("No albums found to send")
@@ -110,6 +103,7 @@ def get_albums():
             logging.error("No covers found to send")
             return jsonify({"error": "No covers found"}), 400
         line_bot_api.push_message(user_id, send_flex_album(album_titles, covers))
+        user_states[user_id]["step"] = "ask_google_album_name"
     except requests.RequestException as e:
         logging.exception(f"Failed to send LINE message: {e}")
         return jsonify({"error": "Failed to send LINE message"}), 500
@@ -118,3 +112,15 @@ def get_albums():
         return jsonify({"error": "Failed to send LINE message"}), 500
 
     return jsonify({"albums": album_titles}), 200
+
+@line_bp.route("/faces", methods=["POST"])
+def get_face_list():
+    data = request.get_json(force=True)
+    user_id = data["user_id"]
+    faces = data["faces"]
+    try:
+        line_bot_api.push_message(user_id, build_face_bubbles(faces=faces))
+    except Exception as e:
+        logging.error(f"Failed to send LINE message: {e}")
+        return jsonify({"error": "Failed to send LINE message"}), 500
+    return jsonify({"faces": faces}), 200

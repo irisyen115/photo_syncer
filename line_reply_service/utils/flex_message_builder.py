@@ -67,7 +67,8 @@ def build_face_bubbles(faces):
                 ]
             }
         })
-    return bubbles
+    carousel = {"type": "carousel", "contents": bubbles}
+    return FlexSendMessage(alt_text="請選擇人物上傳", contents=carousel)
 
 def send_bind_url(reply_token, uid):
     login_url = f"{Config.SERVER_URL}/Line-login?uid={uid}"

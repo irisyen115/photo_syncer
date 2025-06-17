@@ -92,6 +92,7 @@ def get_albums_with_cover_urls(service):
                 "title": album["title"],
                 "cover_url": cover_url
             })
+            logging.error(f"Album: {album['title']}, Cover URL: {cover_url}")
 
         next_page_token = response.get("nextPageToken")
         if not next_page_token:
@@ -146,7 +147,6 @@ def find_media_item_ids_by_filenames(media_items, filenames):
     found_ids = []
 
     for item in media_items:
-        # 取 filename（有些在 mediaMetadata 裡，有些在外層）
         fname = item.get("mediaMetadata", {}).get("filename") or item.get("filename")
         if fname in filename_set:
             found_ids.append(item["id"])
@@ -175,9 +175,9 @@ def remove_all_items_from_album(service, album_id, media_item_ids):
         )
 
         if response.status == 200:
-            print(f"成功移除媒體項目")
+            logging.error(f"成功移除媒體項目")
         else:
-            print(f"失敗：", response.status, content.decode())
+            logging.error(f"失敗：", response.status, content.decode())
             break
 
 def list_photos(service):
@@ -239,3 +239,45 @@ def add_photos_to_album(creds, album_id, filename_token_mapping):
         response = requests.post(ADD_MEDIA_ITEMS_TO_ALBUM_ENDPOINT, json=request_body, headers=headers)
         if response.status_code != 200:
             raise Exception(f"Failed to add media items: {response.status_code} - {response.text}")
+
+def delete_photos_by_filename(creds, album_id, filenames):
+    service = get_service(creds)
+    photos = []
+    next_page_token = None
+
+    while True:
+        response = service.mediaItems().search(body={
+            "albumId": album_id,
+            "pageSize": 100,
+            "pageToken": next_page_token
+        }).execute()
+
+        items = response.get("mediaItems", [])
+        for item in items:
+            filename = item.get("filename")
+            media_id = item.get("id")
+            if filename in filenames:
+                photos.append(media_id)
+
+        next_page_token = response.get("nextPageToken")
+        if not next_page_token:
+            break
+
+    logging.error(f"🗑️ 符合條件要刪除的照片ID數量：{len(photos)}")
+
+    for photo_id in photos:
+        try:
+            service.mediaItems().delete(mediaItemId=photo_id).execute()
+            logging.error(f"✅ 已刪除：{photo_id}")
+        except Exception as e:
+            logging.error(f"❌ 刪除失敗：{photo_id} - {e}")
+
+def delete_all_photos_from_album(creds, google_album_id):
+    service = get_service(creds)
+    media_ids = get_media_items_in_album(service, google_album_id)
+
+    if media_ids:
+        remove_all_items_from_album(service, google_album_id, media_ids)
+        logging.error(f"✅ 已從相簿中移除所有媒體項目")
+    else:
+        logging.error("相簿已是空的。")
