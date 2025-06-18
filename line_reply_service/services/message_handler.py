@@ -1,10 +1,7 @@
-# services/message_handler.py
-import os
-import json
 import threading
 from linebot.models import FlexSendMessage
-from utils.flex_message_builder import build_face_bubbles, get_album_name_input_options, build_payload
-from services.upload_service import do_upload
+from utils.flex_message_builder import build_face_bubbles, get_album_name_input_options
+from services.upload_service import do_upload, get_album_list, get_faces
 from config.config import Config
 import logging
 import requests
@@ -21,36 +18,12 @@ line_bot_api = LineBotApi(Config.LINE_CHANNEL_ACCESS_TOKEN)
 
 user_states = {}
 
-def notify_user(user_id, message):
-    try:
-        line_bot_api.push_message(user_id, TextSendMessage(text=message))
-    except Exception as e:
-        logging.error(f"推送訊息給 {user_id} 時失敗: {e}")
-
-def get_faces(session, user_id):
-    try:
-        response = session.get(f"{Config.SERVER_URL}/api/upload/update_people", params={"user_id": user_id})
-        if response.status_code == 200:
-            faces = response.json()
-            state = user_states.setdefault(user_id, {})
-            state["faces"] = faces
-            notify_user(user_id, f"✅ 人物列表已更新，共 {len(faces)} 位。")
-    except Exception as e:
-        logging.error(f"取得人物列表時錯誤: {e}")
-        notify_user(user_id, "❌ 取得人物列表時發生錯誤。")
-    finally:
-        user_states.setdefault(user_id, {})["faces_loading"] = False
-
-def get_album_list(token, user_id):
-    requests.post(
-        f"{Config.SERVER_URL}/api/upload/list_albums",
-        params={"token": token},
-        json={"user_id": user_id}
-    )
-
 def handle_message(user_id, message_text, session, session_data, token):
     try:
         state = user_states.get(user_id, {})
+        if state.get('step'):
+            logging.error(f"state step: {state['step']}")
+
 
         if message_text == "使用自訂參數":
             return handle_custom_parameters(user_id)
@@ -94,7 +67,7 @@ def handle_custom_parameters(user_id):
                 "step": "ask_person",
                 "faces_loading": True
             })
-            threading.Thread(target=get_faces, args=(session, user_id)).start()
+            threading.Thread(target=get_faces, args=(session, user_id, user_states)).start()
             user_states[user_id] = state
             logging.error(f"user_states:{user_states[user_id]}")
             return "⚠️ 正在取得人物列表，完成後會通知您。"
@@ -118,13 +91,12 @@ def handle_start_upload(user_id):
                 "step": "ask_person",
                 "faces_loading": True
             })
-            threading.Thread(target=get_faces, args=(session, user_id)).start()
+            threading.Thread(target=get_faces, args=(session, user_id, user_states)).start()
             user_states[user_id] = state
             return "⚠️ 正在取得人物列表，完成後會通知您。"
         else:
             return "⚠️ 人物列表仍在載入中，請稍候..."
 
-    # ✅ 正確保留原本 state
     state["step"] = "ask_person"
     user_states[user_id] = state
 
@@ -146,6 +118,9 @@ def handle_person_selection(user_id, message_text, state, session, session_data,
 
         state["person_id"] = person_id
         if "album_name" in state and "num_photos" in state:
+            if state.get("is_uploading"):
+                return "⚠️ 照片正在上傳中，請稍候完成後再試一次。"
+
             state["step"] = "uploading"
             user_states[user_id] = state
             threading.Thread(
@@ -183,12 +158,18 @@ def handle_photo_count_input(user_id, message_text, state, session, session_data
         return "❌ 請輸入正確的數字"
     num_photos = int(message_text)
 
+    if state.get("is_uploading"):
+        return "⚠️ 照片正在上傳中，請稍候完成後再試一次。"
+
     state["num_photos"] = num_photos
     state["step"] = "uploading"
+    state["is_uploading"] = True
     user_states[user_id] = state
 
     threading.Thread(
         target=do_upload,
         args=(state["person_id"], state["album_name"], state["num_photos"], user_id, session, session_data, user_states, token)
     ).start()
+
     return f"✅ 收到資訊！正在上傳 {state['num_photos']} 張照片到相簿，請稍候..."
+

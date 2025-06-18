@@ -53,3 +53,32 @@ def do_upload(person_id, album_name, num_photos, user_id, session, session_data,
         logging.error(f"❌ JSON 解碼失敗: {e}")
     except Exception as e:
         logging.error(f"❌ 其他錯誤: {e}")
+
+def notify_user(user_id, message):
+    try:
+        line_bot_api.push_message(user_id, TextSendMessage(text=message))
+    except Exception as e:
+        logging.error(f"推送訊息給 {user_id} 時失敗: {e}")
+
+def get_faces(session, user_id, user_states):
+    try:
+        logging.error(f"🚨 get_faces 被觸發！目前 state: {user_states.get(user_id)}")
+
+        response = session.get(f"{Config.SERVER_URL}/api/upload/update_people", params={"user_id": user_id})
+        if response.status_code == 200:
+            faces = response.json()
+            state = user_states.setdefault(user_id, {})
+            state["faces"] = faces
+            notify_user(user_id, f"✅ 人物列表已更新，共 {len(faces)} 位。")
+    except Exception as e:
+        logging.error(f"取得人物列表時錯誤: {e}")
+        notify_user(user_id, "❌ 取得人物列表時發生錯誤。")
+    finally:
+        user_states.setdefault(user_id, {})["faces_loading"] = False
+
+def get_album_list(token, user_id):
+    requests.post(
+        f"{Config.SERVER_URL}/api/upload/list_albums",
+        params={"token": token},
+        json={"user_id": user_id}
+    )
