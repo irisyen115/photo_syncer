@@ -3,12 +3,11 @@ version: "3.9"
 services:
   python-google-photos:
     build:
-      context: ../src
-      dockerfile: Dockerfile
+      context: ..
+      dockerfile: src/Dockerfile
     container_name: google-photos
     volumes:
       - ../src:/app
-      - ../src/downloaded_albums:/app/downloaded_albums
       - ../script:/app/script
     working_dir: /app
     command: ["python", "app.py"]
@@ -27,19 +26,6 @@ services:
       - "5434:5432"
     volumes:
       - ../pg_data:/var/lib/postgresql/data
-    networks:
-      - shared_net
-
-  line-reply-service:
-    build:
-      context: ../line_reply_service
-    container_name: line-reply
-    volumes:
-      - ../line_reply_service:/app
-    working_dir: /app
-    command: ["python", "app.py"]
-    ports:
-      - "5002:5001"
     networks:
       - shared_net
 volumes:

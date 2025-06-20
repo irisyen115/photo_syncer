@@ -2,9 +2,9 @@ from flask import Blueprint, request, jsonify
 from models import UploadBatch, ExistPerson
 from models.database import SessionLocal
 
-batch_db = Blueprint('batch_db', __name__)
+batch_bp = Blueprint('batch_bp', __name__)
 
-@batch_db.route('/upload_batches', methods=['GET'])
+@batch_bp.route('/upload_batches', methods=['GET'])
 def get_upload_batches():
     db = SessionLocal()
     try:
