@@ -10,8 +10,9 @@ from config.config import Config
 
 logging.basicConfig(filename="error.log", level=logging.ERROR, format="%(asctime)s - %(levelname)s - %(message)s")
 
-album_db = Blueprint('album_db', __name__)
-@album_db.route('/list_albums', methods=['POST'])
+album_bp = Blueprint('album_bp', __name__)
+
+@album_bp.route('/list_albums', methods=['POST'])
 def get_albums():
     """取得 Google Photos 相簿列表"""
     token = request.args.get('token')

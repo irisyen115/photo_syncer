@@ -12,3 +12,7 @@ psycopg2-binary
 flask
 flask-cors
 cachetools
+pytz
+pytest
+requests-mock
+pytest-mock

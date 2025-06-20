@@ -35,13 +35,13 @@ def create_new_batch(auth):
         latest_photo = db.query(ExistPerson).order_by(ExistPerson.uploaded_at.desc()).first()
 
         if latest_photo is None:
-            logging.warning("資料庫中無任何 ExistPerson 紀錄，將使用 '所有人' 作為上傳人")
+            logging.error("資料庫中無任何 ExistPerson 紀錄，將使用 '所有人' 作為上傳人")
         else:
             if latest_photo.person_id is None:
-                logging.warning("最新照片的 person_id 為 None，將使用 '所有人' 作為上傳人")
+                logging.error("最新照片的 person_id 為 None，將使用 '所有人' 作為上傳人")
                 person_name = '所有人'
             else:
-                logging.info(f"最新照片的 person_id: {latest_photo.person_id}")
+                logging.error(f"最新照片的 person_id: {latest_photo.person_id}")
                 person_name = get_person_name(auth, latest_photo.person_id)
 
         if not person_name:
@@ -53,7 +53,7 @@ def create_new_batch(auth):
 
         next_batch_num = get_next_batch_number(db, user_name)
         new_batch = UploadBatch(uploaded_by=user_name, batch_number=next_batch_num, count=count, upload_person=person_name, upload_time=upload_time)
-        logging.info(f"建立新的 Batch: {next_batch_num} 由 {user_name} 上傳，共 {count} 張照片")
+        logging.error(f"建立新的 Batch: {next_batch_num} 由 {user_name} 上傳，共 {count} 張照片")
 
         db.add(new_batch)
         db.commit()
@@ -68,7 +68,7 @@ def create_new_batch(auth):
 def get_person_name(auth, person_id):
     try:
         person_data = get_person(auth, person_id)
-        logging.info(f"取得 Person 資料: {person_data}")
+        logging.error(f"取得 Person 資料: {person_data}")
 
         # 不檢查 'data'，改檢查 'list'
         if not person_data or 'list' not in person_data:

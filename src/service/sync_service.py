@@ -12,6 +12,9 @@ import logging
 from dotenv import load_dotenv
 import requests
 from cachetools import TTLCache
+from models.uploaded_batches import UploadBatch
+from service.user_service import get_user_info_service
+import pytz
 
 load_dotenv()
 logging.basicConfig(filename="error.log", level=logging.ERROR, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -29,6 +32,45 @@ download_queue = queue.Queue()
 photo_queue = queue.Queue()
 token_map = {}
 face_cache = TTLCache(maxsize=100, ttl=60)
+
+def background_sync(creds, auth, token, album_name, person_id, album_id, num_photos, start_time):
+    try:
+        service = get_service(creds)
+        google_album_id = get_or_create_album(service, album_name)
+    except Exception as e:
+        logging.exception("❌ 建立 Google 相簿失敗")
+        return
+
+    try:
+        update_people_list(auth, token)
+    except Exception as e:
+        logging.exception("⚠️ 更新人員列表失敗（可略過）")
+
+    try:
+        delete_all_photos_from_album(creds, google_album_id)
+    except Exception as e:
+        logging.exception("⚠️ 刪除 Google 相簿照片失敗（可能是配額或限速）")
+
+    try:
+        result = run_sync(auth, creds, person_id, album_id, num_photos, google_album_id, token)
+
+        logging.info(f"✅ 同步完成，共上傳 {result['uploaded']} 張照片，耗時 {round(time.time() - start_time, 2)} 秒")
+        requests.post(
+            f"{Config.SERVER_URL}/api/line/notify",
+            json={
+                "message": f"✅ 上傳完成，共上傳 {result['uploaded']} 張照片",
+                "token": token
+            }
+        )
+    except Exception as e:
+        logging.exception("❌ 同步過程發生錯誤")
+        requests.post(
+            f"{Config.SERVER_URL}/api/line/notify",
+            json={
+                "message": f"❌ 上傳失敗",
+                "token": token
+            }
+        )
 
 def update_people_list(auth, user_id):
     if not auth:
@@ -95,28 +137,24 @@ def handle_sync(request, creds, session):
     if not person_id and not album_id:
         return jsonify({"error": "請提供 personID 或 albumID"}), 400
 
-    def background_sync():
-        service = get_service(creds)
-        google_album_id = get_or_create_album(service, album_name)
-
-        update_people_list(auth, token)
-        delete_all_photos_from_album(creds, google_album_id)
-        result = run_sync(auth, creds, person_id, album_id, num_photos, google_album_id, token)
-
-        logging.info(f"同步完成，共上傳 {result['uploaded']} 張照片，耗時 {round(time.time() - start_time, 2)} 秒")
-        requests.post(
-            f"{Config.SERVER_URL}/api/line/notify",
-            json={
-                "message": f"上傳完成，共上傳 {result['uploaded']} 張照片",
-                "token": token
-            }
-        )
-
     start_time = time.time()
-    threading.Thread(target=background_sync).start()
+    threading.Thread(target=background_sync, args=(
+        creds, auth, token, album_name, person_id, album_id, num_photos, start_time
+    )).start()
+    new_batch = create_new_batch(auth)
+    if not new_batch:
+        return jsonify({"error": "目前尚無上傳批次資料"}), 404
+
+    user_info = get_user_info_service(creds)
+    if not user_info or 'name' not in user_info:
+        return jsonify({"error": "使用者資訊取得失敗"}), 500
+
+    taipei_tz = pytz.timezone("Asia/Taipei")
+    batch_time = new_batch.upload_time
+    batch_time_taipei = batch_time.astimezone(taipei_tz)
 
     return jsonify({
-        "message": f"同步作業已在背景啟動，personID: {person_id}"
+        "message": f"同步作業已在背景啟動，使用者:{user_info.get('name')}, 第{new_batch.id}批次, 上傳時間{batch_time_taipei}"
     })
 
 def run_sync(auth, creds, person_id, album_id, num_photos, google_album_id, token):

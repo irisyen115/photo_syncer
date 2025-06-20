@@ -10,5 +10,5 @@ class UploadBatch(Base):
     upload_person = Column(Text, default='所有人')
     batch_number = Column(Integer, default=1)
     count = Column(Integer, default=0)
-    upload_time = Column(DateTime, default=func.now())
-    created_at = Column(DateTime, default=datetime.utcnow)
+    upload_time = Column(DateTime(timezone=True), default=func.now())
+    created_at = Column(DateTime(timezone=True), default=datetime.utcnow)

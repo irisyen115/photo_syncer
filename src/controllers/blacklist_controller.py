@@ -5,9 +5,9 @@ from sqlalchemy.sql import func
 from models.database import SessionLocal
 from config.config import Config
 
-black_db = Blueprint('black', __name__)
+black_bp = Blueprint('black', __name__)
 
-@black_db.route('/blacklist_photo', methods=['POST'])
+@black_bp.route('/blacklist_photo', methods=['POST'])
 def blacklist_photo():
     data = request.get_json()
     photo_id = data.get('photo_id')
@@ -32,7 +32,7 @@ def blacklist_photo():
 
     return jsonify({"message": "Photo blacklisted successfully"}), 200
 
-@black_db.route('/blacklist', methods=['GET'])
+@black_bp.route('/blacklist', methods=['GET'])
 def get_blacklist():
     db = SessionLocal()
     try:
