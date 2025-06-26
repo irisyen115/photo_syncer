@@ -19,7 +19,7 @@ def test_background_sync_success(
     mock_create_album,
     mock_get_service
 ):
-    from service.sync_service import background_sync
+    from photo_syncer.src.service.upload_service import background_sync
 
     # 模擬傳回值
     mock_get_service.return_value = "mock_service"

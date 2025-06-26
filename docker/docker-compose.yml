@@ -4,7 +4,7 @@ services:
   python-google-photos:
     build:
       context: ..
-      dockerfile: src/Dockerfile
+      dockerfile: docker/Dockerfile
     container_name: google-photos
     volumes:
       - ../src:/app

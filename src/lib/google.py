@@ -35,16 +35,16 @@ def get_mime(file_path):
 
 def authenticate():
     creds = None
-    if os.path.exists("token.pickle"):
-        with open("token.pickle", "rb") as tokenFile:
+    if os.path.exists("/app/token.pickle"):
+        with open("/app/token.pickle", "rb") as tokenFile:
             creds = pickle.load(tokenFile)
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            flow = InstalledAppFlow.from_client_secrets_file("client_secret.json", SCOPES)
+            flow = InstalledAppFlow.from_client_secrets_file("/app/client_secret.json", SCOPES)
             creds = flow.run_local_server(port=0, open_browser=False)
-        with open("token.pickle", "wb") as tokenFile:
+        with open("/app/token.pickle", "wb") as tokenFile:
             pickle.dump(creds, tokenFile)
     return creds
 

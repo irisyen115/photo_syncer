@@ -4,7 +4,7 @@ from service.synology_service import (
 from utils.sync_utils import (
     needs_sync_warning, background_sync_and_upload
 )
-from lib.synlogy import list_photos_by_person
+from lib.synology import list_photos_by_person
 import logging
 from models.photo import Photo
 from models.database import SessionLocal

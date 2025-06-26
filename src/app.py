@@ -1,4 +1,5 @@
 from flask import Flask
+from controllers.upload_controller import upload_bp
 from controllers.sync_controller import sync_bp
 from controllers.delete_controller import delete_bp
 from controllers.photo_controller import photo_bp
@@ -24,6 +25,7 @@ app.permanent_session_lifetime = timedelta(days=1)
 
 # blueprint 掛載路由
 app.register_blueprint(sync_bp)
+app.register_blueprint(upload_bp)
 app.register_blueprint(delete_bp)
 app.register_blueprint(photo_bp)
 app.register_blueprint(black_bp)

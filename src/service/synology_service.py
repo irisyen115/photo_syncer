@@ -1,4 +1,4 @@
-from lib.synlogy import list_photos_by_album, list_photos_by_person
+from lib.synology import list_photos_by_album, list_photos_by_person, list_photos_by_person_and_interval_time
 from models.photo import Photo
 from models.album import Album
 from models.person import Person
@@ -34,6 +34,20 @@ def list_all_photos_by_person(auth, person_id):
 
     while True:
         photos = list_photos_by_person(auth, person_id, offset, limit)
+        if not photos:
+            break
+        all_photos.extend(photos)
+        offset += limit
+
+    return all_photos
+
+def list_all_photos_by_person_with_internal_time(auth, person_id, start_time, end_time):
+    all_photos = []
+    offset = 0
+    limit = 100
+
+    while True:
+        photos = list_photos_by_person_and_interval_time(auth, person_id, start_time, end_time, offset, limit)
         if not photos:
             break
         all_photos.extend(photos)

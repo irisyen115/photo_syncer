@@ -2,8 +2,8 @@ from sqlalchemy import Column, Integer
 from sqlalchemy.orm import composite
 from models.database import Base
 from sqlalchemy.orm import relationship
-from sqlalchemy.ext.mutable import MutableComposite
 from sqlalchemy import UniqueConstraint
+from models.photo import Photo
 
 class PersonPhotoPair:
     def __init__(self, person_id, photo_id):
@@ -37,3 +37,20 @@ class Person(Base):
     __table_args__ = (
         UniqueConstraint('person_id', 'photo_id', name='uq_person_photo_pair'),
     )
+
+    def get_latest_photo_by_person_id(self, db):
+        subquery = (
+            db.query(Person.photo_id)
+            .filter(Person.person_id == self.person_id)
+            .subquery()
+        )
+
+        latest_photo = (
+            db.query(Photo)
+            .filter(Photo.item_id.in_(subquery))
+            .filter(Photo.shooting_time != None)
+            .order_by(Photo.shooting_time.desc())
+            .first()
+        )
+
+        return latest_photo

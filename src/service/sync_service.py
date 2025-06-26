@@ -1,203 +1,75 @@
-import os, json, threading, time, queue
-from lib.synlogy import login, list_people, thumb_photo, download_photo
-from lib.google import (
-    get_service, get_or_create_album, add_photos_to_album,
-    upload_photo_bytes, delete_all_photos_from_album
-)
-from service.google_service import get_photos_upload_to_album
+from models.database import SessionLocal
+from models.person import Person
+from models.sync_status import SyncStatus
 from flask import jsonify
-from config.config import Config
-from service.batch_service import create_new_batch
-import logging
-from dotenv import load_dotenv
-import requests
-from cachetools import TTLCache
-from models.uploaded_batches import UploadBatch
-from service.user_service import get_user_info_service
-import pytz
+from lib.synology import login
+from service.synology_service import list_all_photos_by_person_with_internal_time, save_photos_to_db_with_person
+from models.database import SessionLocal
+from models.person import Person
+from models.sync_status import SyncStatus
+import os
+from datetime import datetime
 
-load_dotenv()
-logging.basicConfig(filename="error.log", level=logging.ERROR, format="%(asctime)s - %(levelname)s - %(message)s")
-
-DOWNLOAD_DIR = Config.SYNO_DOWNLOAD_DIR
-IMG_URL = Config.IMG_URL
-ACCOUNT = Config.SYNO_ACCOUNT
-PASSWORD = Config.SYNO_PASSWORD
-FID = Config.SYNO_FID
-TIMEZONE = Config.SYNO_TIMEZONE
-NUM_DOWNLOAD_THREADS = 16
-NUM_UPLOAD_THREADS = 16
-
-download_queue = queue.Queue()
-photo_queue = queue.Queue()
-token_map = {}
-face_cache = TTLCache(maxsize=100, ttl=60)
-
-def background_sync(creds, auth, token, album_name, person_id, album_id, num_photos, start_time):
+def sync_photos_for_person(person_id, db):
     try:
-        service = get_service(creds)
-        google_album_id = get_or_create_album(service, album_name)
-    except Exception as e:
-        logging.exception("❌ 建立 Google 相簿失敗")
-        return
+        sync_photos_since_last_time(person_id)
+        person_records = db.query(Person).filter_by(person_id=person_id).all()
 
-    try:
-        update_people_list(auth, token)
-    except Exception as e:
-        logging.exception("⚠️ 更新人員列表失敗（可略過）")
+        if not person_records:
+            return jsonify({
+                "person_id": person_id,
+                "latest_photo": None,
+                "message": "No photo found for this person_id"
+            }), 404
 
-    try:
-        delete_all_photos_from_album(creds, google_album_id)
-    except Exception as e:
-        logging.exception("⚠️ 刪除 Google 相簿照片失敗（可能是配額或限速）")
+        latest_photo = None
+        for person in person_records:
+            photo = person.get_latest_photo_by_person_id(db)
+            if photo and (not latest_photo or photo.shooting_time > latest_photo.shooting_time):
+                latest_photo = photo
 
-    try:
-        result = run_sync(auth, creds, person_id, album_id, num_photos, google_album_id, token)
+        if not latest_photo:
+            return jsonify({
+                "person_id": person_id,
+                "latest_photo": None,
+                "message": "No photos with valid shooting_time"
+            }), 404
 
-        logging.info(f"✅ 同步完成，共上傳 {result['uploaded']} 張照片，耗時 {round(time.time() - start_time, 2)} 秒")
-        requests.post(
-            f"{Config.SERVER_URL}/api/line/notify",
-            json={
-                "message": f"✅ 上傳完成，共上傳 {result['uploaded']} 張照片",
-                "token": token
-            }
-        )
-    except Exception as e:
-        logging.exception("❌ 同步過程發生錯誤")
-        requests.post(
-            f"{Config.SERVER_URL}/api/line/notify",
-            json={
-                "message": f"❌ 上傳失敗",
-                "token": token
-            }
-        )
+        update_sync_status(db, person_id, latest_photo)
 
-def update_people_list(auth, user_id):
-    if not auth:
-        logging.error("Synology 登入失敗，請檢查帳號密碼或網路連線")
-        return []
+        return jsonify({
+            "person_id": person_id,
+            "latest_photo": {
+                "photo_id": latest_photo.id,
+                "filename": latest_photo.filename,
+                "shooting_time": latest_photo.shooting_time
+            },
+        })
+    finally:
+        db.close()
 
-    try:
-        people_list = list_people(auth, 8)
-        if not people_list:
-            logging.error("無法獲取人員列表，請檢查 Synology 服務是否正常")
-            return []
-        logging.info(f"成功獲取 {len(people_list)} 人員資料")
-        result_list = []
-        for person in people_list:
-            thumb_photo(person['id'], person['additional']['thumbnail']['cache_key'], auth)
-            result_list.append({
-                "name": person['name'],
-                "ID": person['id'],
-                "img": f"{IMG_URL}/{person['id']}.jpg"
-            })
+def update_sync_status(db, person_id, photo):
+    status = db.query(SyncStatus).filter_by(person_id=person_id).first()
+    if not status:
+        status = SyncStatus(person_id=person_id)
+        db.add(status)
 
-        if 'faces' not in face_cache or not face_cache['faces']:
-            requests.post(
-                f"{Config.SERVER_URL}/api/line/faces",
-                json={
-                    "faces": result_list,
-                    "user_id": user_id
-                }
-            )
-        elif 'faces' in face_cache:
-            requests.post(
-                f"{Config.SERVER_URL}/api/line/faces",
-                json={
-                    "faces": face_cache['faces'],
-                    "user_id": user_id
-                }
-            )
-        face_cache['faces'] = result_list
-        return face_cache['faces']
-    except Exception as e:
-        logging.exception("⚠️ 更新人員資料過程中發生錯誤")
-        return []
+    status.last_synced_photo_id = photo.id
+    status.last_synced_time = photo.shooting_time
+    db.commit()
 
-def handle_sync(request, creds, session):
-    try:
-        data = request.get_json(force=True)
-    except Exception as e:
-        logging.error("JSON 解析失敗: %s", str(e))
-        return jsonify({"error": "無法解析 JSON，請檢查資料格式"}), 400
+def autonomy_get_interval_time_person(person_id, start_dt, end_dt):
+    auth = login(os.getenv("SYNO_ACCOUNT"), os.getenv("SYNO_PASSWORD"), os.getenv("SYNO_FID"), os.getenv("SYNO_TIMEZONE"))
+    photo_json = list_all_photos_by_person_with_internal_time(auth, person_id, start_dt, end_dt)
+    save_photos_to_db_with_person(photo_json, person_id)
+    return [photo['time'] for photo in photo_json]
 
-    person_id = request.args.get('personID') or data.get('personID')
-    if person_id:
-        logging.error(f"同步人員 ID: {person_id}")
-    else:
-        logging.error("請求中未提供 personID")
-        return jsonify({"error": "請提供 personID"}), 400
-    album_id = data.get("albumID")
-    album_name = data.get("albumName") or os.getenv("DEFAULT_ALBUM_NAME", "My New Album")
-    num_photos = data.get("numPhotos") or os.getenv("DEFAULT_NUM_PHOTOS", 5)
-    token = request.args.get('token') or data.get('token')
-    auth = session.get('auth')
-    if not auth:
-        auth = login(ACCOUNT, PASSWORD, FID, TIMEZONE)
-    if not person_id and not album_id:
-        return jsonify({"error": "請提供 personID 或 albumID"}), 400
 
-    start_time = time.time()
-    threading.Thread(target=background_sync, args=(
-        creds, auth, token, album_name, person_id, album_id, num_photos, start_time
-    )).start()
-    new_batch = create_new_batch(auth)
-    if not new_batch:
-        return jsonify({"error": "目前尚無上傳批次資料"}), 404
-
-    user_info = get_user_info_service(creds)
-    if not user_info or 'name' not in user_info:
-        return jsonify({"error": "使用者資訊取得失敗"}), 500
-
-    taipei_tz = pytz.timezone("Asia/Taipei")
-    batch_time = new_batch.upload_time
-    batch_time_taipei = batch_time.astimezone(taipei_tz)
-
-    return jsonify({
-        "message": f"同步作業已在背景啟動，使用者:{user_info.get('name')}, 第{new_batch.id}批次, 上傳時間{batch_time_taipei}"
-    })
-
-def run_sync(auth, creds, person_id, album_id, num_photos, google_album_id, token):
-    token_map.clear()
-    report = get_photos_upload_to_album(auth, person_id, album_id, num_photos, token)
-    if not report:
-        logging.error("⚠️ 獲取照片上傳報告失敗，請檢查 Synology 服務是否正常")
-        return {"uploaded": 0, "messages": ["無法獲取照片上傳報告"]}
-    logging.error(f"獲取到 {len(report.get('photos', []))} 張照片，準備下載和上傳到 Google 相簿")
-    for photo in report.get("photos", []):
-        download_queue.put(photo)
-
-    def download_worker():
-        while True:
-            try:
-                p = download_queue.get(timeout=2)
-            except queue.Empty:
-                break
-            saved_path = os.path.join(DOWNLOAD_DIR, p['filename'])
-            download_photo(auth, p, save_path=saved_path)
-            photo_queue.put(p['filename'])
-
-    def upload_worker():
-        while True:
-            try:
-                filename = photo_queue.get(timeout=2)
-            except queue.Empty:
-                break
-            saved_path = os.path.join(DOWNLOAD_DIR, filename)
-            token_map[filename] = upload_photo_bytes(creds, saved_path)
-            photo_queue.task_done()
-
-    downloaders = [threading.Thread(target=download_worker) for _ in range(NUM_DOWNLOAD_THREADS)]
-    uploaders = [threading.Thread(target=upload_worker) for _ in range(NUM_UPLOAD_THREADS)]
-    [t.start() for t in downloaders]
-    [t.start() for t in uploaders]
-    [t.join() for t in downloaders]
-    photo_queue.join()
-    [t.join() for t in uploaders]
-
-    add_photos_to_album(creds, google_album_id, token_map)
-    return {
-        "uploaded": len(token_map),
-        "messages": report['messages']
-    }
-
+def sync_photos_since_last_time(person_id, end_dt=datetime.now()):
+    db = SessionLocal()
+    auth = login(os.getenv("SYNO_ACCOUNT"), os.getenv("SYNO_PASSWORD"), os.getenv("SYNO_FID"), os.getenv("SYNO_TIMEZONE"))
+    previous_status = db.query(SyncStatus).filter_by(person_id=22492).first()
+    start_dt = previous_status.last_synced_time
+    photo_json = list_all_photos_by_person_with_internal_time(auth, person_id, start_dt, end_dt)
+    save_photos_to_db_with_person(photo_json, person_id)
+    return [photo['time'] for photo in photo_json]

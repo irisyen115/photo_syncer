@@ -1,5 +1,5 @@
 import pytest
-from lib.synlogy import login, list_people
+from photo_syncer.src.lib.synology import login, list_people
 from config.config import Config
 
 @pytest.fixture(scope="module")

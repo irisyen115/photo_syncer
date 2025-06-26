@@ -6,5 +6,6 @@ from .exist_album import ExistAlbum
 from .exist_person import ExistPerson
 from .photo_blacklist import PhotoBlacklist
 from .uploaded_batches import UploadBatch
+from .sync_status import SyncStatus
 
 Base.metadata.create_all(bind=engine)

@@ -2,7 +2,7 @@ from models import UploadBatch, ExistPerson
 from models.database import SessionLocal
 from service.user_service import get_user_info_service
 from lib.google import authenticate
-from lib.synlogy import get_person, login
+from lib.synology import get_person, login
 import logging
 
 logging.basicConfig(filename="error.log", level=logging.ERROR, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -18,11 +18,6 @@ def get_next_batch_number(db, username):
     return next_batch_num
 
 def create_new_batch(auth):
-    """
-    建立新的上傳批次，並返回 UploadBatch 物件
-    :param auth: Synology 認證物件
-    :return: UploadBatch 物件
-    """
     db = SessionLocal()
     try:
         creds = authenticate()
@@ -48,11 +43,14 @@ def create_new_batch(auth):
             logging.warning("無法取得 Person 名稱，將使用 '未知' 作為上傳人")
             person_name = '未知'
 
-        else:
-            upload_time = latest_photo.uploaded_at.isoformat()
-
         next_batch_num = get_next_batch_number(db, user_name)
-        new_batch = UploadBatch(uploaded_by=user_name, batch_number=next_batch_num, count=count, upload_person=person_name, upload_time=upload_time)
+        new_batch = UploadBatch(
+            uploaded_by=user_name,
+            batch_number=next_batch_num,
+            count=count,
+            upload_person=person_name,
+            status="pending"
+        )
         logging.error(f"建立新的 Batch: {next_batch_num} 由 {user_name} 上傳，共 {count} 張照片")
 
         db.add(new_batch)
@@ -64,6 +62,25 @@ def create_new_batch(auth):
         logging.error(f"建立 Batch 時發生錯誤: {e}")
     finally:
         db.close()
+
+def update_batch_status(batch_id: int, status: str) -> bool:
+    db = SessionLocal()
+    try:
+        batch = db.query(UploadBatch).filter(UploadBatch.id == batch_id).first()
+        if not batch:
+            logging.warning(f"找不到批次 ID {batch_id}，無法更新狀態")
+            return False
+
+        batch.status = status
+        db.commit()
+        logging.info(f"已將批次 ID {batch_id} 狀態更新為 {status}")
+        return True
+    except Exception as e:
+        db.rollback()
+        logging.error(f"更新批次狀態失敗：{e}")
+        return False
+    finally:
+        db.close()  # ✅ 不要忘了關閉 session，避免 connection pool 滿
 
 def get_person_name(auth, person_id):
     try:

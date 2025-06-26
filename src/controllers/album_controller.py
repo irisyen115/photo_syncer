@@ -14,13 +14,16 @@ album_bp = Blueprint('album_bp', __name__)
 
 @album_bp.route('/list_albums', methods=['POST'])
 def get_albums():
-    """取得 Google Photos 相簿列表"""
     token = request.args.get('token')
     if not token:
         return jsonify({"error": "Token is required"}), 400
     creds = authenticate()
     if not creds:
-        return jsonify({"error": "Credentials are required"}), 400
+        return jsonify({
+        "error": "unauthorized",
+        "message": "Google 憑證已過期或無效，請重新登入。"
+    }), 401
+
 
     service = get_service(creds)
     if not service:

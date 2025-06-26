@@ -1,4 +1,4 @@
-from lib.synlogy import list_people, login
+from photo_syncer.src.lib.synology import list_people, login
 from service.synology_service import list_all_photos_by_person, list_all_photos_by_album, save_photos_to_db_with_person, save_photos_to_db_with_album
 from models.database import SessionLocal
 from models.photo import Photo
