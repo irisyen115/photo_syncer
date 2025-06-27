@@ -62,7 +62,7 @@ def autonomy_get_interval_time_person(person_id, start_dt, end_dt):
     auth = login(os.getenv("SYNO_ACCOUNT"), os.getenv("SYNO_PASSWORD"), os.getenv("SYNO_FID"), os.getenv("SYNO_TIMEZONE"))
     photo_json = list_all_photos_by_person_with_internal_time(auth, person_id, start_dt, end_dt)
     save_photos_to_db_with_person(photo_json, person_id)
-    return [photo['time'] for photo in photo_json]
+    return [datetime.fromtimestamp(photo['time']) for photo in photo_json]
 
 
 def sync_photos_since_last_time(person_id, end_dt=datetime.now()):
@@ -72,4 +72,4 @@ def sync_photos_since_last_time(person_id, end_dt=datetime.now()):
     start_dt = previous_status.last_synced_time
     photo_json = list_all_photos_by_person_with_internal_time(auth, person_id, start_dt, end_dt)
     save_photos_to_db_with_person(photo_json, person_id)
-    return [photo['time'] for photo in photo_json]
+    return [datetime.fromtimestamp(photo['time']) for photo in photo_json]
