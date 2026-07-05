@@ -1,5 +1,5 @@
 from service.synology_service import (
-    save_photos_to_db_with_person, random_pick_from_person_database
+    save_photos_to_db_with_person, random_pick_from_person_database, save_exist_db_with_person
 )
 from utils.sync_utils import (
     needs_sync_warning, background_sync_and_upload
@@ -13,7 +13,7 @@ import threading
 
 logging.basicConfig(filename="error.log", level=logging.ERROR, format="%(asctime)s - %(levelname)s - %(message)s")
 
-def get_photos_upload_to_album(auth, person_id, album_id, upload_photo_num, token):
+def get_photos_upload_to_album(auth, person_id, album_id, upload_photo_num, token, start_time=None, end_time=None):
     if not person_id:
         logging.error("⚠️ person_id 為空，無法處理")
         return {"photos": [], "messages": ["person_id 為空，無法處理"]}
@@ -28,9 +28,10 @@ def get_photos_upload_to_album(auth, person_id, album_id, upload_photo_num, toke
         person_id,
         upload_photo_num
     )
+    logging.error(f"needs_sync_warning: {sync_warn}, messages: {messages}")
 
     if sync_warn:
-        logging.warning(f"⚠️ 人員 {person_id} 需要同步，將於背景延遲執行")
+        logging.error(f"⚠️ 人員 {person_id} 需要同步，將於背景延遲執行")
 
         threading.Timer(
             interval=2,
@@ -44,12 +45,12 @@ def get_photos_upload_to_album(auth, person_id, album_id, upload_photo_num, toke
         }
 
     person_photo_list = list_photos_by_person(auth=auth, person_id=person_id, limit=upload_photo_num)
-    random_photos = random_pick_from_person_database(person_id=person_id, limit=upload_photo_num)
+    random_photos = random_pick_from_person_database(person_id=person_id, start_time=start_time, end_time=end_time, limit=upload_photo_num)
 
     if not person_photo_list or not random_photos:
         return {"photos": [], "messages": ["沒有可上傳的照片"]}
 
-    save_photos_to_db_with_person(person_photo_list, person_id)
+    save_exist_db_with_person(random_photos, person_id)
 
     return {
         "photos": random_photos,

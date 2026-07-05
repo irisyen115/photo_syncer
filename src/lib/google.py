@@ -153,6 +153,38 @@ def find_media_item_ids_by_filenames(media_items, filenames):
 
     return found_ids
 
+def move_items_to_trash_album(service, album_id):
+    API_BASE_URL = "https://photoslibrary.googleapis.com/v1/"
+    headers = {
+        "Content-Type": "application/json"
+    }
+
+    media_item_ids = get_media_items_in_album(service, album_id)
+
+    if not media_item_ids:
+        logging.warning(f"⚠️ 相簿 {album_id} 中無媒體項目，略過移動至『待刪除照片』相簿")
+        return
+
+    deleted_album_id = get_or_create_album(service, "待刪除照片")
+
+    add_url = f"{API_BASE_URL}albums/{deleted_album_id}:batchAddMediaItems"
+    add_body = json.dumps({
+        "mediaItemIds": media_item_ids
+    })
+
+    response, content = service._http.request(
+        uri=add_url,
+        method="POST",
+        body=add_body,
+        headers=headers
+    )
+
+    if response.status == 200:
+        logging.info(f"✅ 成功將項目加入『待刪除照片』相簿")
+    else:
+        logging.error(f"❌ 加入失敗：{response.status} {content.decode()}")
+        return
+
 def remove_all_items_from_album(service, album_id, media_item_ids):
     url = f"{API_BASE_URL}albums/{album_id}:batchRemoveMediaItems"
 
@@ -160,6 +192,7 @@ def remove_all_items_from_album(service, album_id, media_item_ids):
         "Content-Type": "application/json"
     }
 
+    get_or_create_album(service, "待刪除照片")
     batch_size = 49
     for i in range(0, len(media_item_ids), batch_size):
         batch = media_item_ids[i:i + batch_size]
@@ -240,38 +273,6 @@ def add_photos_to_album(creds, album_id, filename_token_mapping):
         if response.status_code != 200:
             raise Exception(f"Failed to add media items: {response.status_code} - {response.text}")
 
-def delete_photos_by_filename(creds, album_id, filenames):
-    service = get_service(creds)
-    photos = []
-    next_page_token = None
-
-    while True:
-        response = service.mediaItems().search(body={
-            "albumId": album_id,
-            "pageSize": 100,
-            "pageToken": next_page_token
-        }).execute()
-
-        items = response.get("mediaItems", [])
-        for item in items:
-            filename = item.get("filename")
-            media_id = item.get("id")
-            if filename in filenames:
-                photos.append(media_id)
-
-        next_page_token = response.get("nextPageToken")
-        if not next_page_token:
-            break
-
-    logging.error(f"🗑️ 符合條件要刪除的照片ID數量：{len(photos)}")
-
-    for photo_id in photos:
-        try:
-            service.mediaItems().delete(mediaItemId=photo_id).execute()
-            logging.error(f"✅ 已刪除：{photo_id}")
-        except Exception as e:
-            logging.error(f"❌ 刪除失敗：{photo_id} - {e}")
-
 def delete_all_photos_from_album(creds, google_album_id):
     service = get_service(creds)
     media_ids = get_media_items_in_album(service, google_album_id)
@@ -281,3 +282,35 @@ def delete_all_photos_from_album(creds, google_album_id):
         logging.error(f"✅ 已從相簿中移除所有媒體項目")
     else:
         logging.error("相簿已是空的。")
+
+# def delete_photos_by_filename(creds, album_id, filenames):
+#     service = get_service(creds)
+#     photos = []
+#     next_page_token = None
+
+#     while True:
+#         response = service.mediaItems().search(body={
+#             "albumId": album_id,
+#             "pageSize": 100,
+#             "pageToken": next_page_token
+#         }).execute()
+
+#         items = response.get("mediaItems", [])
+#         for item in items:
+#             filename = item.get("filename")
+#             media_id = item.get("id")
+#             if filename in filenames:
+#                 photos.append(media_id)
+
+#         next_page_token = response.get("nextPageToken")
+#         if not next_page_token:
+#             break
+
+#     logging.error(f"🗑️ 符合條件要刪除的照片ID數量：{len(photos)}")
+
+#     for photo_id in photos:
+#         try:
+#             service.mediaItems().delete(mediaItemId=photo_id).execute()
+#             logging.error(f"✅ 已刪除：{photo_id}")
+#         except Exception as e:
+#             logging.error(f"❌ 刪除失敗：{photo_id} - {e}")

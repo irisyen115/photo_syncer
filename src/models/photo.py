@@ -7,7 +7,7 @@ class Photo(Base):
     __tablename__ = 'photos'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    item_id = Column(Integer)
+    item_id = Column(Integer, unique=True, index=True)
     filename = Column(String, nullable=False)
     shooting_time = Column(DateTime)
     saved_path = Column(Text)

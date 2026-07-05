@@ -28,6 +28,18 @@ services:
       - ../pg_data:/var/lib/postgresql/data
     networks:
       - shared_net
+  node-exporter:
+    image: quay.io/prometheus/node-exporter:latest
+    container_name: node-exporter
+    ports:
+      - "9100:9100"
+    volumes:
+      - /volume1/src/photo_syncer/textfile:/var/lib/node_exporter/textfile_collector
+    command:
+      - '--collector.textfile.directory=/var/lib/node_exporter/textfile_collector'
+    networks:
+      - shared_net
+
 volumes:
   pg_data:
 

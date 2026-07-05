@@ -52,3 +52,26 @@ def get_blacklist():
         return jsonify({"error": str(e)}), 500
     finally:
         db.close()
+
+@black_bp.route('/remove_blacklist', methods=['POST'])
+def remove_blacklist():
+    data = request.get_json()
+    photo_id = data.get('photo_id')
+
+    if not photo_id:
+        return jsonify({"error": "photo_id is required"}), 400
+
+    db = SessionLocal()
+
+    # 正確查詢方式：使用 session 來查
+    existing = db.query(PhotoBlacklist).filter_by(photo_id=photo_id).first()
+    if not existing:
+        db.close()
+        return jsonify({"error": "photo_id not found in blacklist"}), 404
+
+    # 刪除黑名單紀錄
+    db.delete(existing)
+    db.commit()
+    db.close()
+
+    return jsonify({"message": "Photo removed from blacklist successfully"}), 200

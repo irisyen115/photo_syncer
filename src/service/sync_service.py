@@ -9,6 +9,9 @@ from models.person import Person
 from models.sync_status import SyncStatus
 import os
 from datetime import datetime
+import logging
+
+logging.basicConfig(filename="error.log", level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
 def sync_photos_for_person(person_id, db):
     try:
@@ -59,11 +62,26 @@ def update_sync_status(db, person_id, photo):
     db.commit()
 
 def autonomy_get_interval_time_person(person_id, start_dt, end_dt):
-    auth = login(os.getenv("SYNO_ACCOUNT"), os.getenv("SYNO_PASSWORD"), os.getenv("SYNO_FID"), os.getenv("SYNO_TIMEZONE"))
-    photo_json = list_all_photos_by_person_with_internal_time(auth, person_id, start_dt, end_dt)
-    save_photos_to_db_with_person(photo_json, person_id)
-    return [datetime.fromtimestamp(photo['time']) for photo in photo_json]
+    db = SessionLocal()
+    auth = login(
+        os.getenv("SYNO_ACCOUNT"),
+        os.getenv("SYNO_PASSWORD"),
+        os.getenv("SYNO_FID"),
+        os.getenv("SYNO_TIMEZONE")
+    )
 
+    logging.error(f"[下載照片] 查詢 PersonID={person_id}，時間：{start_dt} ➜ {end_dt}")
+    photo_json = list_all_photos_by_person_with_internal_time(auth, person_id, start_dt, end_dt)
+
+    deleted = db.query(Person).filter(Person.person_id == person_id).delete()
+    db.commit()
+    logging.error(f"[刪除資料] 已刪除 PersonID={person_id} 的舊照片記錄共 {deleted} 筆")
+
+    save_photos_to_db_with_person(photo_json, person_id)
+
+    logging.error(f"[儲存資料] 新增 {len(photo_json)} 筆照片")
+
+    return [datetime.fromtimestamp(photo['time']) for photo in photo_json]
 
 def sync_photos_since_last_time(person_id, end_dt=datetime.now()):
     db = SessionLocal()

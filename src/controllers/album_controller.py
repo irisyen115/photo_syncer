@@ -33,8 +33,14 @@ def get_albums():
         albums = get_albums_with_cover_urls(service)
         if not albums:
             return jsonify({"message": "No albums found"}), 404
-        album_titles = [album['title'] for album in albums if 'title' in album]
-        cover_url = [album['cover_url'] for album in albums if 'cover_url' in album]
+        album_titles = []
+        cover_url = []
+        for album in albums:
+            if album.get('title') == "待刪除照片":
+                continue
+            logging.error(f"Album: {album}")
+            album_titles.append(album.get('title'))
+            cover_url.append(album.get('cover_url'))
         if not album_titles:
             return jsonify({"message": "No album titles found"}), 404
         requests.post(f"{Config.SERVER_URL}/api/line/album", json={

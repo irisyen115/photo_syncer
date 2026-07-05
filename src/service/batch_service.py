@@ -4,6 +4,7 @@ from service.user_service import get_user_info_service
 from lib.google import authenticate
 from lib.synology import get_person, login
 import logging
+import traceback
 
 logging.basicConfig(filename="error.log", level=logging.ERROR, format="%(asctime)s - %(levelname)s - %(message)s")
 
@@ -26,11 +27,14 @@ def create_new_batch(auth):
         if not user_name:
             raise ValueError("使用者名稱為空")
 
+        person_name = None  # <--- 預設值
+
         count = db.query(ExistPerson).count()
         latest_photo = db.query(ExistPerson).order_by(ExistPerson.uploaded_at.desc()).first()
 
         if latest_photo is None:
             logging.error("資料庫中無任何 ExistPerson 紀錄，將使用 '所有人' 作為上傳人")
+            person_name = '所有人'   # <--- 這裡補上
         else:
             if latest_photo.person_id is None:
                 logging.error("最新照片的 person_id 為 None，將使用 '所有人' 作為上傳人")
@@ -59,7 +63,9 @@ def create_new_batch(auth):
         return new_batch
     except Exception as e:
         db.rollback()
-        logging.error(f"建立 Batch 時發生錯誤: {e}")
+        logging.error(f"建立新批次失敗: {e}")
+        logging.error(traceback.format_exc())
+        return None
     finally:
         db.close()
 

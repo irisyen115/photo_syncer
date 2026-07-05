@@ -1,0 +1,9 @@
+# HELP photo_sync_last_run_timestamp_seconds Unix timestamp of the last photo sync run
+# TYPE photo_sync_last_run_timestamp_seconds gauge
+photo_sync_last_run_timestamp_seconds 1783184422
+# HELP photo_sync_last_run_duration_seconds Duration in seconds of the last photo sync run
+# TYPE photo_sync_last_run_duration_seconds gauge
+photo_sync_last_run_duration_seconds 21
+# HELP photo_sync_last_run_success Was the last run successful (1=success, 0=failure)
+# TYPE photo_sync_last_run_success gauge
+photo_sync_last_run_success 0

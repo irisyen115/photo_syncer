@@ -24,7 +24,7 @@ def needs_sync_warning(person_photos, person_id, upload_photo_num):
     return sync_warn, messages
 
 def background_sync_and_upload(auth, person_id, upload_photo_num, token):
-    logging.info(f"開始背景同步與上傳 person_id={person_id}")
+    logging.error(f"開始背景同步與上傳 person_id={person_id}")
 
     person_photo_list = list_all_photos_by_person(auth=auth, person_id=person_id)
     if not person_photo_list:
