@@ -29,22 +29,26 @@ UPLOAD_PHOTO_BYTES_ENDPOINT = f'{API_BASE_URL}uploads'
 ADD_MEDIA_ITEMS_TO_ALBUM_ENDPOINT = f'{API_BASE_URL}mediaItems:batchCreate'
 UPLOAD_PHOTO_NUM = 10
 
+# 可由環境變數覆寫（k8s 中 token 放在可寫的 PVC，client_secret 來自 Secret）；預設維持 NAS 上的路徑
+TOKEN_PATH = os.getenv("GOOGLE_TOKEN_PATH", "/app/token.pickle")
+CLIENT_SECRET_PATH = os.getenv("GOOGLE_CLIENT_SECRET_PATH", "/app/client_secret.json")
+
 
 def get_mime(file_path):
     return str(mimetypes.guess_type(file_path)[0])
 
 def authenticate():
     creds = None
-    if os.path.exists("/app/token.pickle"):
-        with open("/app/token.pickle", "rb") as tokenFile:
+    if os.path.exists(TOKEN_PATH):
+        with open(TOKEN_PATH, "rb") as tokenFile:
             creds = pickle.load(tokenFile)
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            flow = InstalledAppFlow.from_client_secrets_file("/app/client_secret.json", SCOPES)
+            flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRET_PATH, SCOPES)
             creds = flow.run_local_server(port=0, open_browser=False)
-        with open("/app/token.pickle", "wb") as tokenFile:
+        with open(TOKEN_PATH, "wb") as tokenFile:
             pickle.dump(creds, tokenFile)
     return creds
 
