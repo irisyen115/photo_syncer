@@ -49,7 +49,8 @@ def background_upload(creds, auth, token, album_name, person_id, album_id, num_p
         return
 
     try:
-        update_people_list(auth, token)
+        # 只更新人臉縮圖；上傳流程沒有 LINE user_id，不推播人臉清單（舊版誤把上傳 token 當 user_id，LINE 回 400）
+        update_people_list(auth, user_id=None, notify=False)
     except Exception as e:
         logging.exception("⚠️ 更新人員列表失敗（可略過）")
 
@@ -85,7 +86,7 @@ def background_upload(creds, auth, token, album_name, person_id, album_id, num_p
             }
         )
 
-def update_people_list(auth, user_id):
+def update_people_list(auth, user_id, notify=True):
     if not auth:
         logging.error("Synology 登入失敗，請檢查帳號密碼或網路連線")
         return []
@@ -105,7 +106,9 @@ def update_people_list(auth, user_id):
                 "img": f"{IMG_URL}/{person['id']}.jpg"
             })
 
-        if 'faces' not in face_cache or not face_cache['faces']:
+        if not notify or not user_id:
+            pass
+        elif 'faces' not in face_cache or not face_cache['faces']:
             requests.post(
                 f"{Config.SERVER_URL}/api/line/faces",
                 json={

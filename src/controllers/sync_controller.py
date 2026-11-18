@@ -1,4 +1,5 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, current_app
+import threading
 from service.sync_service import sync_photos_for_person
 import logging
 import requests
@@ -32,10 +33,24 @@ def get_interval_time_photos():
     person_id = data['personID']
     start_time = data['start_time']
     end_time = data['end_time']
-    start_time = datetime.strptime(start_time, "%Y-%m-%d")
-    end_time = datetime.strptime(end_time, "%Y-%m-%d")
-    sync_photos_for_person(person_id, SessionLocal())
+    try:
+        start_time = datetime.strptime(start_time, "%Y-%m-%d")
+        # 結束日包含當天整天
+        end_time = datetime.combine(datetime.strptime(end_time, "%Y-%m-%d").date(), datetime.max.time())
+    except (TypeError, ValueError):
+        return jsonify({"error": "start_time / end_time 需為 YYYY-MM-DD"}), 400
 
-    photo_time = autonomy_get_interval_time_person(person_id, start_time, end_time)
-    logging.error(f"拍攝照片時間分別為：{photo_time}")
-    return jsonify({'latest_photo': data})
+    # 同步要跑 1 分鐘以上，超過 nginx 的 60 秒 proxy timeout（會回 504），所以改到背景執行
+    app = current_app._get_current_object()
+
+    def run():
+        with app.app_context():
+            try:
+                sync_photos_for_person(person_id, SessionLocal())
+                photo_time = autonomy_get_interval_time_person(person_id, start_time, end_time)
+                logging.error(f"[區間同步] PersonID={person_id} 完成，新增/確認 {len(photo_time)} 張")
+            except Exception:
+                logging.exception(f"[區間同步] PersonID={person_id} 失敗")
+
+    threading.Thread(target=run, daemon=True).start()
+    return jsonify({'latest_photo': data, 'message': '區間同步已在背景執行'})

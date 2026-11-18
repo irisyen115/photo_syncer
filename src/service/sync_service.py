@@ -62,7 +62,11 @@ def update_sync_status(db, person_id, photo):
     db.commit()
 
 def autonomy_get_interval_time_person(person_id, start_dt, end_dt):
-    db = SessionLocal()
+    """補抓 person 在 [start_dt, end_dt] 區間內的照片到 DB。
+
+    只新增、不刪除：save_photos_to_db_with_person 會自動略過已存在的資料。
+    （舊版會先刪掉該 person 全部的 person_photos，導致區間外的照片從 DB 消失，見 #42）
+    """
     auth = login(
         os.getenv("SYNO_ACCOUNT"),
         os.getenv("SYNO_PASSWORD"),
@@ -72,10 +76,6 @@ def autonomy_get_interval_time_person(person_id, start_dt, end_dt):
 
     logging.error(f"[下載照片] 查詢 PersonID={person_id}，時間：{start_dt} ➜ {end_dt}")
     photo_json = list_all_photos_by_person_with_internal_time(auth, person_id, start_dt, end_dt)
-
-    deleted = db.query(Person).filter(Person.person_id == person_id).delete()
-    db.commit()
-    logging.error(f"[刪除資料] 已刪除 PersonID={person_id} 的舊照片記錄共 {deleted} 筆")
 
     save_photos_to_db_with_person(photo_json, person_id)
 
