@@ -15,15 +15,21 @@ sync_bp = Blueprint('sync_bp', __name__)
 def get_latest_photo_status_for_person(person_id):
     token = request.args.get('token')
     db = SessionLocal()
-    sync_date = sync_photos_for_person(person_id, db).get_json()
+    sync_date = sync_photos_for_person(person_id, db)
+    latest_photo = sync_date.get('latest_photo')
+    if latest_photo:
+        message = f"同步完成，最新照片拍攝時間{latest_photo['shooting_time']}"
+    else:
+        message = f"同步完成，但找不到 person_id={person_id} 的照片"
     requests.post(
         f"{Config.SERVER_URL}/api/line/notify",
         json={
-            "message": f"同步完成，最新照片拍攝時間{sync_date['latest_photo']['shooting_time']}",
+            "message": message,
             "token": token
         }
     )
-    return jsonify({'latest_photo': sync_date})
+    status_code = 200 if latest_photo else 404
+    return jsonify({'latest_photo': sync_date}), status_code
 
 @sync_bp.route("/sync_interval_time_photos", methods=['POST'])
 def get_interval_time_photos():

@@ -10,7 +10,7 @@ def auth():
 
 @patch("utils.sync_utils.background_sync_and_upload")
 @patch("models.database.SessionLocal")
-@patch("lib.synlogy.list_photos_by_person")
+@patch("lib.synology.list_photos_by_person")
 @patch("utils.sync_utils.needs_sync_warning")
 @patch("service.synology_service.random_pick_from_person_database")
 @patch("service.synology_service.save_photos_to_db_with_person")
@@ -50,7 +50,7 @@ class TestGetPhotosUploadToAlbum(unittest.TestCase):
     @patch("utils.sync_utils.background_sync_and_upload")
     @patch("utils.sync_utils.needs_sync_warning")
     @patch("models.database.SessionLocal")
-    @patch("lib.synlogy.list_photos_by_person")
+    @patch("lib.synology.list_photos_by_person")
     @patch("threading.Timer")
     def test_get_photos_upload_to_album_needs_sync(
         self,

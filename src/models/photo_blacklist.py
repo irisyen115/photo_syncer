@@ -1,7 +1,5 @@
 from sqlalchemy import Column, Integer, Text, DateTime, func
-from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
+from models.database import Base
 
 class PhotoBlacklist(Base):
     __tablename__ = 'photo_blacklist'
