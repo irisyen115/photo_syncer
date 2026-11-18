@@ -55,8 +55,11 @@ def background_upload(creds, auth, token, album_name, person_id, album_id, num_p
         logging.exception("⚠️ 更新人員列表失敗（可略過）")
 
     try:
-        move_items_to_trash_album(service, google_album_id)
-        delete_all_photos_from_album(creds, google_album_id)
+        if move_items_to_trash_album(service, google_album_id):
+            delete_all_photos_from_album(creds, google_album_id)
+        else:
+            # 沒成功進『待刪除照片』就不移出相簿，避免照片變成散落在相簿庫的孤兒
+            logging.error("⚠️ 舊照片未能移到『待刪除照片』，保留相簿原有內容，本次上傳會與舊照片並存")
     except Exception as e:
         logging.exception("⚠️ 刪除 Google 相簿照片失敗（可能是配額或限速）")
 
