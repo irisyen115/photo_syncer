@@ -11,6 +11,8 @@ worker_class = "gthread"
 threads = int(os.getenv("GUNICORN_THREADS", "8"))
 timeout = int(os.getenv("GUNICORN_TIMEOUT", "300"))
 accesslog = "-"
+# 只記 path、不記 query string：line-reply 的請求帶 ?token=（LINE 使用者的 session handle）
+access_log_format = '%(h)s %(t)s "%(m)s %(U)s" %(s)s %(b)s %(L)ss "%(a)s"'
 errorlog = "-"
 
 # 在 app import 前先把 root logger 指到 stdout；
