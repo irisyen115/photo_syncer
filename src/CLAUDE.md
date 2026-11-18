@@ -78,3 +78,15 @@ DB 連線字串寫死在 `models/database.py`（`pgsql_photos:5432`），只能�
 - `autonomy_get_interval_time_person` 會先刪掉該人物**全部** `Person` 紀錄，再只寫回區間內的照片。
 - `handle_upload` 永遠傳 `start_dt/end_dt=None`，時間區間挑選沒有作用。
 - `get_upload_records_service` 的 person_id 篩選被註解掉，回傳的是所有人的紀錄。
+
+## 隨機挑照片（已知問題）
+
+唯一真正決定「上傳哪些照片」的是 `service/synology_service.random_pick_from_person_database`：Photo JOIN Person，依 person_id／拍攝時間篩選，再交給 PostgreSQL `ORDER BY random() LIMIT n`（無種子、每次不同、不重複抽 n 張；每次會全掃並排序該人物的照片）。由 `service/google_service.get_photos_upload_to_album` 呼叫，結果直接成為 `run_upload` 要下載並上傳的清單。其他 `func.random()` 只用於列表排序（`/upload_records`、`/blacklist`）。
+
+- **黑名單擋不住上傳**：抽選時沒有排除 `photo_blacklist`。`save_exist_db_with_person` 雖然會過濾黑名單，但只影響寫進 `exist_person_photos` 的紀錄；`get_photos_upload_to_album` 回傳給上傳流程的仍是未過濾的 `random_photos`，所以黑名單照片照樣上傳到 Google，只是不出現在 `/upload_records`。
+- **修法方向**：應在 SQL 裡加 `NOT IN (SELECT photo_id FROM photo_blacklist)` 排除；若改成抽完才過濾，實際張數會少於 n。
+- **不避開上次抽過的照片**：每次都從全部照片重抽，可能重複。Google Photos 每次上傳都會在相簿庫新建媒體項目，「移出相簿」不會刪除，所以重複的照片會在相簿庫累積多份，「待刪除照片」相簿也越來越大。
+- **時間區間篩選沒作用**：`start_time`／`end_time` 的篩選邏輯存在，但 `handle_upload` 永遠傳 `None`。
+- **多餘的 Synology API 呼叫**：`get_photos_upload_to_album` 呼叫 `list_photos_by_person(..., limit=n)`，結果只用來判斷非空，沒有用在抽選上。
+- `utils/sync_utils.background_sync_and_upload` 同步後抽了一次但結果只用來判斷「有沒有照片」就丟掉，名稱有 upload 但實際不會上傳，只發 LINE 通知請使用者重試。
+- `randam_pick_from_album_database`（名稱拼錯）沒有任何呼叫者；`get_photos_upload_to_album` 收到的 `album_id` 也沒有被使用。
