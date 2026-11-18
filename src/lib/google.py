@@ -153,8 +153,17 @@ def find_media_item_ids_by_filenames(media_items, filenames):
 
     return found_ids
 
+TRASH_ALBUM_NAME = "待刪除照片"
+# Google Photos 的 batchAddMediaItems 限制：「Request must have less than 50 items.」
+ALBUM_BATCH_SIZE = 49
+
 def move_items_to_trash_album(service, album_id):
-    API_BASE_URL = "https://photoslibrary.googleapis.com/v1/"
+    """把相簿內所有照片加入『待刪除照片』相簿（照片仍留在原相簿）。
+
+    Library API 不能刪除照片，只能讓使用者之後在 Google 相簿中從這本相簿一次刪除。
+    回傳 True 表示全部加入成功（或相簿本來就是空的），呼叫端才可以把照片移出原相簿；
+    回傳 False 時不要移除，否則照片會變成不在任何相簿的孤兒。
+    """
     headers = {
         "Content-Type": "application/json"
     }
@@ -162,28 +171,26 @@ def move_items_to_trash_album(service, album_id):
     media_item_ids = get_media_items_in_album(service, album_id)
 
     if not media_item_ids:
-        logging.warning(f"⚠️ 相簿 {album_id} 中無媒體項目，略過移動至『待刪除照片』相簿")
-        return
+        logging.warning(f"⚠️ 相簿 {album_id} 中無媒體項目，略過移動至『{TRASH_ALBUM_NAME}』相簿")
+        return True
 
-    deleted_album_id = get_or_create_album(service, "待刪除照片")
-
+    deleted_album_id = get_or_create_album(service, TRASH_ALBUM_NAME)
     add_url = f"{API_BASE_URL}albums/{deleted_album_id}:batchAddMediaItems"
-    add_body = json.dumps({
-        "mediaItemIds": media_item_ids
-    })
 
-    response, content = service._http.request(
-        uri=add_url,
-        method="POST",
-        body=add_body,
-        headers=headers
-    )
+    for i in range(0, len(media_item_ids), ALBUM_BATCH_SIZE):
+        batch = media_item_ids[i:i + ALBUM_BATCH_SIZE]
+        response, content = service._http.request(
+            uri=add_url,
+            method="POST",
+            body=json.dumps({"mediaItemIds": batch}),
+            headers=headers
+        )
+        if response.status != 200:
+            logging.error(f"❌ 加入『{TRASH_ALBUM_NAME}』失敗（第 {i // ALBUM_BATCH_SIZE + 1} 批）：{response.status} {content.decode()}")
+            return False
 
-    if response.status == 200:
-        logging.info(f"✅ 成功將項目加入『待刪除照片』相簿")
-    else:
-        logging.error(f"❌ 加入失敗：{response.status} {content.decode()}")
-        return
+    logging.info(f"✅ 已將 {len(media_item_ids)} 個項目加入『{TRASH_ALBUM_NAME}』相簿")
+    return True
 
 def remove_all_items_from_album(service, album_id, media_item_ids):
     url = f"{API_BASE_URL}albums/{album_id}:batchRemoveMediaItems"
