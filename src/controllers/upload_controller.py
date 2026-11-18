@@ -30,8 +30,8 @@ def update_people_list_controller():
 
         session['auth'] = auth
         user_id = request.args.get("user_id")
-        logging.error(f"Synology 登入成功，SID: {auth['data']['sid']}, SynoToken: {auth['data']['synotoken']}")
-        logging.error(f"{session['auth']}")
+        # 不記錄 SID / SynoToken / device_id（等同 Synology 登入憑證）
+        logging.info("Synology 登入成功")
         if not auth:
             logging.error("⚠️ 使用者未登入，無法更新人員列表")
             return jsonify({"error": "使用者未登入"}), 401

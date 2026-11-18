@@ -96,7 +96,8 @@ def get_albums_with_cover_urls(service):
                 "title": album["title"],
                 "cover_url": cover_url
             })
-            logging.error(f"Album: {album['title']}, Cover URL: {cover_url}")
+            # cover_url 是有時效的簽章網址（持有者可直接看照片），不寫進 log
+            logging.info(f"Album: {album['title']}, has cover: {bool(cover_url)}")
 
         next_page_token = response.get("nextPageToken")
         if not next_page_token:

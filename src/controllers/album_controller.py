@@ -38,7 +38,7 @@ def get_albums():
         for album in albums:
             if album.get('title') == "待刪除照片":
                 continue
-            logging.error(f"Album: {album}")
+            logging.info(f"Album: {album.get('title')}")
             album_titles.append(album.get('title'))
             cover_url.append(album.get('cover_url'))
         if not album_titles:
