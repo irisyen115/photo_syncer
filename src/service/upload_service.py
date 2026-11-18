@@ -13,7 +13,7 @@ from dotenv import load_dotenv
 import requests
 from cachetools import TTLCache
 from service.user_service import get_user_info_service
-from datetime import datetime
+from datetime import datetime, time as dtime
 
 load_dotenv()
 logging.basicConfig(filename="error.log", level=logging.ERROR, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -127,6 +127,18 @@ def update_people_list(auth, user_id):
         logging.exception("⚠️ 更新人員資料過程中發生錯誤")
         return []
 
+def parse_date_range(start_str, end_str):
+    """把 'YYYY-MM-DD' 轉成 datetime；結束日包含當天整天。格式錯誤時拋 ValueError。"""
+    start_dt = datetime.fromisoformat(start_str) if start_str else None
+    end_dt = None
+    if end_str:
+        end_dt = datetime.fromisoformat(end_str)
+        if len(end_str) == 10:  # 只有日期時，視為當天 23:59:59.999999
+            end_dt = datetime.combine(end_dt.date(), dtime.max)
+    if start_dt and end_dt and start_dt > end_dt:
+        raise ValueError("start_time 不可晚於 end_time")
+    return start_dt, end_dt
+
 def handle_upload(request, creds, session):
     try:
         data = request.get_json(force=True)
@@ -144,8 +156,11 @@ def handle_upload(request, creds, session):
     album_name = data.get("albumName") or os.getenv("DEFAULT_ALBUM_NAME", "My New Album")
     num_photos = data.get("numPhotos") or os.getenv("DEFAULT_NUM_PHOTOS", 5)
     token = request.args.get('token') or data.get('token')
-    start_dt = data.get("start_time")
-    end_dt = data.get("end_time")
+    try:
+        start_dt, end_dt = parse_date_range(data.get("start_time"), data.get("end_time"))
+    except ValueError as e:
+        logging.error("日期格式錯誤: %s", e)
+        return jsonify({"error": f"日期格式錯誤（需為 YYYY-MM-DD）：{e}"}), 400
     auth = session.get('auth')
     if not auth:
         auth = login(ACCOUNT, PASSWORD, FID, TIMEZONE)
@@ -172,8 +187,8 @@ def handle_upload(request, creds, session):
             batch_id,
         ),
         kwargs={
-            "start_dt": None,
-            "end_dt": None,
+            "start_dt": start_dt,
+            "end_dt": end_dt,
         },
     ).start()
 
