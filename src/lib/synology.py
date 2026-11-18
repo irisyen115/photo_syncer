@@ -85,7 +85,6 @@ def get_album(auth, album_id):
 
 def get_person(auth, person_id):
     token = auth['data']['synotoken']
-    logging.info(f"Fetching person with token: {token}")
     logging.info(f"Fetching person with ID: {person_id}")
 
     url = f"{BASE_URL}/webapi/entry.cgi/SYNO.Foto.Browse.Person"

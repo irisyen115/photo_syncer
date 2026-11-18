@@ -1,7 +1,15 @@
-__pycache__/
-.env
+# 規則以 build context（repo 根目錄）為準；用 **/ 才能涵蓋 src/ 底下的同名檔案（見 #46）
+**/__pycache__
+**/.pytest_cache
+**/.env
+**/*.env
+**/client_secret.json
+**/token.pickle
+**/downloaded_albums
+**/face_image
+**/error.log
+**/*.swp
 .vscode/
-downloaded_albums/
-client_secret.json
-token.pickle
+.git/
 pg_data/
+textfile/

@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer
 from sqlalchemy.orm import composite
 from models.database import Base
 from sqlalchemy.orm import relationship
-from sqlalchemy import UniqueConstraint
+from sqlalchemy import UniqueConstraint, select
 from models.photo import Photo
 
 class PersonPhotoPair:
@@ -39,18 +39,24 @@ class Person(Base):
     )
 
     def get_latest_photo_by_person_id(self, db):
-        subquery = (
-            db.query(Person.photo_id)
-            .filter(Person.person_id == self.person_id)
-            .subquery()
-        )
+        """回傳該 person 拍攝時間最新的照片（與這筆 Person 紀錄本身無關，只看 person_id）。
 
+        呼叫端（sync_photos_for_person、tools/photo_sync_from_*.py）會對同一個 person 的
+        「每一筆」person_photos 都呼叫一次；人物有 39,441 張照片時就是 39,441 次相同的查詢（約 2 小時）。
+        因此在同一個 DB session 內依 person_id 快取結果，同一個 person 只真的查一次。
+        """
+        cache = db.info.setdefault("latest_photo_by_person_id", {})
+        if self.person_id in cache:
+            return cache[self.person_id]
+
+        photo_ids = select(Person.photo_id).where(Person.person_id == self.person_id)
         latest_photo = (
             db.query(Photo)
-            .filter(Photo.item_id.in_(subquery))
+            .filter(Photo.item_id.in_(photo_ids))
             .filter(Photo.shooting_time != None)
             .order_by(Photo.shooting_time.desc())
             .first()
         )
 
+        cache[self.person_id] = latest_photo
         return latest_photo
