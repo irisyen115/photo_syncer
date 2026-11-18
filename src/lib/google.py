@@ -217,7 +217,7 @@ def remove_all_items_from_album(service, album_id, media_item_ids):
         if response.status == 200:
             logging.error(f"成功移除媒體項目")
         else:
-            logging.error(f"失敗：", response.status, content.decode())
+            logging.error("移除媒體項目失敗：%s %s", response.status, content.decode())
             break
 
 def list_photos(service):

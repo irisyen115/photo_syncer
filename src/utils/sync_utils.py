@@ -10,7 +10,7 @@ logging.basicConfig(filename="error.log", level=logging.ERROR, format="%(asctime
 
 def needs_sync_warning(person_photos, person_id, upload_photo_num):
     if not person_id:
-        return {"photos": [], "messages": ["person_id 為空，無法處理"]}
+        return False, ["person_id 為空，無法處理"]
 
     messages = []
     sync_warn = False
